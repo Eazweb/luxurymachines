@@ -1,9 +1,11 @@
 // Type declarations for Next.js
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-empty-object-type */
 import { NextPage } from 'next';
 import { AppProps } from 'next/app';
 
 declare module 'next' {
-  export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP>;
+  export type NextPageWithLayout<P = Record<string, unknown>, IP = P> = NextPage<P, IP>;
 }
 
 // Override the default Next.js types to avoid type errors during build
