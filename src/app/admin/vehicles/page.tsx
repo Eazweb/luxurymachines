@@ -7,8 +7,8 @@ import DeleteVehicleButton from '@/components/DeleteVehicleButton';
 export default async function VehiclesPage(props: any) {
   // Extract searchParams from props
   const { searchParams } = props;
-  // Get the featured parameter
-  const { featured } = searchParams;
+  // Get the featured parameter after awaiting searchParams
+  const { featured } = await searchParams;
   
   // Build filter object
   const filter: any = {};

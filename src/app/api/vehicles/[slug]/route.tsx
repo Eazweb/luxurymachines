@@ -7,7 +7,7 @@ export async function GET(
 ) {
   try {
     // Get the slug from the context params
-    const { slug } = context.params;
+    const { slug } = await context.params;
     
     // First try to find by slug
     let vehicle = await prisma.vehicle.findUnique({
