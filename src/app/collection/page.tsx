@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -23,6 +23,15 @@ type Vehicle = {
 };
 
 export default function CollectionPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <CollectionContent />
+    </Suspense>
+  );
+}
+
+// Client component that uses searchParams
+function CollectionContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   

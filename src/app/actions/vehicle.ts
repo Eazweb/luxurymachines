@@ -16,6 +16,8 @@ type VehicleInput = {
   registeredState: string;
   vehicleType: string;
   ownership: string;
+  description?: string;
+  features?: string[];
   torque?: string;
   power?: string;
   door?: number;
@@ -203,4 +205,22 @@ export async function getVehicleBySlug(slug: string) {
     console.error('Error fetching vehicle by slug:', error);
     return null;
   }
-} 
+}
+
+// Get vehicle by ID
+export async function getVehicleById(id: string) {
+  try {
+    const vehicle = await prisma.vehicle.findUnique({
+      where: { id },
+    });
+    
+    if (!vehicle) {
+      return { success: false, error: 'Vehicle not found' };
+    }
+    
+    return { success: true, data: vehicle };
+  } catch (error) {
+    console.error('Error fetching vehicle by ID:', error);
+    return { success: false, error: 'Failed to fetch vehicle' };
+  }
+}

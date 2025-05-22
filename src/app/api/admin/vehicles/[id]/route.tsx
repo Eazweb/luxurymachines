@@ -3,11 +3,11 @@ import prisma from '@/lib/prisma';
 
 export async function GET(
   request: NextRequest,
-  context: { params: { id: string } }
+  { params }: { params: { id: string } }
 ) {
   try {
-    // Get the id from the context params
-    const { id } = context.params;
+    // Get the id from params
+    const { id } = params;
     
     // Find vehicle by ID
     const vehicle = await prisma.vehicle.findUnique({
@@ -33,11 +33,11 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  context: { params: { id: string } }
+  { params }: { params: { id: string } }
 ) {
   try {
-    // Get the id from the context params
-    const { id } = context.params;
+    // Get the id from params
+    const { id } = params;
     
     // Get the updated vehicle data from the request body
     const vehicleData = await request.json();
@@ -60,11 +60,11 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  context: { params: { id: string } }
+  { params }: { params: { id: string } }
 ) {
   try {
-    // Get the id from the context params
-    const { id } = context.params;
+    // Get the id from params
+    const { id } = params;
     
     // Delete the vehicle from the database
     await prisma.vehicle.delete({

@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { CldUploadWidget } from 'next-cloudinary';
 import { X } from 'lucide-react';
 import Image from 'next/image';
+import { updateVehicle, getVehicleById } from '@/app/actions/vehicle';
 
 // Types
 type Vehicle = {
@@ -24,6 +25,16 @@ type Vehicle = {
   description?: string;
   features?: string[];
   featured: boolean;
+  torque?: string;
+  power?: string;
+  door?: number;
+  drive?: string;
+  exteriorColor?: string;
+  manufacturingYear?: number;
+  seatingCapacity?: number;
+  entertainment?: string;
+  airbags?: number;
+  groundClearance?: string;
 };
 
 export default function EditVehiclePage() {
@@ -57,14 +68,14 @@ export default function EditVehiclePage() {
     const fetchVehicle = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`/api/admin/vehicles/${id}`);
+        // Use server action instead of API route
+        const result = await getVehicleById(id as string);
         
-        if (!response.ok) {
-          throw new Error('Failed to fetch vehicle');
+        if (!result.success) {
+          throw new Error(result.error || 'Failed to fetch vehicle');
         }
         
-        const data = await response.json();
-        setFormData(data);
+        setFormData(result.data as any);
       } catch (err) {
         console.error('Error fetching vehicle:', err);
         setError('Failed to load vehicle details. Please try again.');
@@ -128,17 +139,69 @@ export default function EditVehiclePage() {
       setError('');
       setSuccess('');
       
-      const response = await fetch(`/api/admin/vehicles/${id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+      // Create a clean input object with all required and optional fields
+      // Use a type to ensure we're passing the correct structure to the server action
+      const vehicleInput: {
+        name: string;
+        price: number;
+        model: string;
+        company: string;
+        fuelType: string;
+        registeredYear: number;
+        kilometers: number;
+        registeredState: string;
+        vehicleType: string;
+        ownership: string;
+        featured: boolean;
+        description?: string;
+        features?: string[];
+        torque?: string;
+        power?: string;
+        door?: number;
+        drive?: string;
+        exteriorColor?: string;
+        manufacturingYear?: number;
+        seatingCapacity?: number;
+        entertainment?: string;
+        airbags?: number;
+        groundClearance?: string;
+      } = {
+        name: formData.name || '',
+        price: formData.price || 0,
+        model: formData.model || '',
+        company: formData.company || '',
+        fuelType: formData.fuelType || '',
+        registeredYear: formData.registeredYear || new Date().getFullYear(),
+        kilometers: formData.kilometers || 0,
+        registeredState: formData.registeredState || '',
+        vehicleType: formData.vehicleType || '',
+        ownership: formData.ownership || '',
+        featured: formData.featured || false,
+      };
       
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to update vehicle');
+      // Add optional fields only if they exist in the form data
+      if (formData.description) vehicleInput.description = formData.description;
+      if (formData.features && formData.features.length > 0) vehicleInput.features = formData.features;
+      if (formData.torque) vehicleInput.torque = formData.torque;
+      if (formData.power) vehicleInput.power = formData.power;
+      if (formData.door) vehicleInput.door = formData.door;
+      if (formData.drive) vehicleInput.drive = formData.drive;
+      if (formData.exteriorColor) vehicleInput.exteriorColor = formData.exteriorColor;
+      if (formData.manufacturingYear) vehicleInput.manufacturingYear = formData.manufacturingYear;
+      if (formData.seatingCapacity) vehicleInput.seatingCapacity = formData.seatingCapacity;
+      if (formData.entertainment) vehicleInput.entertainment = formData.entertainment;
+      if (formData.airbags) vehicleInput.airbags = formData.airbags;
+      if (formData.groundClearance) vehicleInput.groundClearance = formData.groundClearance;
+      
+      // Use server action with the clean input object
+      const result = await updateVehicle(
+        id as string,
+        vehicleInput,
+        formData.images || []
+      );
+      
+      if (!result.success) {
+        throw new Error(result.error || 'Failed to update vehicle');
       }
       
       setSuccess('Vehicle updated successfully!');
