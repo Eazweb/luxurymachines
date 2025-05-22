@@ -24,40 +24,43 @@ export default function AdminLayout({
   };
 
   return (
-    <div className="flex h-screen bg-gray-100">
-      {/* Sidebar */}
-      <div className="w-64 bg-slate-800 text-white">
-        <div className="p-4">
-          <h1 className="text-2xl font-bold">Admin Panel</h1>
-          <p className="text-sm text-slate-300">Luxury Car Dealership</p>
+    <div className="flex flex-col h-screen bg-[#f3f4f6]">
+      {/* Responsive Navigation */}
+      <div className="bg-[#1e293b] text-white">
+        {/* Mobile Header */}
+        <div className="p-4 flex justify-between items-center">
+          <h1 className="text-xl font-bold">Admin Panel</h1>
+          <p className="text-sm text-[#cbd5e1] hidden sm:block">Luxury Car Dealership</p>
         </div>
-        <nav className="mt-8">
-          <ul className="space-y-2">
-            <li>
+        
+        {/* Horizontal Navigation for Mobile */}
+        <nav className="overflow-x-auto scrollbar-hide">
+          <ul className="flex whitespace-nowrap px-4 pb-2">
+            <li className="mr-2">
               <Link 
                 href="/admin" 
-                className={`block py-2 px-4 ${
-                  pathname === '/admin' ? 'bg-blue-600' : 'hover:bg-slate-700'
+                className={`inline-block py-2 px-4 rounded-t-md ${
+                  pathname === '/admin' ? 'bg-[#2563eb] text-white' : 'text-[#cbd5e1] hover:bg-[#334155]'
                 }`}
               >
                 Dashboard
               </Link>
             </li>
-            <li>
+            <li className="mr-2">
               <Link 
                 href="/admin/vehicles" 
-                className={`block py-2 px-4 ${
-                  pathname.startsWith('/admin/vehicles') ? 'bg-blue-600' : 'hover:bg-slate-700'
+                className={`inline-block py-2 px-4 rounded-t-md ${
+                  pathname.startsWith('/admin/vehicles') && pathname !== '/admin/vehicles/new' ? 'bg-[#2563eb] text-white' : 'text-[#cbd5e1] hover:bg-[#334155]'
                 }`}
               >
                 Vehicles
               </Link>
             </li>
-            <li>
+            <li className="mr-2">
               <Link 
                 href="/admin/vehicles/new" 
-                className={`block py-2 px-4 ${
-                  pathname === '/admin/vehicles/new' ? 'bg-blue-600' : 'hover:bg-slate-700'
+                className={`inline-block py-2 px-4 rounded-t-md ${
+                  pathname === '/admin/vehicles/new' ? 'bg-[#2563eb] text-white' : 'text-[#cbd5e1] hover:bg-[#334155]'
                 }`}
               >
                 Add Vehicle
@@ -66,7 +69,7 @@ export default function AdminLayout({
             <li>
               <button
                 onClick={handleLogout}
-                className="block w-full text-left py-2 px-4 hover:bg-slate-700"
+                className="inline-block py-2 px-4 rounded-t-md text-[#cbd5e1] hover:bg-[#334155]"
               >
                 Logout
               </button>
@@ -77,9 +80,9 @@ export default function AdminLayout({
 
       {/* Main content */}
       <div className="flex-1 overflow-auto">
-        <header className="bg-white shadow">
+        <header className="bg-[#ffffff] shadow">
           <div className="py-4 px-6">
-            <h2 className="text-xl font-semibold text-gray-800">
+            <h2 className="text-xl font-semibold text-[#1f2937]">
               {pathname === '/admin' && 'Dashboard'}
               {pathname === '/admin/vehicles' && 'Manage Vehicles'}
               {pathname === '/admin/vehicles/new' && 'Add New Vehicle'}
@@ -87,10 +90,21 @@ export default function AdminLayout({
             </h2>
           </div>
         </header>
-        <main className="p-6">
+        <main className="p-4 md:p-6">
           {children}
         </main>
       </div>
+      
+      {/* Add scrollbar-hide utility styles */}
+      <style jsx global>{`
+        .scrollbar-hide {
+          -ms-overflow-style: none;  /* IE and Edge */
+          scrollbar-width: none;  /* Firefox */
+        }
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;  /* Chrome, Safari and Opera */
+        }
+      `}</style>
     </div>
   );
 } 

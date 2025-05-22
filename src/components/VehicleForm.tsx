@@ -173,14 +173,14 @@ export default function VehicleForm({ initialData, isEditing = false }: VehicleF
   return (
     <form onSubmit={handleSubmit} className="space-y-8">
       {error && (
-        <div className="p-4 text-red-700 bg-red-100 rounded-md">
+        <div className="p-4 text-[#b91c1c] bg-[#fee2e2] rounded-md">
           {error}
         </div>
       )}
       
       {/* Images */}
-      <div className="bg-white p-6 rounded-lg shadow">
-        <h2 className="text-lg font-medium mb-4">Vehicle Images</h2>
+      <div className="bg-[#ffffff] p-6 rounded-lg shadow">
+        <h2 className="text-lg font-medium text-[#111827] mb-4">Vehicle Images</h2>
         <ImageUpload 
           value={images} 
           onChange={(value) => setImages(value)} 
@@ -188,11 +188,11 @@ export default function VehicleForm({ initialData, isEditing = false }: VehicleF
       </div>
       
       {/* Basic Information */}
-      <div className="bg-white p-6 rounded-lg shadow">
-        <h2 className="text-lg font-medium mb-4">Basic Information</h2>
+      <div className="bg-[#ffffff] p-6 rounded-lg shadow">
+        <h2 className="text-lg font-medium text-[#111827] mb-4">Basic Information</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="name" className="block text-sm font-medium text-[#374151]">
               Vehicle Name*
             </label>
             <input
@@ -202,12 +202,12 @@ export default function VehicleForm({ initialData, isEditing = false }: VehicleF
               required
               value={formData.name}
               onChange={handleChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3"
+              className="mt-1 block w-full border border-[#d1d5db] rounded-md shadow-sm py-2 px-3"
             />
           </div>
           
           <div>
-            <label htmlFor="model" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="model" className="block text-sm font-medium text-[#374151]">
               Model*
             </label>
             <input
@@ -217,12 +217,12 @@ export default function VehicleForm({ initialData, isEditing = false }: VehicleF
               required
               value={formData.model}
               onChange={handleChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3"
+              className="mt-1 block w-full border border-[#d1d5db] rounded-md shadow-sm py-2 px-3"
             />
           </div>
           
           <div>
-            <label htmlFor="company" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="company" className="block text-sm font-medium text-[#374151]">
               Company*
             </label>
             <input
@@ -232,12 +232,12 @@ export default function VehicleForm({ initialData, isEditing = false }: VehicleF
               required
               value={formData.company}
               onChange={handleChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3"
+              className="mt-1 block w-full border border-[#d1d5db] rounded-md shadow-sm py-2 px-3"
             />
           </div>
           
           <div>
-            <label htmlFor="price" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="price" className="block text-sm font-medium text-[#374151]">
               Price (₹)*
             </label>
             <input
@@ -247,12 +247,12 @@ export default function VehicleForm({ initialData, isEditing = false }: VehicleF
               required
               value={formData.price}
               onChange={handleChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3"
+              className="mt-1 block w-full border border-[#d1d5db] rounded-md shadow-sm py-2 px-3"
             />
           </div>
           
           <div>
-            <label htmlFor="fuelType" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="fuelType" className="block text-sm font-medium text-[#374151]">
               Fuel Type*
             </label>
             <select
@@ -261,7 +261,7 @@ export default function VehicleForm({ initialData, isEditing = false }: VehicleF
               required
               value={formData.fuelType}
               onChange={handleChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3"
+              className="mt-1 block w-full border border-[#d1d5db] rounded-md shadow-sm py-2 px-3"
             >
               <option value="">Select Fuel Type</option>
               {fuelTypes.map((type) => (
@@ -273,7 +273,7 @@ export default function VehicleForm({ initialData, isEditing = false }: VehicleF
           </div>
           
           <div>
-            <label htmlFor="vehicleType" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="vehicleType" className="block text-sm font-medium text-[#374151]">
               Vehicle Type*
             </label>
             <select
@@ -282,7 +282,7 @@ export default function VehicleForm({ initialData, isEditing = false }: VehicleF
               required
               value={formData.vehicleType}
               onChange={handleChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3"
+              className="mt-1 block w-full border border-[#d1d5db] rounded-md shadow-sm py-2 px-3"
             >
               <option value="">Select Vehicle Type</option>
               {vehicleTypes.map((type) => (
@@ -296,11 +296,11 @@ export default function VehicleForm({ initialData, isEditing = false }: VehicleF
       </div>
       
       {/* Registration Details */}
-      <div className="bg-white p-6 rounded-lg shadow">
-        <h2 className="text-lg font-medium mb-4">Registration Details</h2>
+      <div className="bg-[#ffffff] p-6 rounded-lg shadow">
+        <h2 className="text-lg font-medium text-[#111827] mb-4">Registration Details</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label htmlFor="registeredYear" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="registeredYear" className="block text-sm font-medium text-[#374151]">
               Registered Year*
             </label>
             <input
@@ -310,12 +310,12 @@ export default function VehicleForm({ initialData, isEditing = false }: VehicleF
               required
               value={formData.registeredYear}
               onChange={handleChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3"
+              className="mt-1 block w-full border border-[#d1d5db] rounded-md shadow-sm py-2 px-3"
             />
           </div>
           
           <div>
-            <label htmlFor="registeredState" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="registeredState" className="block text-sm font-medium text-[#374151]">
               Registered State*
             </label>
             <input
@@ -325,12 +325,12 @@ export default function VehicleForm({ initialData, isEditing = false }: VehicleF
               required
               value={formData.registeredState}
               onChange={handleChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3"
+              className="mt-1 block w-full border border-[#d1d5db] rounded-md shadow-sm py-2 px-3"
             />
           </div>
           
           <div>
-            <label htmlFor="kilometers" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="kilometers" className="block text-sm font-medium text-[#374151]">
               Kilometers Driven*
             </label>
             <input
@@ -340,12 +340,12 @@ export default function VehicleForm({ initialData, isEditing = false }: VehicleF
               required
               value={formData.kilometers}
               onChange={handleChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3"
+              className="mt-1 block w-full border border-[#d1d5db] rounded-md shadow-sm py-2 px-3"
             />
           </div>
           
           <div>
-            <label htmlFor="ownership" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="ownership" className="block text-sm font-medium text-[#374151]">
               Ownership*
             </label>
             <select
@@ -354,7 +354,7 @@ export default function VehicleForm({ initialData, isEditing = false }: VehicleF
               required
               value={formData.ownership}
               onChange={handleChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3"
+              className="mt-1 block w-full border border-[#d1d5db] rounded-md shadow-sm py-2 px-3"
             >
               <option value="">Select Ownership</option>
               {ownershipOptions.map((option) => (
@@ -368,11 +368,11 @@ export default function VehicleForm({ initialData, isEditing = false }: VehicleF
       </div>
       
       {/* Technical Specifications */}
-      <div className="bg-white p-6 rounded-lg shadow">
-        <h2 className="text-lg font-medium mb-4">Technical Specifications</h2>
+      <div className="bg-[#ffffff] p-6 rounded-lg shadow">
+        <h2 className="text-lg font-medium text-[#111827] mb-4">Technical Specifications</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div>
-            <label htmlFor="power" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="power" className="block text-sm font-medium text-[#374151]">
               Power
             </label>
             <input
@@ -381,13 +381,13 @@ export default function VehicleForm({ initialData, isEditing = false }: VehicleF
               type="text"
               value={formData.power}
               onChange={handleChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3"
+              className="mt-1 block w-full border border-[#d1d5db] rounded-md shadow-sm py-2 px-3"
               placeholder="e.g. 120 HP"
             />
           </div>
           
           <div>
-            <label htmlFor="torque" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="torque" className="block text-sm font-medium text-[#374151]">
               Torque
             </label>
             <input
@@ -396,13 +396,13 @@ export default function VehicleForm({ initialData, isEditing = false }: VehicleF
               type="text"
               value={formData.torque}
               onChange={handleChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3"
+              className="mt-1 block w-full border border-[#d1d5db] rounded-md shadow-sm py-2 px-3"
               placeholder="e.g. 170 Nm"
             />
           </div>
           
           <div>
-            <label htmlFor="drive" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="drive" className="block text-sm font-medium text-[#374151]">
               Drive Type
             </label>
             <select
@@ -410,7 +410,7 @@ export default function VehicleForm({ initialData, isEditing = false }: VehicleF
               name="drive"
               value={formData.drive}
               onChange={handleChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3"
+              className="mt-1 block w-full border border-[#d1d5db] rounded-md shadow-sm py-2 px-3"
             >
               <option value="">Select Drive Type</option>
               {driveOptions.map((option) => (
@@ -422,7 +422,7 @@ export default function VehicleForm({ initialData, isEditing = false }: VehicleF
           </div>
           
           <div>
-            <label htmlFor="manufacturingYear" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="manufacturingYear" className="block text-sm font-medium text-[#374151]">
               Manufacturing Year
             </label>
             <input
@@ -431,12 +431,12 @@ export default function VehicleForm({ initialData, isEditing = false }: VehicleF
               type="number"
               value={formData.manufacturingYear}
               onChange={handleChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3"
+              className="mt-1 block w-full border border-[#d1d5db] rounded-md shadow-sm py-2 px-3"
             />
           </div>
           
           <div>
-            <label htmlFor="door" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="door" className="block text-sm font-medium text-[#374151]">
               Number of Doors
             </label>
             <input
@@ -445,12 +445,12 @@ export default function VehicleForm({ initialData, isEditing = false }: VehicleF
               type="number"
               value={formData.door}
               onChange={handleChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3"
+              className="mt-1 block w-full border border-[#d1d5db] rounded-md shadow-sm py-2 px-3"
             />
           </div>
           
           <div>
-            <label htmlFor="groundClearance" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="groundClearance" className="block text-sm font-medium text-[#374151]">
               Ground Clearance
             </label>
             <input
@@ -459,7 +459,7 @@ export default function VehicleForm({ initialData, isEditing = false }: VehicleF
               type="text"
               value={formData.groundClearance}
               onChange={handleChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3"
+              className="mt-1 block w-full border border-[#d1d5db] rounded-md shadow-sm py-2 px-3"
               placeholder="e.g. 170 mm"
             />
           </div>
@@ -467,11 +467,11 @@ export default function VehicleForm({ initialData, isEditing = false }: VehicleF
       </div>
       
       {/* Additional Information */}
-      <div className="bg-white p-6 rounded-lg shadow">
-        <h2 className="text-lg font-medium mb-4">Additional Information</h2>
+      <div className="bg-[#ffffff] p-6 rounded-lg shadow">
+        <h2 className="text-lg font-medium text-[#111827] mb-4">Additional Information</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label htmlFor="exteriorColor" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="exteriorColor" className="block text-sm font-medium text-[#374151]">
               Exterior Color
             </label>
             <input
@@ -480,12 +480,12 @@ export default function VehicleForm({ initialData, isEditing = false }: VehicleF
               type="text"
               value={formData.exteriorColor}
               onChange={handleChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3"
+              className="mt-1 block w-full border border-[#d1d5db] rounded-md shadow-sm py-2 px-3"
             />
           </div>
           
           <div>
-            <label htmlFor="seatingCapacity" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="seatingCapacity" className="block text-sm font-medium text-[#374151]">
               Seating Capacity
             </label>
             <input
@@ -494,12 +494,12 @@ export default function VehicleForm({ initialData, isEditing = false }: VehicleF
               type="number"
               value={formData.seatingCapacity}
               onChange={handleChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3"
+              className="mt-1 block w-full border border-[#d1d5db] rounded-md shadow-sm py-2 px-3"
             />
           </div>
           
           <div>
-            <label htmlFor="entertainment" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="entertainment" className="block text-sm font-medium text-[#374151]">
               Entertainment System
             </label>
             <input
@@ -508,13 +508,13 @@ export default function VehicleForm({ initialData, isEditing = false }: VehicleF
               type="text"
               value={formData.entertainment}
               onChange={handleChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3"
+              className="mt-1 block w-full border border-[#d1d5db] rounded-md shadow-sm py-2 px-3"
               placeholder="e.g. 7-inch touchscreen"
             />
           </div>
           
           <div>
-            <label htmlFor="airbags" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="airbags" className="block text-sm font-medium text-[#374151]">
               Number of Airbags
             </label>
             <input
@@ -523,7 +523,7 @@ export default function VehicleForm({ initialData, isEditing = false }: VehicleF
               type="number"
               value={formData.airbags}
               onChange={handleChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3"
+              className="mt-1 block w-full border border-[#d1d5db] rounded-md shadow-sm py-2 px-3"
             />
           </div>
           
@@ -537,9 +537,9 @@ export default function VehicleForm({ initialData, isEditing = false }: VehicleF
                 onChange={(e) => 
                   setFormData({ ...formData, featured: e.target.checked })
                 }
-                className="h-4 w-4 text-blue-600 border-gray-300 rounded"
+                className="h-4 w-4 text-blue-600 border-[#d1d5db] rounded"
               />
-              <label htmlFor="featured" className="ml-2 block text-sm text-gray-900">
+              <label htmlFor="featured" className="ml-2 block text-sm text-[#6b7280]">
                 Featured Vehicle (will be displayed prominently on the homepage)
               </label>
             </div>
@@ -552,14 +552,14 @@ export default function VehicleForm({ initialData, isEditing = false }: VehicleF
         <button
           type="button"
           onClick={() => router.back()}
-          className="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
+          className="px-4 py-2 border border-[#d1d5db] rounded-md shadow-sm text-sm font-medium text-[#374151] bg-[#ffffff] hover:bg-gray-50"
         >
           Cancel
         </button>
         <button
           type="submit"
           disabled={isLoading}
-          className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
+          className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#2563eb] hover:bg-[#1d4ed8] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#3b82f6] disabled:opacity-50"
         >
           {isLoading
             ? 'Saving...'

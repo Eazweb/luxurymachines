@@ -170,31 +170,31 @@ export default function EditVehiclePage() {
         <h1 className="text-2xl font-bold">Edit Vehicle</h1>
         <button
           onClick={() => router.push('/admin/vehicles')}
-          className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
+          className="px-4 py-2 bg-[#e5e7eb] text-[#1f2937] rounded-md hover:bg-[#d1d5db]"
         >
           Cancel
         </button>
       </div>
       
       {error && (
-        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md">
+        <div className="bg-[#fef2f2] border border-[#fecaca] text-[#b91c1c] px-4 py-3 rounded-md">
           {error}
         </div>
       )}
       
       {success && (
-        <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-md">
+        <div className="bg-[#f0fdf4] border border-[#bbf7d0] text-[#15803d] px-4 py-3 rounded-md">
           {success}
         </div>
       )}
       
-      <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow p-6 space-y-6">
+      <form onSubmit={handleSubmit} className="bg-[#ffffff] rounded-lg shadow p-6 space-y-6">
         {/* Basic Information */}
         <div>
           <h2 className="text-lg font-medium mb-4">Basic Information</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="name" className="block text-sm font-medium text-[#374151] mb-1">
                 Vehicle Name*
               </label>
               <input
@@ -209,7 +209,7 @@ export default function EditVehiclePage() {
             </div>
             
             <div>
-              <label htmlFor="model" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="model" className="block text-sm font-medium text-[#374151] mb-1">
                 Model*
               </label>
               <input
@@ -224,7 +224,7 @@ export default function EditVehiclePage() {
             </div>
             
             <div>
-              <label htmlFor="company" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="company" className="block text-sm font-medium text-[#374151] mb-1">
                 Company/Brand*
               </label>
               <input
@@ -239,7 +239,7 @@ export default function EditVehiclePage() {
             </div>
             
             <div>
-              <label htmlFor="price" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="price" className="block text-sm font-medium text-[#374151] mb-1">
                 Price (₹)*
               </label>
               <input
@@ -261,7 +261,7 @@ export default function EditVehiclePage() {
           <h2 className="text-lg font-medium mb-4">Vehicle Details</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <div>
-              <label htmlFor="fuelType" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="fuelType" className="block text-sm font-medium text-[#374151] mb-1">
                 Fuel Type*
               </label>
               <select
@@ -282,7 +282,7 @@ export default function EditVehiclePage() {
             </div>
             
             <div>
-              <label htmlFor="registeredYear" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="registeredYear" className="block text-sm font-medium text-[#374151] mb-1">
                 Registered Year*
               </label>
               <input
@@ -299,7 +299,7 @@ export default function EditVehiclePage() {
             </div>
             
             <div>
-              <label htmlFor="kilometers" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="kilometers" className="block text-sm font-medium text-[#374151] mb-1">
                 Kilometers*
               </label>
               <input
@@ -315,7 +315,7 @@ export default function EditVehiclePage() {
             </div>
             
             <div>
-              <label htmlFor="registeredState" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="registeredState" className="block text-sm font-medium text-[#374151] mb-1">
                 Registered State*
               </label>
               <input
@@ -330,7 +330,7 @@ export default function EditVehiclePage() {
             </div>
             
             <div>
-              <label htmlFor="vehicleType" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="vehicleType" className="block text-sm font-medium text-[#374151] mb-1">
                 Vehicle Type*
               </label>
               <select
@@ -354,7 +354,7 @@ export default function EditVehiclePage() {
             </div>
             
             <div>
-              <label htmlFor="ownership" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="ownership" className="block text-sm font-medium text-[#374151] mb-1">
                 Ownership*
               </label>
               <select
@@ -380,7 +380,7 @@ export default function EditVehiclePage() {
           <h2 className="text-lg font-medium mb-4">Description & Features</h2>
           <div className="space-y-4">
             <div>
-              <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="description" className="block text-sm font-medium text-[#374151] mb-1">
                 Description
               </label>
               <textarea
@@ -394,7 +394,7 @@ export default function EditVehiclePage() {
             </div>
             
             <div>
-              <label htmlFor="features" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="features" className="block text-sm font-medium text-[#374151] mb-1">
                 Features (One per line)
               </label>
               <textarea
@@ -446,7 +446,7 @@ export default function EditVehiclePage() {
                   <button
                     type="button"
                     onClick={() => removeImage(index)}
-                    className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full hover:bg-red-600"
+                    className="absolute top-2 right-2 bg-[#fef2f2]0 text-white p-1 rounded-full hover:bg-red-600"
                   >
                     <X className="h-4 w-4" />
                   </button>
@@ -454,7 +454,7 @@ export default function EditVehiclePage() {
               ))}
             </div>
           ) : (
-            <p className="text-gray-500">No images uploaded yet.</p>
+            <p className="text-[#6b7280]">No images uploaded yet.</p>
           )}
         </div>
         
@@ -470,7 +470,7 @@ export default function EditVehiclePage() {
               onChange={(e) => setFormData({ ...formData, featured: e.target.checked })}
               className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
             />
-            <label htmlFor="featured" className="ml-2 block text-sm text-gray-700">
+            <label htmlFor="featured" className="ml-2 block text-sm text-[#374151]">
               Feature this vehicle (will be displayed prominently)
             </label>
           </div>

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getFeaturedVehicles } from "./actions/vehicle";
+import Hero from "@/components/Hero";
 
 export default async function Home() {
   // Get featured vehicles
@@ -9,39 +10,7 @@ export default async function Home() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative h-[70vh] bg-slate-900">
-        <div className="absolute inset-0">
-        <Image
-            src="https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=2940&auto=format&fit=crop"
-            alt="Luxury Car"
-            fill
-            className="object-cover opacity-60"
-          priority
-        />
-        </div>
-        <div className="relative h-full flex flex-col items-center justify-center text-center text-white px-4">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
-            Find Your Dream Car
-          </h1>
-          <p className="text-xl md:text-2xl mb-8 max-w-2xl">
-            Discover premium used luxury vehicles at competitive prices
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4">
-            <Link
-              href="/collection"
-              className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-md text-lg"
-            >
-              Browse Collection
-            </Link>
-            <Link
-              href="#featured"
-              className="bg-white hover:bg-gray-100 text-slate-900 font-bold py-3 px-8 rounded-md text-lg"
-            >
-              View Featured
-            </Link>
-          </div>
-        </div>
-      </section>
+      <Hero />
 
       {/* Featured Vehicles Section */}
       <section id="featured" className="container mx-auto px-4 py-16">

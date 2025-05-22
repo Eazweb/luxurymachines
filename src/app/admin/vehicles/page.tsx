@@ -44,14 +44,14 @@ export default async function VehiclesPage(props: any) {
         <h1 className="text-2xl font-bold">Vehicles ({vehicles.length})</h1>
         <Link
           href="/admin/vehicles/new"
-          className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+          className="px-4 py-2 bg-[#2563eb] text-white rounded-md hover:bg-[#1d4ed8]"
         >
           Add New Vehicle
         </Link>
       </div>
       
       {/* Filters */}
-      <div className="bg-white rounded-lg shadow p-6">
+      <div className="bg-[#ffffff] rounded-lg shadow p-6">
         <h2 className="text-lg font-medium mb-4">Filters</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
@@ -60,7 +60,7 @@ export default async function VehiclesPage(props: any) {
               <Link
                 href="/admin/vehicles"
                 className={`block px-3 py-2 rounded-md ${
-                  !featured ? 'bg-blue-100 text-blue-800' : 'hover:bg-gray-100'
+                  !featured ? 'bg-[#dbeafe] text-[#1e40af]' : 'hover:bg-[#f3f4f6]'
                 }`}
               >
                 All Vehicles ({totalVehicles})
@@ -68,7 +68,7 @@ export default async function VehiclesPage(props: any) {
               <Link
                 href="/admin/vehicles?featured=true"
                 className={`block px-3 py-2 rounded-md ${
-                  featured === 'true' ? 'bg-blue-100 text-blue-800' : 'hover:bg-gray-100'
+                  featured === 'true' ? 'bg-[#dbeafe] text-[#1e40af]' : 'hover:bg-[#f3f4f6]'
                 }`}
               >
                 Featured Vehicles ({featuredCount})
@@ -82,7 +82,7 @@ export default async function VehiclesPage(props: any) {
               {companies.map((item) => (
                 <div key={item.company} className="flex justify-between">
                   <span className="text-sm">{item.company}</span>
-                  <span className="text-xs text-gray-500">{item._count}</span>
+                  <span className="text-xs text-[#6b7280]">{item._count}</span>
                 </div>
               ))}
             </div>
@@ -94,7 +94,7 @@ export default async function VehiclesPage(props: any) {
               {fuelTypes.map((item) => (
                 <div key={item.fuelType} className="flex justify-between">
                   <span className="text-sm">{item.fuelType}</span>
-                  <span className="text-xs text-gray-500">{item._count}</span>
+                  <span className="text-xs text-[#6b7280]">{item._count}</span>
                 </div>
               ))}
             </div>
@@ -103,10 +103,10 @@ export default async function VehiclesPage(props: any) {
       </div>
       
       {/* Vehicles List */}
-      <div className="bg-white rounded-lg shadow overflow-hidden">
-        <div className="min-w-full divide-y divide-gray-200">
-          <div className="bg-gray-50">
-            <div className="grid grid-cols-12 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+      <div className="bg-[#ffffff] rounded-lg shadow overflow-hidden">
+        <div className="min-w-full divide-y divide-[#e5e7eb]">
+          <div className="bg-[#f9fafb]">
+            <div className="grid grid-cols-12 px-6 py-3 text-left text-xs font-medium text-[#6b7280] uppercase tracking-wider">
               <div className="col-span-3">Name / Model</div>
               <div className="col-span-2">Company</div>
               <div className="col-span-1">Year</div>
@@ -118,17 +118,17 @@ export default async function VehiclesPage(props: any) {
             </div>
           </div>
           
-          <div className="bg-white divide-y divide-gray-200">
+          <div className="bg-[#ffffff] divide-y divide-[#e5e7eb]">
             {vehicles.length > 0 ? (
               vehicles.map((vehicle) => (
                 <div key={vehicle.id} className="grid grid-cols-12 px-6 py-4 text-sm">
                   <div className="col-span-3">
-                    <div className="font-medium text-gray-900">{vehicle.name}</div>
-                    <div className="text-gray-500">{vehicle.model}</div>
+                    <div className="font-medium text-[#111827]">{vehicle.name}</div>
+                    <div className="text-[#6b7280]">{vehicle.model}</div>
                   </div>
                   <div className="col-span-2">{vehicle.company}</div>
                   <div className="col-span-1">{vehicle.registeredYear}</div>
-                  <div className="col-span-1 font-medium text-green-600">
+                  <div className="col-span-1 font-medium text-[#059669]">
                     ₹{vehicle.price.toLocaleString()}
                   </div>
                   <div className="col-span-1">{vehicle.fuelType}</div>
@@ -139,7 +139,7 @@ export default async function VehiclesPage(props: any) {
                         Yes
                       </span>
                     ) : (
-                      <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                      <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 border border-gray-300">
                         No
                       </span>
                     )}
@@ -147,7 +147,7 @@ export default async function VehiclesPage(props: any) {
                   <div className="col-span-2 text-right space-x-2">
                     <Link
                       href={`/admin/vehicles/edit/${vehicle.id}`}
-                      className="inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50"
+                      className="inline-flex items-center px-2.5 py-1.5 border border-[#d1d5db] shadow-sm text-xs font-medium rounded text-[#374151] bg-[#ffffff] hover:bg-[#f9fafb]"
                     >
                       <Pencil className="h-3 w-3 mr-1" />
                       Edit
@@ -157,8 +157,8 @@ export default async function VehiclesPage(props: any) {
                 </div>
               ))
             ) : (
-              <div className="px-6 py-4 text-sm text-gray-500 text-center">
-                No vehicles found. <Link href="/admin/vehicles/new" className="text-blue-600 hover:underline">Add your first vehicle</Link>
+              <div className="px-6 py-4 text-sm text-[#6b7280] text-center">
+                No vehicles found. <Link href="/admin/vehicles/new" className="text-[#2563eb] hover:underline">Add your first vehicle</Link>
               </div>
             )}
           </div>
