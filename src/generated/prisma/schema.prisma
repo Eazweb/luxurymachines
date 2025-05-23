@@ -14,23 +14,90 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// Enums for vehicle options
+enum FuelType {
+  Petrol
+  Diesel
+  Electric
+  Hybrid
+  CNG
+  LPG
+}
+
+enum VehicleType {
+  Sedan
+  SUV
+  Hatchback
+  MUV
+  Luxury
+  Convertible
+  Coupe
+  Wagon
+  Van
+  Jeep
+}
+
+enum OwnershipType {
+  FirstOwner  @map("1st Owner")
+  SecondOwner @map("2nd Owner")
+  ThirdOwner  @map("3rd Owner")
+  FourthPlus  @map("4th Owner or more")
+}
+
+enum DriveType {
+  FWD
+  RWD
+  AWD
+  FourWD @map("4WD")
+}
+
+enum CompanyType {
+  Maruti      @map("Maruti Suzuki")
+  Hyundai
+  Tata
+  Mahindra
+  Toyota
+  Honda
+  Kia
+  MG          @map("MG Motor")
+  Skoda
+  Volkswagen
+  Ford
+  Renault
+  Nissan
+  Mercedes    @map("Mercedes-Benz")
+  BMW
+  Audi
+  Lexus
+  Volvo
+  Jaguar
+  LandRover   @map("Land Rover")
+  Porsche
+  Ferrari
+  Lamborghini
+  Rolls       @map("Rolls-Royce")
+  Bentley
+  Jeep
+  Other
+}
+
 model Vehicle {
   id                String   @id @default(auto()) @map("_id") @db.ObjectId
   slug              String   @unique
   name              String
   price             Float
   model             String
-  company           String
-  fuelType          String
+  company           String // Using String for backward compatibility, but values should match CompanyType enum
+  fuelType          String // Using String for backward compatibility, but values should match FuelType enum
   registeredYear    Int
   kilometers        Int
   registeredState   String
-  vehicleType       String
-  ownership         String
+  vehicleType       String // Using String for backward compatibility, but values should match VehicleType enum
+  ownership         String // Using String for backward compatibility, but values should match OwnershipType enum
   torque            String?
   power             String?
   door              Int?
-  drive             String? // awd, rwd, fwd
+  drive             String? // Using String for backward compatibility, but values should match DriveType enum
   exteriorColor     String?
   manufacturingYear Int?
   seatingCapacity   Int?

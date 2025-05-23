@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createVehicle, updateVehicle } from '@/app/actions/vehicle';
 import ImageUpload from './ImageUpload';
+import { fuelTypes, vehicleTypes, ownershipOptions, driveOptions, companyOptions } from '@/lib/vehicleOptions';
 
 // Types
 type VehicleFormData = {
@@ -59,17 +60,7 @@ const defaultFormData: VehicleFormData = {
   featured: false,
 };
 
-// Fuel type options
-const fuelTypes = ['Petrol', 'Diesel', 'Electric', 'Hybrid', 'CNG', 'LPG'];
-
-// Vehicle type options
-const vehicleTypes = ['Sedan', 'SUV', 'Hatchback', 'MUV', 'Luxury', 'Convertible', 'Coupe', 'Wagon', 'Van', 'Jeep'];
-
-// Ownership options
-const ownershipOptions = ['1st Owner', '2nd Owner', '3rd Owner', '4th Owner or more'];
-
-// Drive options
-const driveOptions = ['FWD', 'RWD', 'AWD', '4WD'];
+// Vehicle options are imported from @/lib/vehicleOptions
 
 export default function VehicleForm({ initialData, isEditing = false }: VehicleFormProps) {
   const router = useRouter();
@@ -148,12 +139,21 @@ export default function VehicleForm({ initialData, isEditing = false }: VehicleF
         featured: formData.featured,
       };
       
+      // Ensure all images have the optimization parameters
+      const optimizedImages = images.map(url => {
+        // Only add the parameters if they're not already present
+        if (!url.includes('/f_auto,q_auto/')) {
+          return url.replace('/upload/', '/upload/f_auto,q_auto/');
+        }
+        return url;
+      });
+      
       let result;
       
       if (isEditing) {
-        result = await updateVehicle(initialData.id, vehicleData, images);
+        result = await updateVehicle(initialData.id, vehicleData, optimizedImages);
       } else {
-        result = await createVehicle(vehicleData, images);
+        result = await createVehicle(vehicleData, optimizedImages);
       }
       
       if (result.success) {
@@ -225,15 +225,21 @@ export default function VehicleForm({ initialData, isEditing = false }: VehicleF
             <label htmlFor="company" className="block text-sm font-medium text-[#374151]">
               Company*
             </label>
-            <input
+            <select
               id="company"
               name="company"
-              type="text"
               required
               value={formData.company}
               onChange={handleChange}
               className="mt-1 block w-full border border-[#d1d5db] rounded-md shadow-sm py-2 px-3"
-            />
+            >
+              <option value="">Select Company</option>
+              {companyOptions.map((company) => (
+                <option key={company} value={company}>
+                  {company}
+                </option>
+              ))}
+            </select>
           </div>
           
           <div>

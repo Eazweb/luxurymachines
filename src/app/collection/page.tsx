@@ -1,9 +1,8 @@
 'use client';
 
 import { useState, useEffect, Suspense } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
+import ProductCard from '@/components/ProductCard';
 
 // Types
 type Vehicle = {
@@ -261,43 +260,21 @@ function CollectionContent() {
           ) : vehicles.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {vehicles.map((vehicle) => (
-                <Link 
-                  href={`/collection/${vehicle.slug}`} 
+                <ProductCard
                   key={vehicle.id}
-                  className="bg-white rounded-lg shadow overflow-hidden hover:shadow-lg transition-shadow"
-                >
-                  <div className="relative h-48">
-                    {vehicle.images.length > 0 ? (
-                      <Image
-                        src={vehicle.images[0]}
-                        alt={vehicle.name}
-                        fill
-                        className="object-cover"
-                      />
-                    ) : (
-                      <div className="absolute inset-0 bg-gray-200 flex items-center justify-center">
-                        <span className="text-gray-500">No image</span>
-                      </div>
-                    )}
-                  </div>
-                  <div className="p-4">
-                    <h3 className="text-lg font-bold">{vehicle.name}</h3>
-                    <p className="text-sm text-gray-500">{vehicle.model}</p>
-                    <div className="mt-2 flex items-center justify-between">
-                      <span className="text-xl font-bold text-green-600">
-                        ₹{vehicle.price.toLocaleString()}
-                      </span>
-                      <span className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">
-                        {vehicle.fuelType}
-                      </span>
-                    </div>
-                    <div className="mt-2 flex items-center text-sm text-gray-500">
-                      <span>{vehicle.registeredYear}</span>
-                      <span className="mx-2">•</span>
-                      <span>{vehicle.kilometers.toLocaleString()} km</span>
-                    </div>
-                  </div>
-                </Link>
+                  id={vehicle.id}
+                  slug={vehicle.slug}
+                  name={vehicle.name}
+                  model={vehicle.model}
+                  price={vehicle.price}
+                  mileage={vehicle.kilometers}
+                  fuelType={vehicle.fuelType}
+                  transmission={vehicle.vehicleType}
+                  images={vehicle.images}
+                  badgeText="Great Price"
+                  badgeColor="bg-green-600"
+                  href={`/collection/${vehicle.slug}`}
+                />
               ))}
             </div>
           ) : (

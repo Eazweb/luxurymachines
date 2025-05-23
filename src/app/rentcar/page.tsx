@@ -1,9 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
+import ProductCard from '@/components/ProductCard';
 
 // Types
 type Vehicle = {
@@ -266,42 +265,22 @@ export default function RentCarPage() {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {vehicles.map((vehicle) => (
-                <Link 
-                  key={vehicle.id} 
+                <ProductCard
+                  key={vehicle.id}
+                  id={vehicle.id}
+                  slug={vehicle.slug}
+                  name={vehicle.name}
+                  model={vehicle.model}
+                  price={vehicle.price}
+                  mileage={vehicle.kilometers}
+                  fuelType={vehicle.fuelType}
+                  transmission={vehicle.vehicleType}
+                  images={vehicle.images}
+                  isForRent={true}
+                  badgeText="For Rent"
+                  badgeColor="bg-blue-600"
                   href={`/collection/${vehicle.slug}`}
-                  className="block bg-white rounded-lg shadow overflow-hidden transition transform hover:scale-[1.02]"
-                >
-                  <div className="relative h-48 w-full">
-                    {vehicle.images && vehicle.images.length > 0 ? (
-                      <Image
-                        src={vehicle.images[0]}
-                        alt={vehicle.name}
-                        fill
-                        className="object-cover"
-                      />
-                    ) : (
-                      <div className="h-full w-full bg-gray-200 flex items-center justify-center">
-                        <span className="text-gray-400">No image</span>
-                      </div>
-                    )}
-                    <div className="absolute top-0 right-0 bg-blue-600 text-white px-3 py-1 text-sm font-medium">
-                      For Rent
-                    </div>
-                  </div>
-                  
-                  <div className="p-4">
-                    <h3 className="text-lg font-medium text-gray-900 mb-1">{vehicle.name}</h3>
-                    <p className="text-gray-600 text-sm mb-2">{vehicle.company} {vehicle.model}</p>
-                    <div className="flex justify-between items-center">
-                      <p className="text-xl font-bold text-blue-600">₹{vehicle.price.toLocaleString()}</p>
-                      <div className="flex items-center text-sm text-gray-500">
-                        <span>{vehicle.fuelType}</span>
-                        <span className="mx-1">•</span>
-                        <span>{vehicle.registeredYear}</span>
-                      </div>
-                    </div>
-                  </div>
-                </Link>
+                />
               ))}
             </div>
           )}

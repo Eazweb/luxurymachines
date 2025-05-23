@@ -3,7 +3,13 @@
 import { useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { X } from 'lucide-react';
+import { Phone } from 'lucide-react';
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from '@/components/ui/sheet';
 
 type MobileMenuProps = {
   isOpen: boolean;
@@ -15,36 +21,17 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   
   // Close menu when route changes
   useEffect(() => {
-    onClose();
-  }, [pathname, onClose]);
-  
-  // Prevent scrolling when menu is open
-  useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
+      onClose();
     }
-    
-    return () => {
-      document.body.style.overflow = 'auto';
-    };
-  }, [isOpen]);
-  
-  if (!isOpen) return null;
+  }, [pathname, onClose, isOpen]);
   
   return (
-    <div className="fixed inset-0 z-50 bg-black bg-opacity-50">
-      <div className="fixed right-0 top-0 h-full w-80 max-w-full bg-white shadow-lg">
-        <div className="flex items-center justify-between p-4 border-b">
-          <h2 className="text-xl font-bold">Menu</h2>
-          <button 
-            onClick={onClose}
-            className="p-2 text-gray-500 hover:text-gray-700"
-          >
-            <X className="h-6 w-6" />
-          </button>
-        </div>
+    <Sheet open={isOpen} onOpenChange={onClose}>
+      <SheetContent side="left" className="p-0 w-[280px] sm:max-w-[280px]">
+        <SheetHeader className="p-4 border-b">
+          <SheetTitle className="text-xl">Menu</SheetTitle>
+        </SheetHeader>
         
         <nav className="p-4 space-y-6">
           {/* Navigation Links */}
@@ -87,11 +74,12 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
               href="tel:+919876543210" 
               className="flex items-center justify-center py-3 text-gray-700 hover:text-blue-600"
             >
-              <span className="font-medium">Call: +91 9876 543 210</span>
+              <Phone className="h-5 w-5 mr-2" />
+              <span className="font-medium">+91 9876 543 210</span>
             </a>
           </div>
         </nav>
-      </div>
-    </div>
+      </SheetContent>
+    </Sheet>
   );
 }

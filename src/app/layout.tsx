@@ -1,4 +1,5 @@
 import Navbar from '@/components/Navbar';
+import PageWrapper from '@/components/PageWrapper';
 
 import './globals.css';
 
@@ -20,7 +21,7 @@ export default function RootLayout({
         suppressHydrationWarning={true}
       >
         <Navbar />
-        {children}
+        <PageWrapper>{children}</PageWrapper>
       </body>
     </html>
   );

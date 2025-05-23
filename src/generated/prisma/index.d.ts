@@ -20,6 +20,112 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
 export type Vehicle = $Result.DefaultSelection<Prisma.$VehiclePayload>
 
 /**
+ * Enums
+ */
+export namespace $Enums {
+  export const FuelType: {
+  Petrol: 'Petrol',
+  Diesel: 'Diesel',
+  Electric: 'Electric',
+  Hybrid: 'Hybrid',
+  CNG: 'CNG',
+  LPG: 'LPG'
+};
+
+export type FuelType = (typeof FuelType)[keyof typeof FuelType]
+
+
+export const VehicleType: {
+  Sedan: 'Sedan',
+  SUV: 'SUV',
+  Hatchback: 'Hatchback',
+  MUV: 'MUV',
+  Luxury: 'Luxury',
+  Convertible: 'Convertible',
+  Coupe: 'Coupe',
+  Wagon: 'Wagon',
+  Van: 'Van',
+  Jeep: 'Jeep'
+};
+
+export type VehicleType = (typeof VehicleType)[keyof typeof VehicleType]
+
+
+export const OwnershipType: {
+  FirstOwner: 'FirstOwner',
+  SecondOwner: 'SecondOwner',
+  ThirdOwner: 'ThirdOwner',
+  FourthPlus: 'FourthPlus'
+};
+
+export type OwnershipType = (typeof OwnershipType)[keyof typeof OwnershipType]
+
+
+export const DriveType: {
+  FWD: 'FWD',
+  RWD: 'RWD',
+  AWD: 'AWD',
+  FourWD: 'FourWD'
+};
+
+export type DriveType = (typeof DriveType)[keyof typeof DriveType]
+
+
+export const CompanyType: {
+  Maruti: 'Maruti',
+  Hyundai: 'Hyundai',
+  Tata: 'Tata',
+  Mahindra: 'Mahindra',
+  Toyota: 'Toyota',
+  Honda: 'Honda',
+  Kia: 'Kia',
+  MG: 'MG',
+  Skoda: 'Skoda',
+  Volkswagen: 'Volkswagen',
+  Ford: 'Ford',
+  Renault: 'Renault',
+  Nissan: 'Nissan',
+  Mercedes: 'Mercedes',
+  BMW: 'BMW',
+  Audi: 'Audi',
+  Lexus: 'Lexus',
+  Volvo: 'Volvo',
+  Jaguar: 'Jaguar',
+  LandRover: 'LandRover',
+  Porsche: 'Porsche',
+  Ferrari: 'Ferrari',
+  Lamborghini: 'Lamborghini',
+  Rolls: 'Rolls',
+  Bentley: 'Bentley',
+  Jeep: 'Jeep',
+  Other: 'Other'
+};
+
+export type CompanyType = (typeof CompanyType)[keyof typeof CompanyType]
+
+}
+
+export type FuelType = $Enums.FuelType
+
+export const FuelType: typeof $Enums.FuelType
+
+export type VehicleType = $Enums.VehicleType
+
+export const VehicleType: typeof $Enums.VehicleType
+
+export type OwnershipType = $Enums.OwnershipType
+
+export const OwnershipType: typeof $Enums.OwnershipType
+
+export type DriveType = $Enums.DriveType
+
+export const DriveType: typeof $Enums.DriveType
+
+export type CompanyType = $Enums.CompanyType
+
+export const CompanyType: typeof $Enums.CompanyType
+
+/**
  * ##  Prisma Client ʲˢ
  *
  * Type-safe database client for TypeScript & Node.js
