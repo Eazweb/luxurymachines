@@ -3,11 +3,10 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Phone, Menu, X } from 'lucide-react';
+import { Phone, Menu } from 'lucide-react';
 import MobileMenu from './MobileMenu';
 
 export default function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
   
@@ -16,11 +15,6 @@ export default function Navbar() {
     return null;
   }
 
-  // We're removing the scroll effect as requested
-  useEffect(() => {
-    setIsScrolled(false);
-  }, []);
-
   // Determine if we're on the home page
   const isHomePage = pathname === '/';
   
@@ -28,43 +22,26 @@ export default function Navbar() {
     <>
       {/* The navbar itself */}
       <header 
-        className="bg-[#0f172a] py-4 text-white"
+        className={`py-4 text-white ${isHomePage ? 'absolute top-0 left-0 right-0 z-10 bg-transparent' : 'bg-[#0f172a]'}`}
       >
         <div className="container mx-auto px-4 flex items-center justify-between">
-          {/* Logo */}
-          <Link href="/" className="text-2xl font-bold text-white">
-            BOXCARS
-          </Link>
+          {/* Logo - hidden on mobile, visible on desktop */}
+          <div className="flex-1 md:flex-none">
+            <Link href="/" className="hidden md:block text-2xl font-bold text-white">
+              Luxury Machines
+            </Link>
+            
+            {/* Mobile Menu Button - only visible on mobile */}
+            <button 
+              onClick={() => setMobileMenuOpen(true)}
+              className="md:hidden p-2 text-gray-300 hover:text-white"
+              aria-label="Toggle mobile menu"
+            >
+              <Menu className="h-6 w-6" />
+            </button>
+          </div>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-6">
-            <Link 
-              href="/" 
-              className={`font-medium ${
-                pathname === '/' ? 'text-white underline' : 'text-gray-300 hover:text-white'
-              }`}
-            >
-              Home
-            </Link>
-            <Link 
-              href="/about" 
-              className={`font-medium ${
-                pathname === '/about' ? 'text-white underline' : 'text-gray-300 hover:text-white'
-              }`}
-            >
-              About
-            </Link>
-            <Link 
-              href="/contact" 
-              className={`font-medium ${
-                pathname === '/contact' ? 'text-white underline' : 'text-gray-300 hover:text-white'
-              }`}
-            >
-              Contact
-            </Link>
-          </nav>
-
-          {/* Action Buttons */}
+          {/* Action Buttons - only visible on desktop */}
           <div className="hidden md:flex items-center space-x-4">
             <Link 
               href="/buycar" 
@@ -82,24 +59,18 @@ export default function Navbar() {
               href="tel:+919876543210" 
               className="flex items-center text-gray-300 hover:text-white"
             >
-              <Phone className="h-5 w-5 mr-2" />
-              <span className="font-medium">+91 9876 543 210</span>
+              <Phone className="h-5 w-5" />
             </a>
           </div>
 
-          {/* Mobile Menu and Call Button */}
-          <div className="md:hidden flex items-center space-x-4">
-            <button 
-              onClick={() => setMobileMenuOpen(true)}
-              className="p-2 text-gray-700"
-            >
-              <Menu className="h-6 w-6" />
-            </button>
+          {/* Mobile Call Button - only visible on mobile */}
+          <div className="md:hidden">
             <a 
               href="tel:+919876543210" 
-              className="p-2 bg-blue-600 text-white rounded-full hover:bg-blue-700"
+              className="p-2 text-white rounded-full"
+              aria-label="Call us"
             >
-              <Phone className="h-5 w-5" />
+              <Phone className="h-6 w-6" />
             </a>
           </div>
         </div>

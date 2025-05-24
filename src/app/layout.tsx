@@ -1,8 +1,16 @@
 import Navbar from '@/components/Navbar';
 import PageWrapper from '@/components/PageWrapper';
+import { Quicksand } from 'next/font/google';
 
 import './globals.css';
 
+// Initialize the Quicksand font
+const quicksand = Quicksand({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-quicksand',
+  weight: ['300', '400', '500', '600', '700'],
+});
 
 export const metadata = {
   title: 'Luxury Car Dealership',
@@ -15,9 +23,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={quicksand.variable}>
       <body
-        className={`bg-gray-100 antialiased`}
+        className={` antialiased font-quicksand`}
         suppressHydrationWarning={true}
       >
         <Navbar />
