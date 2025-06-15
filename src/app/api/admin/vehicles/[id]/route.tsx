@@ -1,15 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
+import { ObjectId } from 'mongodb';
 
 export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
-    // Get the id from params
     const { id } = params;
     
-    // Find vehicle by ID
+    // Validate if the ID is a valid MongoDB ObjectId
+    if (!ObjectId.isValid(id)) {
+      return NextResponse.json(
+        { error: 'Invalid vehicle ID format' },
+        { status: 400 }
+      );
+    }
+    
     const vehicle = await prisma.vehicle.findUnique({
       where: { id },
     });
@@ -25,7 +32,7 @@ export async function GET(
   } catch (error) {
     console.error('Error fetching vehicle:', error);
     return NextResponse.json(
-      { error: 'Failed to fetch vehicle' },
+      { error: 'Failed to fetch vehicle', details: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500 }
     );
   }
@@ -36,13 +43,22 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   try {
-    // Get the id from params
     const { id } = params;
     
-    // Get the updated vehicle data from the request body
+    // Validate if the ID is a valid MongoDB ObjectId
+    if (!ObjectId.isValid(id)) {
+      return NextResponse.json(
+        { error: 'Invalid vehicle ID format' },
+        { status: 400 }
+      );
+    }
+    
     const vehicleData = await request.json();
     
-    // Update the vehicle in the database
+    // Remove any attempt to update the ID
+    delete vehicleData.id;
+    delete vehicleData._id;
+    
     const updatedVehicle = await prisma.vehicle.update({
       where: { id },
       data: vehicleData,
@@ -52,7 +68,10 @@ export async function PUT(
   } catch (error) {
     console.error('Error updating vehicle:', error);
     return NextResponse.json(
-      { error: 'Failed to update vehicle' },
+      { 
+        error: 'Failed to update vehicle',
+        details: error instanceof Error ? error.message : 'Unknown error'
+      },
       { status: 500 }
     );
   }
@@ -63,10 +82,16 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    // Get the id from params
     const { id } = params;
     
-    // Delete the vehicle from the database
+    // Validate if the ID is a valid MongoDB ObjectId
+    if (!ObjectId.isValid(id)) {
+      return NextResponse.json(
+        { error: 'Invalid vehicle ID format' },
+        { status: 400 }
+      );
+    }
+    
     await prisma.vehicle.delete({
       where: { id },
     });
@@ -74,8 +99,20 @@ export async function DELETE(
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Error deleting vehicle:', error);
+    
+    // Handle case where vehicle doesn't exist
+    if (error instanceof Error && error.message.includes('Record to delete does not exist')) {
+      return NextResponse.json(
+        { error: 'Vehicle not found' },
+        { status: 404 }
+      );
+    }
+    
     return NextResponse.json(
-      { error: 'Failed to delete vehicle' },
+      { 
+        error: 'Failed to delete vehicle',
+        details: error instanceof Error ? error.message : 'Unknown error'
+      },
       { status: 500 }
     );
   }
