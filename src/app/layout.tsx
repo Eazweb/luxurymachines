@@ -1,7 +1,7 @@
 import Navbar from '@/components/Navbar';
 import PageWrapper from '@/components/PageWrapper';
-import { Quicksand } from 'next/font/google';
-
+import { Poppins, Quicksand, Raleway } from 'next/font/google';
+import { Toaster } from 'sonner';
 import './globals.css';
 
 // Initialize the Quicksand font
@@ -9,6 +9,13 @@ const quicksand = Quicksand({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-quicksand',
+  weight: ['300', '400', '500', '600', '700'],
+});
+
+const ralewayFont = Poppins({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-raleway',
   weight: ['300', '400', '500', '600', '700'],
 });
 
@@ -23,13 +30,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={quicksand.variable}>
+    <html lang="en" >
       <body
-        className={` antialiased font-quicksand`}
+        className={` antialiased ${ralewayFont.className} `}
         suppressHydrationWarning={true}
       >
         <Navbar />
-        <PageWrapper>{children}</PageWrapper>
+        <PageWrapper>
+          {children}
+          <Toaster position="top-right" richColors />
+        </PageWrapper>
       </body>
     </html>
   );

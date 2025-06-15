@@ -71,6 +71,14 @@ export const DriveType: {
 export type DriveType = (typeof DriveType)[keyof typeof DriveType]
 
 
+export const TransmissionType: {
+  Manual: 'Manual',
+  Automatic: 'Automatic'
+};
+
+export type TransmissionType = (typeof TransmissionType)[keyof typeof TransmissionType]
+
+
 export const CompanyType: {
   Maruti: 'Maruti',
   Hyundai: 'Hyundai',
@@ -120,6 +128,10 @@ export const OwnershipType: typeof $Enums.OwnershipType
 export type DriveType = $Enums.DriveType
 
 export const DriveType: typeof $Enums.DriveType
+
+export type TransmissionType = $Enums.TransmissionType
+
+export const TransmissionType: typeof $Enums.TransmissionType
 
 export type CompanyType = $Enums.CompanyType
 
@@ -974,16 +986,15 @@ export namespace Prisma {
     registeredState: string | null
     vehicleType: string | null
     ownership: string | null
-    torque: string | null
     power: string | null
     door: number | null
     drive: string | null
+    transmission: string | null
     exteriorColor: string | null
     manufacturingYear: number | null
     seatingCapacity: number | null
     entertainment: string | null
     airbags: number | null
-    groundClearance: string | null
     featured: boolean | null
     isForRent: boolean | null
     createdAt: Date | null
@@ -1003,16 +1014,15 @@ export namespace Prisma {
     registeredState: string | null
     vehicleType: string | null
     ownership: string | null
-    torque: string | null
     power: string | null
     door: number | null
     drive: string | null
+    transmission: string | null
     exteriorColor: string | null
     manufacturingYear: number | null
     seatingCapacity: number | null
     entertainment: string | null
     airbags: number | null
-    groundClearance: string | null
     featured: boolean | null
     isForRent: boolean | null
     createdAt: Date | null
@@ -1032,16 +1042,16 @@ export namespace Prisma {
     registeredState: number
     vehicleType: number
     ownership: number
-    torque: number
     power: number
     door: number
     drive: number
+    transmission: number
     exteriorColor: number
     manufacturingYear: number
     seatingCapacity: number
     entertainment: number
     airbags: number
-    groundClearance: number
+    features: number
     images: number
     featured: number
     isForRent: number
@@ -1084,16 +1094,15 @@ export namespace Prisma {
     registeredState?: true
     vehicleType?: true
     ownership?: true
-    torque?: true
     power?: true
     door?: true
     drive?: true
+    transmission?: true
     exteriorColor?: true
     manufacturingYear?: true
     seatingCapacity?: true
     entertainment?: true
     airbags?: true
-    groundClearance?: true
     featured?: true
     isForRent?: true
     createdAt?: true
@@ -1113,16 +1122,15 @@ export namespace Prisma {
     registeredState?: true
     vehicleType?: true
     ownership?: true
-    torque?: true
     power?: true
     door?: true
     drive?: true
+    transmission?: true
     exteriorColor?: true
     manufacturingYear?: true
     seatingCapacity?: true
     entertainment?: true
     airbags?: true
-    groundClearance?: true
     featured?: true
     isForRent?: true
     createdAt?: true
@@ -1142,16 +1150,16 @@ export namespace Prisma {
     registeredState?: true
     vehicleType?: true
     ownership?: true
-    torque?: true
     power?: true
     door?: true
     drive?: true
+    transmission?: true
     exteriorColor?: true
     manufacturingYear?: true
     seatingCapacity?: true
     entertainment?: true
     airbags?: true
-    groundClearance?: true
+    features?: true
     images?: true
     featured?: true
     isForRent?: true
@@ -1259,16 +1267,16 @@ export namespace Prisma {
     registeredState: string
     vehicleType: string
     ownership: string
-    torque: string | null
     power: string | null
     door: number | null
     drive: string | null
+    transmission: string
     exteriorColor: string | null
     manufacturingYear: number | null
     seatingCapacity: number | null
     entertainment: string | null
     airbags: number | null
-    groundClearance: string | null
+    features: string[]
     images: string[]
     featured: boolean
     isForRent: boolean
@@ -1308,16 +1316,16 @@ export namespace Prisma {
     registeredState?: boolean
     vehicleType?: boolean
     ownership?: boolean
-    torque?: boolean
     power?: boolean
     door?: boolean
     drive?: boolean
+    transmission?: boolean
     exteriorColor?: boolean
     manufacturingYear?: boolean
     seatingCapacity?: boolean
     entertainment?: boolean
     airbags?: boolean
-    groundClearance?: boolean
+    features?: boolean
     images?: boolean
     featured?: boolean
     isForRent?: boolean
@@ -1340,16 +1348,16 @@ export namespace Prisma {
     registeredState?: boolean
     vehicleType?: boolean
     ownership?: boolean
-    torque?: boolean
     power?: boolean
     door?: boolean
     drive?: boolean
+    transmission?: boolean
     exteriorColor?: boolean
     manufacturingYear?: boolean
     seatingCapacity?: boolean
     entertainment?: boolean
     airbags?: boolean
-    groundClearance?: boolean
+    features?: boolean
     images?: boolean
     featured?: boolean
     isForRent?: boolean
@@ -1357,7 +1365,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type VehicleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "slug" | "name" | "price" | "model" | "company" | "fuelType" | "registeredYear" | "kilometers" | "registeredState" | "vehicleType" | "ownership" | "torque" | "power" | "door" | "drive" | "exteriorColor" | "manufacturingYear" | "seatingCapacity" | "entertainment" | "airbags" | "groundClearance" | "images" | "featured" | "isForRent" | "createdAt" | "updatedAt", ExtArgs["result"]["vehicle"]>
+  export type VehicleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "slug" | "name" | "price" | "model" | "company" | "fuelType" | "registeredYear" | "kilometers" | "registeredState" | "vehicleType" | "ownership" | "power" | "door" | "drive" | "transmission" | "exteriorColor" | "manufacturingYear" | "seatingCapacity" | "entertainment" | "airbags" | "features" | "images" | "featured" | "isForRent" | "createdAt" | "updatedAt", ExtArgs["result"]["vehicle"]>
 
   export type $VehiclePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Vehicle"
@@ -1375,16 +1383,16 @@ export namespace Prisma {
       registeredState: string
       vehicleType: string
       ownership: string
-      torque: string | null
       power: string | null
       door: number | null
       drive: string | null
+      transmission: string
       exteriorColor: string | null
       manufacturingYear: number | null
       seatingCapacity: number | null
       entertainment: string | null
       airbags: number | null
-      groundClearance: string | null
+      features: string[]
       images: string[]
       featured: boolean
       isForRent: boolean
@@ -1794,16 +1802,16 @@ export namespace Prisma {
     readonly registeredState: FieldRef<"Vehicle", 'String'>
     readonly vehicleType: FieldRef<"Vehicle", 'String'>
     readonly ownership: FieldRef<"Vehicle", 'String'>
-    readonly torque: FieldRef<"Vehicle", 'String'>
     readonly power: FieldRef<"Vehicle", 'String'>
     readonly door: FieldRef<"Vehicle", 'Int'>
     readonly drive: FieldRef<"Vehicle", 'String'>
+    readonly transmission: FieldRef<"Vehicle", 'String'>
     readonly exteriorColor: FieldRef<"Vehicle", 'String'>
     readonly manufacturingYear: FieldRef<"Vehicle", 'Int'>
     readonly seatingCapacity: FieldRef<"Vehicle", 'Int'>
     readonly entertainment: FieldRef<"Vehicle", 'String'>
     readonly airbags: FieldRef<"Vehicle", 'Int'>
-    readonly groundClearance: FieldRef<"Vehicle", 'String'>
+    readonly features: FieldRef<"Vehicle", 'String[]'>
     readonly images: FieldRef<"Vehicle", 'String[]'>
     readonly featured: FieldRef<"Vehicle", 'Boolean'>
     readonly isForRent: FieldRef<"Vehicle", 'Boolean'>
@@ -2174,16 +2182,16 @@ export namespace Prisma {
     registeredState: 'registeredState',
     vehicleType: 'vehicleType',
     ownership: 'ownership',
-    torque: 'torque',
     power: 'power',
     door: 'door',
     drive: 'drive',
+    transmission: 'transmission',
     exteriorColor: 'exteriorColor',
     manufacturingYear: 'manufacturingYear',
     seatingCapacity: 'seatingCapacity',
     entertainment: 'entertainment',
     airbags: 'airbags',
-    groundClearance: 'groundClearance',
+    features: 'features',
     images: 'images',
     featured: 'featured',
     isForRent: 'isForRent',
@@ -2297,16 +2305,16 @@ export namespace Prisma {
     registeredState?: StringFilter<"Vehicle"> | string
     vehicleType?: StringFilter<"Vehicle"> | string
     ownership?: StringFilter<"Vehicle"> | string
-    torque?: StringNullableFilter<"Vehicle"> | string | null
     power?: StringNullableFilter<"Vehicle"> | string | null
     door?: IntNullableFilter<"Vehicle"> | number | null
     drive?: StringNullableFilter<"Vehicle"> | string | null
+    transmission?: StringFilter<"Vehicle"> | string
     exteriorColor?: StringNullableFilter<"Vehicle"> | string | null
     manufacturingYear?: IntNullableFilter<"Vehicle"> | number | null
     seatingCapacity?: IntNullableFilter<"Vehicle"> | number | null
     entertainment?: StringNullableFilter<"Vehicle"> | string | null
     airbags?: IntNullableFilter<"Vehicle"> | number | null
-    groundClearance?: StringNullableFilter<"Vehicle"> | string | null
+    features?: StringNullableListFilter<"Vehicle">
     images?: StringNullableListFilter<"Vehicle">
     featured?: BoolFilter<"Vehicle"> | boolean
     isForRent?: BoolFilter<"Vehicle"> | boolean
@@ -2327,16 +2335,16 @@ export namespace Prisma {
     registeredState?: SortOrder
     vehicleType?: SortOrder
     ownership?: SortOrder
-    torque?: SortOrder
     power?: SortOrder
     door?: SortOrder
     drive?: SortOrder
+    transmission?: SortOrder
     exteriorColor?: SortOrder
     manufacturingYear?: SortOrder
     seatingCapacity?: SortOrder
     entertainment?: SortOrder
     airbags?: SortOrder
-    groundClearance?: SortOrder
+    features?: SortOrder
     images?: SortOrder
     featured?: SortOrder
     isForRent?: SortOrder
@@ -2360,16 +2368,16 @@ export namespace Prisma {
     registeredState?: StringFilter<"Vehicle"> | string
     vehicleType?: StringFilter<"Vehicle"> | string
     ownership?: StringFilter<"Vehicle"> | string
-    torque?: StringNullableFilter<"Vehicle"> | string | null
     power?: StringNullableFilter<"Vehicle"> | string | null
     door?: IntNullableFilter<"Vehicle"> | number | null
     drive?: StringNullableFilter<"Vehicle"> | string | null
+    transmission?: StringFilter<"Vehicle"> | string
     exteriorColor?: StringNullableFilter<"Vehicle"> | string | null
     manufacturingYear?: IntNullableFilter<"Vehicle"> | number | null
     seatingCapacity?: IntNullableFilter<"Vehicle"> | number | null
     entertainment?: StringNullableFilter<"Vehicle"> | string | null
     airbags?: IntNullableFilter<"Vehicle"> | number | null
-    groundClearance?: StringNullableFilter<"Vehicle"> | string | null
+    features?: StringNullableListFilter<"Vehicle">
     images?: StringNullableListFilter<"Vehicle">
     featured?: BoolFilter<"Vehicle"> | boolean
     isForRent?: BoolFilter<"Vehicle"> | boolean
@@ -2390,16 +2398,16 @@ export namespace Prisma {
     registeredState?: SortOrder
     vehicleType?: SortOrder
     ownership?: SortOrder
-    torque?: SortOrder
     power?: SortOrder
     door?: SortOrder
     drive?: SortOrder
+    transmission?: SortOrder
     exteriorColor?: SortOrder
     manufacturingYear?: SortOrder
     seatingCapacity?: SortOrder
     entertainment?: SortOrder
     airbags?: SortOrder
-    groundClearance?: SortOrder
+    features?: SortOrder
     images?: SortOrder
     featured?: SortOrder
     isForRent?: SortOrder
@@ -2428,16 +2436,16 @@ export namespace Prisma {
     registeredState?: StringWithAggregatesFilter<"Vehicle"> | string
     vehicleType?: StringWithAggregatesFilter<"Vehicle"> | string
     ownership?: StringWithAggregatesFilter<"Vehicle"> | string
-    torque?: StringNullableWithAggregatesFilter<"Vehicle"> | string | null
     power?: StringNullableWithAggregatesFilter<"Vehicle"> | string | null
     door?: IntNullableWithAggregatesFilter<"Vehicle"> | number | null
     drive?: StringNullableWithAggregatesFilter<"Vehicle"> | string | null
+    transmission?: StringWithAggregatesFilter<"Vehicle"> | string
     exteriorColor?: StringNullableWithAggregatesFilter<"Vehicle"> | string | null
     manufacturingYear?: IntNullableWithAggregatesFilter<"Vehicle"> | number | null
     seatingCapacity?: IntNullableWithAggregatesFilter<"Vehicle"> | number | null
     entertainment?: StringNullableWithAggregatesFilter<"Vehicle"> | string | null
     airbags?: IntNullableWithAggregatesFilter<"Vehicle"> | number | null
-    groundClearance?: StringNullableWithAggregatesFilter<"Vehicle"> | string | null
+    features?: StringNullableListFilter<"Vehicle">
     images?: StringNullableListFilter<"Vehicle">
     featured?: BoolWithAggregatesFilter<"Vehicle"> | boolean
     isForRent?: BoolWithAggregatesFilter<"Vehicle"> | boolean
@@ -2458,16 +2466,16 @@ export namespace Prisma {
     registeredState: string
     vehicleType: string
     ownership: string
-    torque?: string | null
     power?: string | null
     door?: number | null
     drive?: string | null
+    transmission?: string
     exteriorColor?: string | null
     manufacturingYear?: number | null
     seatingCapacity?: number | null
     entertainment?: string | null
     airbags?: number | null
-    groundClearance?: string | null
+    features?: VehicleCreatefeaturesInput | string[]
     images?: VehicleCreateimagesInput | string[]
     featured?: boolean
     isForRent?: boolean
@@ -2488,16 +2496,16 @@ export namespace Prisma {
     registeredState: string
     vehicleType: string
     ownership: string
-    torque?: string | null
     power?: string | null
     door?: number | null
     drive?: string | null
+    transmission?: string
     exteriorColor?: string | null
     manufacturingYear?: number | null
     seatingCapacity?: number | null
     entertainment?: string | null
     airbags?: number | null
-    groundClearance?: string | null
+    features?: VehicleCreatefeaturesInput | string[]
     images?: VehicleCreateimagesInput | string[]
     featured?: boolean
     isForRent?: boolean
@@ -2517,16 +2525,16 @@ export namespace Prisma {
     registeredState?: StringFieldUpdateOperationsInput | string
     vehicleType?: StringFieldUpdateOperationsInput | string
     ownership?: StringFieldUpdateOperationsInput | string
-    torque?: NullableStringFieldUpdateOperationsInput | string | null
     power?: NullableStringFieldUpdateOperationsInput | string | null
     door?: NullableIntFieldUpdateOperationsInput | number | null
     drive?: NullableStringFieldUpdateOperationsInput | string | null
+    transmission?: StringFieldUpdateOperationsInput | string
     exteriorColor?: NullableStringFieldUpdateOperationsInput | string | null
     manufacturingYear?: NullableIntFieldUpdateOperationsInput | number | null
     seatingCapacity?: NullableIntFieldUpdateOperationsInput | number | null
     entertainment?: NullableStringFieldUpdateOperationsInput | string | null
     airbags?: NullableIntFieldUpdateOperationsInput | number | null
-    groundClearance?: NullableStringFieldUpdateOperationsInput | string | null
+    features?: VehicleUpdatefeaturesInput | string[]
     images?: VehicleUpdateimagesInput | string[]
     featured?: BoolFieldUpdateOperationsInput | boolean
     isForRent?: BoolFieldUpdateOperationsInput | boolean
@@ -2546,16 +2554,16 @@ export namespace Prisma {
     registeredState?: StringFieldUpdateOperationsInput | string
     vehicleType?: StringFieldUpdateOperationsInput | string
     ownership?: StringFieldUpdateOperationsInput | string
-    torque?: NullableStringFieldUpdateOperationsInput | string | null
     power?: NullableStringFieldUpdateOperationsInput | string | null
     door?: NullableIntFieldUpdateOperationsInput | number | null
     drive?: NullableStringFieldUpdateOperationsInput | string | null
+    transmission?: StringFieldUpdateOperationsInput | string
     exteriorColor?: NullableStringFieldUpdateOperationsInput | string | null
     manufacturingYear?: NullableIntFieldUpdateOperationsInput | number | null
     seatingCapacity?: NullableIntFieldUpdateOperationsInput | number | null
     entertainment?: NullableStringFieldUpdateOperationsInput | string | null
     airbags?: NullableIntFieldUpdateOperationsInput | number | null
-    groundClearance?: NullableStringFieldUpdateOperationsInput | string | null
+    features?: VehicleUpdatefeaturesInput | string[]
     images?: VehicleUpdateimagesInput | string[]
     featured?: BoolFieldUpdateOperationsInput | boolean
     isForRent?: BoolFieldUpdateOperationsInput | boolean
@@ -2576,16 +2584,16 @@ export namespace Prisma {
     registeredState: string
     vehicleType: string
     ownership: string
-    torque?: string | null
     power?: string | null
     door?: number | null
     drive?: string | null
+    transmission?: string
     exteriorColor?: string | null
     manufacturingYear?: number | null
     seatingCapacity?: number | null
     entertainment?: string | null
     airbags?: number | null
-    groundClearance?: string | null
+    features?: VehicleCreatefeaturesInput | string[]
     images?: VehicleCreateimagesInput | string[]
     featured?: boolean
     isForRent?: boolean
@@ -2605,16 +2613,16 @@ export namespace Prisma {
     registeredState?: StringFieldUpdateOperationsInput | string
     vehicleType?: StringFieldUpdateOperationsInput | string
     ownership?: StringFieldUpdateOperationsInput | string
-    torque?: NullableStringFieldUpdateOperationsInput | string | null
     power?: NullableStringFieldUpdateOperationsInput | string | null
     door?: NullableIntFieldUpdateOperationsInput | number | null
     drive?: NullableStringFieldUpdateOperationsInput | string | null
+    transmission?: StringFieldUpdateOperationsInput | string
     exteriorColor?: NullableStringFieldUpdateOperationsInput | string | null
     manufacturingYear?: NullableIntFieldUpdateOperationsInput | number | null
     seatingCapacity?: NullableIntFieldUpdateOperationsInput | number | null
     entertainment?: NullableStringFieldUpdateOperationsInput | string | null
     airbags?: NullableIntFieldUpdateOperationsInput | number | null
-    groundClearance?: NullableStringFieldUpdateOperationsInput | string | null
+    features?: VehicleUpdatefeaturesInput | string[]
     images?: VehicleUpdateimagesInput | string[]
     featured?: BoolFieldUpdateOperationsInput | boolean
     isForRent?: BoolFieldUpdateOperationsInput | boolean
@@ -2634,16 +2642,16 @@ export namespace Prisma {
     registeredState?: StringFieldUpdateOperationsInput | string
     vehicleType?: StringFieldUpdateOperationsInput | string
     ownership?: StringFieldUpdateOperationsInput | string
-    torque?: NullableStringFieldUpdateOperationsInput | string | null
     power?: NullableStringFieldUpdateOperationsInput | string | null
     door?: NullableIntFieldUpdateOperationsInput | number | null
     drive?: NullableStringFieldUpdateOperationsInput | string | null
+    transmission?: StringFieldUpdateOperationsInput | string
     exteriorColor?: NullableStringFieldUpdateOperationsInput | string | null
     manufacturingYear?: NullableIntFieldUpdateOperationsInput | number | null
     seatingCapacity?: NullableIntFieldUpdateOperationsInput | number | null
     entertainment?: NullableStringFieldUpdateOperationsInput | string | null
     airbags?: NullableIntFieldUpdateOperationsInput | number | null
-    groundClearance?: NullableStringFieldUpdateOperationsInput | string | null
+    features?: VehicleUpdatefeaturesInput | string[]
     images?: VehicleUpdateimagesInput | string[]
     featured?: BoolFieldUpdateOperationsInput | boolean
     isForRent?: BoolFieldUpdateOperationsInput | boolean
@@ -2753,16 +2761,16 @@ export namespace Prisma {
     registeredState?: SortOrder
     vehicleType?: SortOrder
     ownership?: SortOrder
-    torque?: SortOrder
     power?: SortOrder
     door?: SortOrder
     drive?: SortOrder
+    transmission?: SortOrder
     exteriorColor?: SortOrder
     manufacturingYear?: SortOrder
     seatingCapacity?: SortOrder
     entertainment?: SortOrder
     airbags?: SortOrder
-    groundClearance?: SortOrder
+    features?: SortOrder
     images?: SortOrder
     featured?: SortOrder
     isForRent?: SortOrder
@@ -2793,16 +2801,15 @@ export namespace Prisma {
     registeredState?: SortOrder
     vehicleType?: SortOrder
     ownership?: SortOrder
-    torque?: SortOrder
     power?: SortOrder
     door?: SortOrder
     drive?: SortOrder
+    transmission?: SortOrder
     exteriorColor?: SortOrder
     manufacturingYear?: SortOrder
     seatingCapacity?: SortOrder
     entertainment?: SortOrder
     airbags?: SortOrder
-    groundClearance?: SortOrder
     featured?: SortOrder
     isForRent?: SortOrder
     createdAt?: SortOrder
@@ -2822,16 +2829,15 @@ export namespace Prisma {
     registeredState?: SortOrder
     vehicleType?: SortOrder
     ownership?: SortOrder
-    torque?: SortOrder
     power?: SortOrder
     door?: SortOrder
     drive?: SortOrder
+    transmission?: SortOrder
     exteriorColor?: SortOrder
     manufacturingYear?: SortOrder
     seatingCapacity?: SortOrder
     entertainment?: SortOrder
     airbags?: SortOrder
-    groundClearance?: SortOrder
     featured?: SortOrder
     isForRent?: SortOrder
     createdAt?: SortOrder
@@ -2956,6 +2962,10 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type VehicleCreatefeaturesInput = {
+    set: string[]
+  }
+
   export type VehicleCreateimagesInput = {
     set: string[]
   }
@@ -2992,6 +3002,11 @@ export namespace Prisma {
     multiply?: number
     divide?: number
     unset?: boolean
+  }
+
+  export type VehicleUpdatefeaturesInput = {
+    set?: string[]
+    push?: string | string[]
   }
 
   export type VehicleUpdateimagesInput = {

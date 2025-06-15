@@ -44,6 +44,12 @@ export const driveOptions = [
   '4WD'
 ] as const;
 
+// Transmission options from TransmissionType enum
+export const transmissionOptions = [
+  'Manual',
+  'Automatic'
+] as const;
+
 // Car company options from CompanyType enum
 export const companyOptions = [
   'Maruti Suzuki',
@@ -80,4 +86,5 @@ export type FuelType = typeof fuelTypes[number];
 export type VehicleType = typeof vehicleTypes[number];
 export type OwnershipType = typeof ownershipOptions[number];
 export type DriveType = typeof driveOptions[number];
+export type TransmissionType = typeof transmissionOptions[number];
 export type CompanyType = typeof companyOptions[number];

@@ -1,10 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, ChangeEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { createVehicle, updateVehicle } from '@/app/actions/vehicle';
-import ImageUpload from './ImageUpload';
-import { fuelTypes, vehicleTypes, ownershipOptions, driveOptions, companyOptions } from '@/lib/vehicleOptions';
+import { toast } from 'sonner';
+import { Button } from './ui/button';
+import { Loader2, X, ImagePlus } from 'lucide-react';
+import { fuelTypes, vehicleTypes, ownershipOptions, driveOptions, companyOptions, transmissionOptions } from '@/lib/vehicleOptions';
 
 // Types
 type VehicleFormData = {
@@ -18,16 +20,14 @@ type VehicleFormData = {
   registeredState: string;
   vehicleType: string;
   ownership: string;
-  torque: string;
   power: string;
-  door: string;
   drive: string;
+  transmission: string;
   exteriorColor: string;
   manufacturingYear: string;
   seatingCapacity: string;
-  entertainment: string;
   airbags: string;
-  groundClearance: string;
+  features: string;
   featured: boolean;
 };
 
@@ -47,16 +47,14 @@ const defaultFormData: VehicleFormData = {
   registeredState: '',
   vehicleType: '',
   ownership: '',
-  torque: '',
   power: '',
-  door: '',
   drive: '',
+  transmission: 'Manual', // Default to Manual
   exteriorColor: '',
   manufacturingYear: '',
   seatingCapacity: '',
-  entertainment: '',
   airbags: '',
-  groundClearance: '',
+  features: '',
   featured: false,
 };
 
@@ -72,17 +70,20 @@ export default function VehicleForm({ initialData, isEditing = false }: VehicleF
           price: initialData.price.toString(),
           registeredYear: initialData.registeredYear.toString(),
           kilometers: initialData.kilometers.toString(),
-          door: initialData.door?.toString() || '',
           manufacturingYear: initialData.manufacturingYear?.toString() || '',
           seatingCapacity: initialData.seatingCapacity?.toString() || '',
           airbags: initialData.airbags?.toString() || '',
+          features: initialData.features?.join(', ') || '',
         }
       : defaultFormData
   );
   
-  const [images, setImages] = useState<string[]>(initialData?.images || []);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [previewUrls, setPreviewUrls] = useState<string[]>(initialData?.images || []);
   const [isLoading, setIsLoading] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -96,18 +97,90 @@ export default function VehicleForm({ initialData, isEditing = false }: VehicleF
         : value,
     }));
   };
+
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files) return;
+
+    const newFiles = Array.from(files);
+    const newPreviewUrls = newFiles.map(file => URL.createObjectURL(file));
+    
+    setSelectedFiles(prev => [...prev, ...newFiles]);
+    setPreviewUrls(prev => [...prev, ...newPreviewUrls]);
+  };
+
+  const removeImage = (index: number) => {
+    const newFiles = [...selectedFiles];
+    const newPreviewUrls = [...previewUrls];
+    
+    // Revoke the object URL to avoid memory leaks
+    URL.revokeObjectURL(newPreviewUrls[index]);
+    
+    newFiles.splice(index - (previewUrls.length - selectedFiles.length), 1);
+    newPreviewUrls.splice(index, 1);
+    
+    setSelectedFiles(newFiles);
+    setPreviewUrls(newPreviewUrls);
+  };
   
+  const uploadImages = async (files: File[]): Promise<string[]> => {
+    if (!files.length) return [];
+    
+    const uploadedUrls: string[] = [];
+    const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+    const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_PRESET || 'luxury_cars';
+    
+    if (!cloudName) {
+      throw new Error('Cloudinary cloud name is not configured');
+    }
+    
+    for (const file of files) {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('upload_preset', uploadPreset);
+      
+      const response = await fetch(
+        `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+        {
+          method: 'POST',
+          body: formData,
+        }
+      );
+      
+      if (!response.ok) {
+        throw new Error('Image upload failed');
+      }
+      
+      const data = await response.json();
+      let url = data.secure_url;
+      // Add optimization parameters
+      url = url.replace('/upload/', '/upload/f_auto,q_auto/');
+      uploadedUrls.push(url);
+    }
+    
+    return uploadedUrls;
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsLoading(true);
     setError(null);
     
+    // Validate images
+    if (previewUrls.length === 0) {
+      setError('Please upload at least one image');
+      return;
+    }
+    
     try {
-      // Validate images
-      if (images.length === 0) {
-        setError('Please upload at least one image');
-        setIsLoading(false);
-        return;
+      setIsUploading(true);
+      
+      // Upload new images first
+      let imageUrls = [...previewUrls];
+      
+      if (selectedFiles.length > 0) {
+        const uploadedUrls = await uploadImages(selectedFiles);
+        // Combine existing URLs with newly uploaded ones
+        imageUrls = [...previewUrls.filter(url => !url.startsWith('blob:')), ...uploadedUrls];
       }
       
       // Convert form data to the right types
@@ -122,10 +195,9 @@ export default function VehicleForm({ initialData, isEditing = false }: VehicleF
         registeredState: formData.registeredState,
         vehicleType: formData.vehicleType,
         ownership: formData.ownership,
-        torque: formData.torque || undefined,
         power: formData.power || undefined,
-        door: formData.door ? parseInt(formData.door) : undefined,
         drive: formData.drive || undefined,
+        transmission: formData.transmission,
         exteriorColor: formData.exteriorColor || undefined,
         manufacturingYear: formData.manufacturingYear 
           ? parseInt(formData.manufacturingYear) 
@@ -133,39 +205,39 @@ export default function VehicleForm({ initialData, isEditing = false }: VehicleF
         seatingCapacity: formData.seatingCapacity 
           ? parseInt(formData.seatingCapacity) 
           : undefined,
-        entertainment: formData.entertainment || undefined,
         airbags: formData.airbags ? parseInt(formData.airbags) : undefined,
-        groundClearance: formData.groundClearance || undefined,
+        features: formData.features 
+          ? formData.features.split(',').map(feature => feature.trim()).filter(Boolean)
+          : [],
         featured: formData.featured,
       };
       
-      // Ensure all images have the optimization parameters
-      const optimizedImages = images.map(url => {
-        // Only add the parameters if they're not already present
-        if (!url.includes('/f_auto,q_auto/')) {
-          return url.replace('/upload/', '/upload/f_auto,q_auto/');
-        }
-        return url;
-      });
+      setIsUploading(false);
+      setIsLoading(true);
       
       let result;
       
       if (isEditing) {
-        result = await updateVehicle(initialData.id, vehicleData, optimizedImages);
+        result = await updateVehicle(initialData.id, vehicleData, imageUrls);
       } else {
-        result = await createVehicle(vehicleData, optimizedImages);
+        result = await createVehicle(vehicleData, imageUrls);
       }
       
       if (result.success) {
+        toast.success(`Vehicle ${isEditing ? 'updated' : 'created'} successfully`);
         router.push('/admin/vehicles');
         router.refresh();
       } else {
         setError(result.error || 'Something went wrong');
+        toast.error(result.error || 'Failed to save vehicle');
       }
     } catch (error) {
       console.error('Error submitting form:', error);
-      setError('An unexpected error occurred');
+      const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred';
+      setError(errorMessage);
+      toast.error(errorMessage);
     } finally {
+      setIsUploading(false);
       setIsLoading(false);
     }
   };
@@ -181,10 +253,57 @@ export default function VehicleForm({ initialData, isEditing = false }: VehicleF
       {/* Images */}
       <div className="bg-[#ffffff] p-6 rounded-lg shadow">
         <h2 className="text-lg font-medium text-[#111827] mb-4">Vehicle Images</h2>
-        <ImageUpload 
-          value={images} 
-          onChange={(value) => setImages(value)} 
-        />
+        
+        {/* File input */}
+        <div className="mb-4">
+          <input
+            type="file"
+            ref={fileInputRef}
+            onChange={handleFileChange}
+            accept="image/*"
+            multiple
+            className="hidden"
+          />
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => fileInputRef.current?.click()}
+            className="gap-2"
+            disabled={isUploading || isLoading}
+          >
+            <ImagePlus className="h-4 w-4" />
+            Add Images
+          </Button>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Upload images of the vehicle. You can select multiple images at once.
+          </p>
+        </div>
+        
+        {/* Image previews */}
+        {previewUrls.length > 0 && (
+          <div className="mt-6">
+            <h3 className="text-sm font-medium mb-3">Selected Images ({previewUrls.length})</h3>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+              {previewUrls.map((url, index) => (
+                <div key={index} className="relative group aspect-square rounded-md overflow-hidden border">
+                  <img
+                    src={url}
+                    alt={`Preview ${index + 1}`}
+                    className="w-full h-full object-cover"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => removeImage(index)}
+                    className="absolute top-2 right-2 p-1 rounded-full bg-red-500 text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                    disabled={isUploading || isLoading}
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
       
       {/* Basic Information */}
@@ -202,6 +321,21 @@ export default function VehicleForm({ initialData, isEditing = false }: VehicleF
               required
               value={formData.name}
               onChange={handleChange}
+              className="mt-1 block w-full border border-[#d1d5db] rounded-md shadow-sm py-2 px-3"
+            />
+          </div>
+          
+          <div>
+            <label htmlFor="features" className="block text-sm font-medium text-[#374151]">
+              Features (comma separated)
+            </label>
+            <input
+              id="features"
+              name="features"
+              type="text"
+              value={formData.features}
+              onChange={handleChange}
+              placeholder="e.g., Sunroof, Leather Seats, Navigation"
               className="mt-1 block w-full border border-[#d1d5db] rounded-md shadow-sm py-2 px-3"
             />
           </div>
@@ -393,21 +527,6 @@ export default function VehicleForm({ initialData, isEditing = false }: VehicleF
           </div>
           
           <div>
-            <label htmlFor="torque" className="block text-sm font-medium text-[#374151]">
-              Torque
-            </label>
-            <input
-              id="torque"
-              name="torque"
-              type="text"
-              value={formData.torque}
-              onChange={handleChange}
-              className="mt-1 block w-full border border-[#d1d5db] rounded-md shadow-sm py-2 px-3"
-              placeholder="e.g. 170 Nm"
-            />
-          </div>
-          
-          <div>
             <label htmlFor="drive" className="block text-sm font-medium text-[#374151]">
               Drive Type
             </label>
@@ -420,6 +539,25 @@ export default function VehicleForm({ initialData, isEditing = false }: VehicleF
             >
               <option value="">Select Drive Type</option>
               {driveOptions.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          </div>
+          
+          <div>
+            <label htmlFor="transmission" className="block text-sm font-medium text-[#374151]">
+              Transmission
+            </label>
+            <select
+              id="transmission"
+              name="transmission"
+              value={formData.transmission}
+              onChange={handleChange}
+              className="mt-1 block w-full border border-[#d1d5db] rounded-md shadow-sm py-2 px-3"
+            >
+              {transmissionOptions.map((option) => (
                 <option key={option} value={option}>
                   {option}
                 </option>
@@ -442,55 +580,6 @@ export default function VehicleForm({ initialData, isEditing = false }: VehicleF
           </div>
           
           <div>
-            <label htmlFor="door" className="block text-sm font-medium text-[#374151]">
-              Number of Doors
-            </label>
-            <input
-              id="door"
-              name="door"
-              type="number"
-              value={formData.door}
-              onChange={handleChange}
-              className="mt-1 block w-full border border-[#d1d5db] rounded-md shadow-sm py-2 px-3"
-            />
-          </div>
-          
-          <div>
-            <label htmlFor="groundClearance" className="block text-sm font-medium text-[#374151]">
-              Ground Clearance
-            </label>
-            <input
-              id="groundClearance"
-              name="groundClearance"
-              type="text"
-              value={formData.groundClearance}
-              onChange={handleChange}
-              className="mt-1 block w-full border border-[#d1d5db] rounded-md shadow-sm py-2 px-3"
-              placeholder="e.g. 170 mm"
-            />
-          </div>
-        </div>
-      </div>
-      
-      {/* Additional Information */}
-      <div className="bg-[#ffffff] p-6 rounded-lg shadow">
-        <h2 className="text-lg font-medium text-[#111827] mb-4">Additional Information</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <label htmlFor="exteriorColor" className="block text-sm font-medium text-[#374151]">
-              Exterior Color
-            </label>
-            <input
-              id="exteriorColor"
-              name="exteriorColor"
-              type="text"
-              value={formData.exteriorColor}
-              onChange={handleChange}
-              className="mt-1 block w-full border border-[#d1d5db] rounded-md shadow-sm py-2 px-3"
-            />
-          </div>
-          
-          <div>
             <label htmlFor="seatingCapacity" className="block text-sm font-medium text-[#374151]">
               Seating Capacity
             </label>
@@ -501,21 +590,6 @@ export default function VehicleForm({ initialData, isEditing = false }: VehicleF
               value={formData.seatingCapacity}
               onChange={handleChange}
               className="mt-1 block w-full border border-[#d1d5db] rounded-md shadow-sm py-2 px-3"
-            />
-          </div>
-          
-          <div>
-            <label htmlFor="entertainment" className="block text-sm font-medium text-[#374151]">
-              Entertainment System
-            </label>
-            <input
-              id="entertainment"
-              name="entertainment"
-              type="text"
-              value={formData.entertainment}
-              onChange={handleChange}
-              className="mt-1 block w-full border border-[#d1d5db] rounded-md shadow-sm py-2 px-3"
-              placeholder="e.g. 7-inch touchscreen"
             />
           </div>
           
@@ -555,25 +629,36 @@ export default function VehicleForm({ initialData, isEditing = false }: VehicleF
       
       {/* Form Actions */}
       <div className="flex justify-end space-x-3">
-        <button
+        <Button
           type="button"
+          variant="outline"
           onClick={() => router.back()}
-          className="px-4 py-2 border border-[#d1d5db] rounded-md shadow-sm text-sm font-medium text-[#374151] bg-[#ffffff] hover:bg-gray-50"
+          disabled={isLoading || isUploading}
         >
           Cancel
-        </button>
-        <button
+        </Button>
+        <Button
           type="submit"
-          disabled={isLoading}
-          className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#2563eb] hover:bg-[#1d4ed8] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#3b82f6] disabled:opacity-50"
+          disabled={isLoading || isUploading}
+          className="min-w-[150px]"
         >
-          {isLoading
-            ? 'Saving...'
-            : isEditing
-            ? 'Update Vehicle'
-            : 'Create Vehicle'}
-        </button>
+          {isUploading ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Uploading Images...
+            </>
+          ) : isLoading ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              {isEditing ? 'Updating...' : 'Creating...'}
+            </>
+          ) : isEditing ? (
+            'Update Vehicle'
+          ) : (
+            'Create Vehicle'
+          )}
+        </Button>
       </div>
     </form>
   );
-} 
+};

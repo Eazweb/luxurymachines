@@ -1,5 +1,6 @@
 import prisma from '@/lib/prisma';
 import Link from 'next/link';
+import { formatPrice } from '@/utils/formatPrice';
 import { Pencil, Trash2 } from 'lucide-react';
 import DeleteVehicleButton from '@/components/DeleteVehicleButton';
 
@@ -129,10 +130,10 @@ export default async function VehiclesPage(props: any) {
                   <div className="col-span-2">{vehicle.company}</div>
                   <div className="col-span-1">{vehicle.registeredYear}</div>
                   <div className="col-span-1 font-medium text-[#059669]">
-                    ₹{vehicle.price.toLocaleString()}
+                    {formatPrice(vehicle.price)}
                   </div>
                   <div className="col-span-1">{vehicle.fuelType}</div>
-                  <div className="col-span-1">{vehicle.kilometers.toLocaleString()}</div>
+                  <div className="col-span-1">{vehicle.kilometers.toLocaleString('en-IN')}</div>
                   <div className="col-span-1">
                     {vehicle.featured ? (
                       <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">

@@ -6,8 +6,8 @@ import { Check, Play, ArrowRight } from 'lucide-react';
 
 export default function SellYourCar() {
   return (
-    <section className="py-16 bg-gray-50">
-      <div className="container mx-auto px-4">
+    <section className="py-16 ">
+      <div className="container w-[90%] max-w-[1500px] mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
           {/* Image Section with Play Button */}
           <div className="relative rounded-lg overflow-hidden h-[300px] md:h-[400px] lg:h-[500px]">

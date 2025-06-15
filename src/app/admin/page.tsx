@@ -1,4 +1,5 @@
 import prisma from '@/lib/prisma';
+import { formatPrice } from '@/utils/formatPrice';
 import Link from 'next/link';
 
 export default async function AdminDashboard() {
@@ -97,7 +98,7 @@ export default async function AdminDashboard() {
                   <p className="text-sm text-[#6b7280]">{vehicle.model}</p>
                 </div>
                 <div>
-                  <p className="font-medium text-[#059669]">₹{vehicle.price.toLocaleString()}</p>
+                  <p className="font-medium text-[#059669]">{formatPrice(vehicle.price)}</p>
                   <p className="text-xs text-[#6b7280]">
                     Added {new Date(vehicle.createdAt).toLocaleDateString()}
                   </p>

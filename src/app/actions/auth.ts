@@ -13,11 +13,12 @@ export async function loginAdmin(formData: FormData) {
   
   if (verifyAdminCredentials(username, password)) {
     // Set a cookie to identify the admin session
-    cookies().set('admin_session', 'true', {
+    (await cookies()).set('admin_session', 'true', {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       maxAge: 60 * 60 * 24, // 24 hours
       path: '/',
+      sameSite: 'lax',
     });
     
     return { success: true };
@@ -27,11 +28,11 @@ export async function loginAdmin(formData: FormData) {
 }
 
 export async function logoutAdmin() {
-  cookies().delete('admin_session');
+  (await cookies()).delete('admin_session');
   return { success: true };
 }
 
 export async function checkAdminSession() {
-  const session = cookies().get('admin_session');
+  const session = (await cookies()).get('admin_session');
   return !!session?.value;
-} 
+}

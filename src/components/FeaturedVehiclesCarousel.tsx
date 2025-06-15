@@ -1,9 +1,7 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
-import { Bookmark, ArrowRight, Timer, Fuel, Settings2 } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import {
   Carousel,
   CarouselContent,
@@ -11,21 +9,8 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
-
-// Vehicle interface
-interface Vehicle {
-  id: string;
-  name: string;
-  slug: string;
-  model?: string;
-  price: number;
-  images: string[];
-  registeredYear?: string;
-  fuelType?: string;
-  mileage?: number;
-  transmission?: string;
-  isGreatPrice?: boolean;
-}
+import { Vehicle } from '@/generated/prisma';
+import ProductCard from './ProductCard';
 
 interface FeaturedVehiclesCarouselProps {
   vehicles: Vehicle[];
@@ -33,11 +18,11 @@ interface FeaturedVehiclesCarouselProps {
 
 export default function FeaturedVehiclesCarousel({ vehicles }: FeaturedVehiclesCarouselProps) {
   return (
-    <section className="py-12">
-      <div className="container mx-auto px-4">
+    <section className="py-12 md:py-16 lg:py-20">
+      <div className="container  w-[90%] max-w-[1500px] mx-auto">
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h2 className="text-2xl md:text-3xl font-semibold">Explore All Vehicles</h2>
+            <h2 className="text-2xl md:text-3xl xl:text-[2.5rem] font-semibold">Explore All Vehicles</h2>
           </div>
           <Link 
             href="/collection" 
@@ -61,7 +46,18 @@ export default function FeaturedVehiclesCarousel({ vehicles }: FeaturedVehiclesC
             <CarouselContent>
               {vehicles.map((vehicle) => (
                 <CarouselItem key={`xl-${vehicle.id}`} className="basis-1/4 pl-4">
-                  <VehicleCard vehicle={vehicle} />
+                  <ProductCard
+                    id={vehicle.id}
+                    slug={vehicle.slug}
+                    name={vehicle.name}
+                    model={vehicle.model || ''}
+                    price={vehicle.price}
+                    kilometers={vehicle.kilometers}
+                    fuelType={vehicle.fuelType}
+                    transmission={vehicle.transmission}
+                    images={vehicle.images}
+                    isForRent={vehicle.isForRent}
+                  />
                 </CarouselItem>
               ))}
             </CarouselContent>
@@ -80,12 +76,23 @@ export default function FeaturedVehiclesCarousel({ vehicles }: FeaturedVehiclesC
               loop: true,
               slidesToScroll: 2
             }}
-            className="w-full"
+            className="w-full max-w-7xl mx-auto"
           >
-            <CarouselContent>
+            <CarouselContent className="-ml-1">
               {vehicles.map((vehicle) => (
-                <CarouselItem key={`md-${vehicle.id}`} className="basis-1/2 pl-4">
-                  <VehicleCard vehicle={vehicle} />
+                <CarouselItem key={vehicle.id} className="pl-1 md:basis-1/2 lg:basis-1/3">
+                  <ProductCard
+                    id={vehicle.id}
+                    slug={vehicle.slug}
+                    name={vehicle.name}
+                    model={vehicle.model || ''}
+                    price={vehicle.price}
+                    kilometers={vehicle.kilometers}
+                    fuelType={vehicle.fuelType}
+                    transmission={vehicle.transmission}
+                    images={vehicle.images}
+                    isForRent={vehicle.isForRent}
+                  />
                 </CarouselItem>
               ))}
             </CarouselContent>
@@ -109,7 +116,18 @@ export default function FeaturedVehiclesCarousel({ vehicles }: FeaturedVehiclesC
             <CarouselContent>
               {vehicles.map((vehicle) => (
                 <CarouselItem key={`sm-${vehicle.id}`} className="basis-full pl-4">
-                  <VehicleCard vehicle={vehicle} />
+                  <ProductCard
+                    id={vehicle.id}
+                    slug={vehicle.slug}
+                    name={vehicle.name}
+                    model={vehicle.model || ''}
+                    price={vehicle.price}
+                    kilometers={vehicle.kilometers}
+                    fuelType={vehicle.fuelType}
+                    transmission={vehicle.transmission}
+                    images={vehicle.images}
+                    isForRent={vehicle.isForRent}
+                  />
                 </CarouselItem>
               ))}
             </CarouselContent>
@@ -132,84 +150,4 @@ export default function FeaturedVehiclesCarousel({ vehicles }: FeaturedVehiclesC
   );
 }
 
-// Vehicle Card Component
-function VehicleCard({ vehicle }: { vehicle: Vehicle }) {
-  return (
-    <div className="bg-white rounded-lg overflow-hidden shadow-md h-full">
-      {/* Image Container */}
-      <div className="relative h-48 md:h-56">
-        {vehicle.images.length > 0 ? (
-          <Image
-            src={vehicle.images[0]}
-            alt={vehicle.name}
-            fill
-            className="object-cover"
-          />
-        ) : (
-          <div className="absolute inset-0 bg-gray-200 flex items-center justify-center">
-            <span className="text-gray-500">No image</span>
-          </div>
-        )}
-        
-        {/* Bookmark Button */}
-        <button 
-          className="absolute top-2 right-2 bg-white p-1.5 rounded-md shadow-sm"
-          aria-label="Save to favorites"
-        >
-          <Bookmark className="h-5 w-5 text-gray-500" />
-        </button>
-        
-        {/* Great Price Tag */}
-        {vehicle.isGreatPrice && (
-          <div className="absolute top-2 left-2 bg-green-600 text-white text-xs font-bold px-3 py-1 rounded-full">
-            Great Price
-          </div>
-        )}
-      </div>
-      
-      {/* Content */}
-      <div className="p-4">
-        <h3 className="font-semibold text-lg">{vehicle.name}</h3>
-        <p className=" text-sm mb-2 truncate">
-          {vehicle.model} • {vehicle.fuelType} • {vehicle.transmission || 'Automatic'}
-        </p>
-        
-        {/* Specs */}
-        <div className="grid grid-cols-3 gap-2 mb-3">
-          <div className="flex flex-col items-center">
-            <div className='py-2'>
-              <Timer size={20} />
-            </div>
-            <span className="text-xs">{vehicle.mileage || 0} Miles</span>
-          </div>
-          
-          <div className="flex flex-col items-center"> 
-            <div className='py-2'>
-              <Fuel size={20}/>
-            </div>
-            <span className="text-xs">{vehicle.fuelType || 'Petrol'}</span>
-          </div>
-          
-          <div className="flex flex-col items-center">
-            <div className='py-2'>
-              <Settings2 size={20}/>
-            </div>
-            <span className="text-xs">{vehicle.transmission || 'Automatic'}</span>
-          </div>
-        </div>
-        
-        {/* Price and Details Link */}
-        <div className="flex justify-between items-center mt-3">
-          <span className="text-lg font-semibold">₹{vehicle.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span>
-          <Link 
-            href={`/collection/${vehicle.slug}`}
-            className="text-blue-600 flex items-center text-sm"
-          >
-            View Details
-            <ArrowRight className="ml-1 h-3 w-3" />
-          </Link>
-        </div>
-      </div>
-    </div>
-  );
-}
+

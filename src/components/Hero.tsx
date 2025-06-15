@@ -1,81 +1,85 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
-import { Search } from 'lucide-react';
 
 export default function Hero() {
-
   return (
-    <div className="relative h-screen bg-cover bg-center" style={{ 
-      backgroundImage: "url('/herobg.jpg')",
-      minHeight: '600px',
-      filter: 'brightness(0.85)'
-    }}>
+    <div className="relative h-[120vh] min-h-[600px] overflow-hidden">
+      <div 
+        className="absolute top-0 left-0 w-full h-full bg-cover bg-center"
+        style={{ backgroundImage: 'url(/bg.avif)' }}
+      />
       
       {/* Content */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center px-4 text-center">
-        <div className="max-w-4xl mx-auto">
-          <p className="text-white mb-4">Find cars for sale and for rent near you</p>
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-8">Find Your Perfect Car</h1>
+      <div className="absolute inset-0 flex flex-col items-center justify-center px-4 pt-24 md:pt-32 text-center bg-black/30">
+        <div className="max-w-4xl mx-auto px-4">
+          <p className="text-white/90 text-lg md:text-xl mb-6">Experience the Pinnacle of Automotive Excellence</p>
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-semibold text-white mb-8 leading-tight">
+            Find Your Perfect Car
+          </h1>
           
-          {/* Search Form */}
-          <div className="bg-white rounded-lg overflow-hidden shadow-lg">
-            <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x">
-              <div className="p-4">
-                <select className="w-full p-2 border-0 focus:ring-0 text-gray-700">
-                  <option value="">Any Makes</option>
-                  <option value="toyota">Toyota</option>
-                  <option value="honda">Honda</option>
-                  <option value="bmw">BMW</option>
-                  <option value="mercedes">Mercedes</option>
-                  <option value="audi">Audi</option>
-                </select>
-              </div>
-              <div className="p-4">
-                <select className="w-full p-2 border-0 focus:ring-0 text-gray-700">
-                  <option value="">Any Models</option>
-                  <option value="sedan">Sedan</option>
-                  <option value="suv">SUV</option>
-                  <option value="hatchback">Hatchback</option>
-                  <option value="coupe">Coupe</option>
-                </select>
-              </div>
-              <div className="p-4 flex items-center justify-between">
-                <div className="text-gray-700">Prices: All Prices</div>
-                <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md flex items-center">
-                  <Search className="h-5 w-5 mr-2" />
-                  Search Cars
-                </button>
-              </div>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full max-w-md mx-auto mb-8">
+            <Link 
+              href="/collection" 
+              className="w-full sm:w-auto text-center bg-white text-gray-900 hover:bg-gray-100 px-8 py-4 text-lg font-medium rounded-full transition-colors duration-300"
+            >
+              Explore Collection
+            </Link>
+            <Link 
+              href="/contact" 
+              className="w-full sm:w-auto text-center text-white border-2 border-white hover:bg-white/10 px-8 py-4 text-lg font-medium rounded-full transition-colors duration-300"
+            >
+              Sell Your Car
+            </Link>
+          </div>
+
+          {/* Vehicle Categories */}
+          <div className="mt-8 text-center">
+            <p className="text-white/80 mb-4">Browse by Category</p>
+            <div className="flex flex-wrap justify-center gap-4 max-w-2xl mx-auto">
+              {[
+                { 
+                  name: 'Sedan', 
+                  href: '/collection?vehicleType=Sedan',
+                  icon: (
+                    <svg width="24" height="24" viewBox="0 0 35 34" fill="currentColor">
+                      <path d="M29.6539 12.9591H26.9432C26.0374 11.6291 24.8322 10.5173 23.4281 9.72437C21.8558 8.83644 20.0704 8.36719 18.265 8.36719H17.5C16.9451 8.36719 16.4953 8.81699 16.4953 9.37184V12.9591H5.3461C2.89815 12.9591 0.869644 14.784 0.546173 17.1445C0.542542 17.1673 0.539429 17.1901 0.537354 17.2135C0.513748 17.4078 0.5 17.6049 0.5 17.8054V21.6469C0.5 22.2017 0.949799 22.6515 1.50465 22.6515H5.01978C5.46672 24.3781 7.0379 25.6567 8.90221 25.6567C10.7665 25.6567 12.3377 24.3781 12.7846 22.6515H22.2154C22.6626 24.3781 24.2335 25.6567 26.0978 25.6567C27.9621 25.6567 29.533 24.3781 29.9802 22.6515H33.4953C34.0502 22.6515 34.5 22.2017 34.5 21.6469V17.8054C34.5 15.1331 32.326 12.9591 29.6539 12.9591ZM18.5047 10.3801C20.7251 10.4437 22.8312 11.3907 24.3588 12.9591H18.5047V10.3801ZM2.50931 18.304H4.06104C4.61589 18.304 5.06569 17.8542 5.06569 17.2993C5.06569 16.7445 4.61589 16.2947 4.06104 16.2947H2.94691C3.44989 15.4986 4.33704 14.9686 5.3461 14.9686H16.4953V20.6422H12.7846C12.3374 18.9157 10.7665 17.6368 8.90221 17.6368C7.0379 17.6368 5.46698 18.9157 5.01978 20.6422H2.50931V18.304ZM10.9027 21.6469C10.9027 22.7501 10.0054 23.6474 8.90221 23.6474C7.79898 23.6474 6.90172 22.7501 6.90172 21.6469C6.90172 20.5437 7.79898 19.6464 8.90221 19.6464C10.0054 19.6464 10.9027 20.5437 10.9027 21.6469ZM28.0983 21.6469C28.0983 22.7501 27.201 23.6474 26.0978 23.6474C24.9946 23.6474 24.0973 22.7501 24.0973 21.6469C24.0973 20.5437 24.9946 19.6464 26.0978 19.6464C27.201 19.6464 28.0983 20.5437 28.0983 21.6469ZM29.9802 20.6422C29.5333 18.9157 27.9621 17.6368 26.0978 17.6368C24.2335 17.6368 22.6623 18.9157 22.2154 20.6422H18.5047V14.9686H29.6539C30.6451 14.9686 31.519 15.4802 32.0264 16.2527H30.4715C29.9167 16.2527 29.4669 16.7025 29.4669 17.2573C29.4669 17.8122 29.9167 18.2622 30.4715 18.2622H32.4907V20.6422H29.9802Z"/>
+                    </svg>
+                  )
+                },
+                { 
+                  name: 'SUV', 
+                  href: '/collection?vehicleType=SUV',
+                  icon: (
+                    <svg width="24" height="24" viewBox="0 0 34 34" fill="currentColor">
+                      <path d="M32.8913 21.4348H31.7826V15.8914C31.7826 14.0573 30.2905 12.5653 28.4565 12.5653H24.8209L23.3616 8.1873C22.908 6.82704 21.6399 5.91309 20.2061 5.91309C20.0334 5.91309 8.04731 5.91309 7.76083 5.91309C6.31543 5.91309 5.08313 6.84005 4.62546 8.13046H3.32609C1.49208 8.13046 0 9.62254 0 11.4565V15.8914C0 17.7254 1.49208 19.2174 3.32609 19.2174H4.43481V21.4348H3.32609C2.71382 21.4348 2.21737 21.9312 2.21737 22.5435C2.21737 23.1559 2.71376 23.6523 3.32609 23.6523C4.36442 23.6523 5.6104 23.6523 6.65218 23.6523C6.65218 26.0976 8.64164 28.0871 11.087 28.0871C13.5323 28.0871 15.5218 26.0976 15.5218 23.6523H20.6957C20.6957 26.0976 22.6852 28.0871 25.1305 28.0871C27.5759 28.0871 29.5653 26.0976 29.5653 23.6523C30.6074 23.6523 31.8538 23.6523 32.8914 23.6523C33.5037 23.6523 34.0001 23.1559 34.0001 22.5435C34.0001 21.9312 33.5036 21.4348 32.8913 21.4348ZM4.43481 17H3.32609C2.71475 17 2.21737 16.5026 2.21737 15.8913V11.4565C2.21737 10.8451 2.71475 10.3478 3.32609 10.3478H4.43481C4.43481 11.0542 4.43481 16.315 4.43481 17ZM15.5217 8.13046H17.3696H20.2061C20.6841 8.13046 21.1068 8.43513 21.2579 8.88848L22.4834 12.5652H15.5217V8.13046ZM6.65218 9.23911C6.65218 8.62777 7.14956 8.13039 7.7609 8.13039H13.3044V12.5652H6.65218V9.23911ZM11.087 25.8696C9.86432 25.8696 8.86962 24.8749 8.86962 23.6522C8.86962 22.4295 9.86432 21.4348 11.087 21.4348C12.3097 21.4348 13.3044 22.4295 13.3044 23.6522C13.3044 24.8749 12.3097 25.8696 11.087 25.8696ZM25.1304 25.8696C23.9078 25.8696 22.9131 24.8749 22.9131 23.6522C22.9131 22.4295 23.9078 21.4348 25.1304 21.4348C26.3531 21.4348 27.3478 22.4295 27.3478 23.6522C27.3478 24.8749 26.3531 25.8696 25.1304 25.8696ZM29.5652 21.4348H28.9686C28.2005 20.1106 26.7683 19.2174 25.1304 19.2174C23.4926 19.2174 22.0604 20.1106 21.2923 21.4348H14.9251C14.1571 20.1106 12.7248 19.2174 11.087 19.2174C9.44914 19.2174 8.01689 20.1106 7.24884 21.4348H6.65225V18.1087V14.7826C8.46022 14.7826 27.2694 14.7826 28.4566 14.7826C29.0679 14.7826 29.5653 15.28 29.5653 15.8914V21.4348H29.5652Z"/>
+                      <path d="M18.8481 17H16.6307C16.0184 17 15.522 17.4964 15.522 18.1087C15.522 18.721 16.0184 19.2174 16.6307 19.2174H18.8481C19.4603 19.2174 19.9568 18.7211 19.9568 18.1087C19.9568 17.4964 19.4604 17 18.8481 17Z"/>
+                    </svg>
+                  )
+                },
+                { 
+                  name: 'Coupe', 
+                  href: '/collection?vehicleType=Coupe',
+                  icon: (
+                    <svg width="24" height="24" viewBox="0 0 35 34" fill="currentColor">
+                      <path d="M31.259 15.5873L25.3898 14.6086C25.0466 14.0512 24.3644 13.0429 23.3725 12.0327C21.3927 10.0164 19.1133 8.95068 16.7806 8.95068H7.2225C5.66993 8.95068 4.23044 9.79012 3.46577 11.1414L0.831898 15.7962C0.827648 15.8037 0.824461 15.8115 0.82041 15.8191C0.616676 16.1837 0.5 16.6033 0.5 17.0499V21.9548C0.5 22.5049 0.945984 22.9508 1.49609 22.9508H4.68632C5.15455 24.176 6.348 25.0494 7.74339 25.0494C9.13879 25.0494 10.3322 24.176 10.8005 22.9508H23.172C23.6402 24.176 24.8336 25.0494 26.229 25.0494C27.6244 25.0494 28.8178 24.176 29.286 22.9508H33.5039C34.054 22.9508 34.5 22.5049 34.5 21.9548V19.3178C34.5 17.4492 33.1077 15.8482 31.259 15.5873ZM22.8976 14.5182H15.722V10.9429H16.7806C19.604 10.9429 21.7363 13.0302 22.8976 14.5182ZM9.07371 10.9429H13.7299V14.5182H9.07371V10.9429ZM5.19964 12.1225C5.58811 11.436 6.30012 10.9953 7.08152 10.9477V14.5182H3.84402L5.19964 12.1225ZM7.74339 23.0572C7.03929 23.0572 6.46647 22.494 6.46647 21.8016C6.46647 21.1093 7.03929 20.546 7.74339 20.546C8.4475 20.546 9.02032 21.1093 9.02032 21.8016C9.02032 22.494 8.4475 23.0572 7.74339 23.0572ZM26.229 23.0572C25.5248 23.0572 24.952 22.494 24.952 21.8016C24.952 21.1093 25.5249 20.546 26.229 20.546C26.9331 20.546 27.5059 21.1093 27.5059 21.8016C27.5059 22.494 26.9331 23.0572 26.229 23.0572ZM29.3857 20.9586C29.0111 19.5753 27.7381 18.5538 26.229 18.5538C24.7198 18.5538 23.4469 19.5753 23.0721 20.9586H10.9001C10.5255 19.5753 9.25254 18.5538 7.74339 18.5538C6.23425 18.5538 4.9613 19.5753 4.58657 20.9586H2.49219V17.0499C2.49219 16.7524 2.73417 16.5104 3.03167 16.5104H24.683L30.9445 17.5546C30.9541 17.5562 30.9637 17.5577 30.9734 17.559C31.1428 17.5822 31.304 17.6295 31.4541 17.6967C31.0374 17.8159 30.732 18.1988 30.732 18.6538C30.732 19.2039 31.178 19.6499 31.7281 19.6499H32.5078V20.9587H29.3857V20.9586Z"/>
+                    </svg>
+                  )
+                },
+              ].map((category) => (
+                <Link
+                  key={category.name}
+                  href={`/collection?vehicleType=${category.name.toLowerCase()}`}
+                  className="flex items-center justify-center w-40 h-16 p-4 m-2 space-x-3 text-white/90 transition-all duration-300 bg-white/10 backdrop-blur-sm rounded-lg border border-white/20 hover:bg-white/20 hover:scale-105"
+                >
+                  <div className="w-6 h-6">
+                    {category.icon}
+                  </div>
+                  <span className="font-medium">{category.name}</span>
+                </Link>
+              ))}
             </div>
           </div>
-          
-          {/* Car Types */}
-          <div className="mt-8 flex flex-wrap justify-center gap-4">
-            <Link href="/cars?type=suv" className="bg-white bg-opacity-10 hover:bg-opacity-20 text-white px-4 py-2 rounded-full flex items-center">
-              <span className="mr-2">🚙</span>
-              SUV
-            </Link>
-            <Link href="/cars?type=sedan" className="bg-white bg-opacity-10 hover:bg-opacity-20 text-white px-4 py-2 rounded-full flex items-center">
-              <span className="mr-2">🚗</span>
-              Sedan
-            </Link>
-            <Link href="/cars?type=hatchback" className="bg-white bg-opacity-10 hover:bg-opacity-20 text-white px-4 py-2 rounded-full flex items-center">
-              <span className="mr-2">🚗</span>
-              Hatchback
-            </Link>
-            <Link href="/cars?type=coupe" className="bg-white bg-opacity-10 hover:bg-opacity-20 text-white px-4 py-2 rounded-full flex items-center">
-              <span className="mr-2">🚗</span>
-              Coupe
-            </Link>
-            <Link href="/cars?type=hybrid" className="bg-white bg-opacity-10 hover:bg-opacity-20 text-white px-4 py-2 rounded-full flex items-center">
-              <span className="mr-2">🔋</span>
-              Hybrid
-            </Link>
-          </div>
-          
-          <p className="text-white text-sm mt-4">Or Browse Featured Model</p>
         </div>
       </div>
     </div>

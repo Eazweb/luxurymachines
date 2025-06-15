@@ -17,8 +17,7 @@ type VehicleInput = {
   vehicleType: string;
   ownership: string;
   description?: string;
-  features?: string[];
-  torque?: string;
+  features: string[];
   power?: string;
   door?: number;
   drive?: string;
@@ -27,11 +26,10 @@ type VehicleInput = {
   seatingCapacity?: number;
   entertainment?: string;
   airbags?: number;
-  groundClearance?: string;
   featured: boolean;
 };
 
-// Helper function to generate slug from name and model
+// Helper function to generate slug from name, model and year
 function generateSlug(name: string, model: string, year: number): string {
   // Combine name, model and year, then make it URL-friendly
   const baseSlug = `${name}-${model}-${year}`
@@ -45,18 +43,25 @@ function generateSlug(name: string, model: string, year: number): string {
 
 // Helper function to ensure slug uniqueness
 async function ensureUniqueSlug(baseSlug: string): Promise<string> {
-  // Check if slug already exists
-  const existingVehicle = await prisma.vehicle.findUnique({
-    where: { slug: baseSlug },
-  });
+  let slug = baseSlug;
+  let counter = 1;
   
-  if (!existingVehicle) {
-    return baseSlug; // Slug is unique, return it
+  // Keep trying with incrementing numbers until we find a unique slug
+  while (true) {
+    // Check if slug already exists
+    const existingVehicle = await prisma.vehicle.findUnique({
+      where: { slug },
+      select: { id: true },
+    });
+    
+    if (!existingVehicle) {
+      return slug; // Slug is unique, return it
+    }
+    
+    // Slug exists, append incrementing number
+    slug = `${baseSlug}_${counter}`;
+    counter++;
   }
-  
-  // Slug exists, append a random string
-  const randomSuffix = Math.floor(Math.random() * 1000).toString();
-  return `${baseSlug}-${randomSuffix}`;
 }
 
 // Create a new vehicle
@@ -222,5 +227,24 @@ export async function getVehicleById(id: string) {
   } catch (error) {
     console.error('Error fetching vehicle by ID:', error);
     return { success: false, error: 'Failed to fetch vehicle' };
+  }
+}
+
+export async function getRecommendedVehicles(currentVehicleId: string, limit = 6) {
+  try {
+    const vehicles = await prisma.vehicle.findMany({
+      where: {
+        id: { not: currentVehicleId },
+      },
+      take: limit,
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+
+    return { success: true, data: vehicles };
+  } catch (error) {
+    console.error('Error fetching recommended vehicles:', error);
+    return { success: false, error: 'Failed to fetch recommended vehicles' };
   }
 }

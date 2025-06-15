@@ -11,7 +11,7 @@ export default function PageWrapper({ children }: { children: React.ReactNode })
   const shouldAddPadding = !isHomePage && !isAdminRoute;
   
   return (
-    <div className={shouldAddPadding ? 'pt-16' : ''}>
+    <div>
       {children}
     </div>
   );

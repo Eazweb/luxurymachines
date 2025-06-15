@@ -51,6 +51,11 @@ enum DriveType {
   FourWD @map("4WD")
 }
 
+enum TransmissionType {
+  Manual
+  Automatic
+}
+
 enum CompanyType {
   Maruti    @map("Maruti Suzuki")
   Hyundai
@@ -94,16 +99,16 @@ model Vehicle {
   registeredState    String
   vehicleType        String        // Using String for backward compatibility, but values should match VehicleType enum
   ownership          String        // Using String for backward compatibility, but values should match OwnershipType enum
-  torque             String?
   power              String?
   door               Int?
   drive              String?       // Using String for backward compatibility, but values should match DriveType enum
+  transmission       String        @default("Manual") // Using String for backward compatibility, but values should match TransmissionType enum
   exteriorColor      String?
   manufacturingYear  Int?
   seatingCapacity    Int?
   entertainment      String?       // front screen description
   airbags            Int?
-  groundClearance    String?
+  features           String[]      // Array of vehicle features
   images             String[]      // Array of Cloudinary URLs
   featured           Boolean       @default(false)
   isForRent          Boolean       @default(false)

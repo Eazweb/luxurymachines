@@ -41,7 +41,7 @@ const features: Feature[] = [
 export default function WhyChooseUs() {
   return (
     <section className="py-16">
-      <div className="container mx-auto px-4">
+      <div className="container w-[90%] max-w-[1500px] mx-auto">
         <h2 className="text-3xl font-bold mb-12">Why Choose Us?</h2>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">

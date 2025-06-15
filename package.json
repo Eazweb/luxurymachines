@@ -20,6 +20,7 @@
     "class-variance-authority": "^0.7.1",
     "cloudinary": "^2.6.1",
     "clsx": "^2.1.1",
+    "dotenv": "^16.5.0",
     "embla-carousel-react": "^8.6.0",
     "lucide-react": "^0.511.0",
     "mongodb": "^6.16.0",
@@ -27,6 +28,8 @@
     "next-cloudinary": "^6.16.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-scroll": "^1.9.3",
+    "sonner": "^2.0.5",
     "tailwind-merge": "^3.3.0"
   },
   "devDependencies": {
@@ -35,6 +38,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/react-scroll": "^1.8.10",
     "eslint": "^9",
     "eslint-config-next": "15.3.2",
     "prisma": "^6.8.2",

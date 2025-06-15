@@ -6,6 +6,8 @@ import BrandsSection from "@/components/BrandsSection";
 import FeaturedVehiclesCarousel from "@/components/FeaturedVehiclesCarousel";
 import SellYourCar from "@/components/SellYourCar";
 import WhyChooseUs from "@/components/WhyChooseUs";
+import DualCTA from "@/components/DualCTA";
+import InstagramCarousel from "@/components/InstagramCarousel";
 
 export default async function Home() {
   // Get featured vehicles
@@ -13,13 +15,13 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
-      <Hero />
+      <div className="relative">
+        <Hero />
+        <div className="w-full hidden md:block bg-[#fafbfd] mt-[-5rem] pt-8 h-24 relative z-10 md:rounded-t-[5rem] "></div>
+      </div>
 
-      {/* Brands Section with rounded top */}
       <BrandsSection />
 
-      {/* Featured Vehicles Section */}
       {featuredVehicles.length > 0 ? (
         <FeaturedVehiclesCarousel 
           vehicles={featuredVehicles.map((vehicle: any) => ({
@@ -35,11 +37,13 @@ export default async function Home() {
         </section>
       )}
 
-      {/* Sell Your Car Section */}
-      <SellYourCar />
+      {/* <SellYourCar /> */}
 
-      {/* Why Choose Us Section */}
-      <WhyChooseUs />
+      {/* <WhyChooseUs /> */}
+
+      <DualCTA />
+      
+      <InstagramCarousel />
 
       {/* Call to Action */}
       <section className="bg-slate-900 text-white py-16">

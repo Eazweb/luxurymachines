@@ -24,53 +24,53 @@ const brands: Brand[] = [
   {
     id: '1',
     name: 'Audi',
-    logo: '/images/brands/audi.svg',
+    logo: '/images/brands/audi.png',
     slug: 'audi'
   },
   {
     id: '2',
     name: 'BMW',
-    logo: '/images/brands/bmw.svg',
+    logo: '/images/brands/bmw.png',
     slug: 'bmw'
   },
   {
     id: '3',
     name: 'Ford',
-    logo: '/images/brands/ford.svg',
+    logo: '/images/brands/ford.png',
     slug: 'ford'
   },
   {
     id: '4',
     name: 'Mercedes Benz',
-    logo: '/images/brands/mercedes.svg',
+    logo: '/images/brands/mercedes.png',
     slug: 'mercedes-benz'
   },
   {
     id: '5',
     name: 'Toyota',
-    logo: '/images/brands/toyota.svg',
+    logo: '/images/brands/toyota.png',
     slug: 'toyota'
   },
   {
     id: '6',
     name: 'Volkswagen',
-    logo: '/images/brands/volkswagen.svg',
+    logo: '/images/brands/volkswagen.png',
     slug: 'volkswagen'
   }
 ];
 
 export default function BrandsSection() {
   return (
-    <section className="relative mt-[-4rem] z-10 ">
-      <div className="bg-white md:rounded-t-[5rem] pt-12 md:pt-24 px-6">
-        <div className="container mx-auto">
+    <section className="relative pt-8 md:pt-0 ">
+      <div className="bg-[#fafbfd] pb-8 md:pb-12 lg:pb-16">
+        <div className="container w-[90%] max-w-[1500px] mx-auto">
           <div className="flex justify-between items-center mb-8 pt-4">
-            <h2 className="text-2xl md:text-3xl xl:text-4xl font-semibold">Explore Our Premium Brands</h2>
+            <h2 className="text-2xl md:text-3xl xl:text-[2.5rem] font-semibold">Explore Our Premium Brands</h2>
             <Link 
-              href="/brands" 
+              href="/collection" 
               className="hidden md:flex items-center text-sm font-medium text-gray-600 hover:text-blue-600"
             >
-              Show All Brands
+              View All Vehicles
               <ArrowRight className="ml-1 h-4 w-4" />
             </Link>
           </div>
@@ -80,18 +80,19 @@ export default function BrandsSection() {
             {brands.map((brand) => (
               <Link 
                 key={`grid-${brand.id}`}
-                href={`/brands/${brand.slug}`} 
-                className="flex flex-col items-center justify-center p-4 bg-white rounded-xl border-transparent hover:border hover:border-gray-200 transition-all"
+                href={`/collection?company=${encodeURIComponent(brand.name)}`} 
+                className="flex relative flex-col items-center aspect-[5/4] justify-center p-5 bg-white rounded-xl border-[1px] border-grey-300 hover:border-gray-700 hover:duration-300 transition-all"
               >
-                <div className="relative w-20 h-20 mb-3">
+                <div className="relative w-20 h-20 my-3">
                   <Image
                     src={brand.logo}
                     alt={brand.name}
-                    fill
-                    className="object-contain"
+                    width={100}
+                    height={100}
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
                   />
                 </div>
-                <span className="text-sm font-medium text-center">{brand.name}</span>
+                <span className="text-lg  text-center">{brand.name}</span>
               </Link>
             ))}
           </div>
@@ -110,11 +111,11 @@ export default function BrandsSection() {
                 {brands.map((brand) => (
                   <CarouselItem 
                     key={`carousel-${brand.id}`} 
-                    className="sm:basis-1/2 md:basis-1/4 lg:basis-1/4"
+                    className="basis-1/2 sm:basis-1/2 md:basis-1/4 lg:basis-1/4"
                   >
                     <Link 
-                      href={`/brands/${brand.slug}`} 
-                      className="flex flex-col items-center justify-center p-4 bg-white rounded-xl border-transparent hover:border hover:border-gray-200 transition-all h-full"
+                      href={`/collection?company=${encodeURIComponent(brand.name)}`}
+                      className="flex flex-col items-center aspect-[5/4] justify-center p-4 bg-white rounded-xl border-[1px] border-grey-300 hover:border-gray-700 transition-all h-full"
                     >
                       <div className="relative w-16 h-16 sm:w-20 sm:h-20 mb-3">
                         <Image
@@ -137,10 +138,10 @@ export default function BrandsSection() {
           </div>
           
           <Link 
-            href="/brands" 
+            href="/collection" 
             className="mt-8 flex md:hidden items-center justify-center text-sm font-medium text-gray-600 hover:text-blue-600"
           >
-            Show All Brands
+            View All Vehicles
             <ArrowRight className="ml-1 h-4 w-4" />
           </Link>
         </div>
