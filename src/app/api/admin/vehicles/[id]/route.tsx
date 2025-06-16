@@ -1,34 +1,40 @@
-import { NextRequest, NextResponse } from 'next/server';
-import prisma from '@/lib/prisma-client';
+import { NextRequest, NextResponse } from 'next/server'; // Use NextRequest
+import { getPrismaClient } from '@/lib/db';
 import { ObjectId } from 'mongodb';
 
+// Define an interface for the context
+interface RouteHandlerContext {
+  params: {
+    id: string;
+  };
+}
+
 export async function GET(
-  request: NextRequest,
-  { params }: { params: { id: string } }
+  _request: NextRequest, // It's good practice to use NextRequest
+  context: RouteHandlerContext
 ) {
+  const { id } = context.params; // Destructure here
+
+  const prisma = getPrismaClient();
   try {
-    const { id } = params;
-    
-    // Validate if the ID is a valid MongoDB ObjectId
     if (!ObjectId.isValid(id)) {
       return NextResponse.json(
         { error: 'Invalid vehicle ID format' },
         { status: 400 }
       );
     }
-    
+    // ... rest of your GET logic
     const vehicle = await prisma.vehicle.findUnique({
       where: { id },
     });
-    
+    // ...
     if (!vehicle) {
-      return NextResponse.json(
-        { error: 'Vehicle not found' },
-        { status: 404 }
-      );
-    }
-    
-    return NextResponse.json(vehicle);
+     return NextResponse.json(
+       { error: 'Vehicle not found' },
+       { status: 404 }
+     );
+   }
+   return NextResponse.json(vehicle);
   } catch (error) {
     console.error('Error fetching vehicle:', error);
     return NextResponse.json(
@@ -39,12 +45,12 @@ export async function GET(
 }
 
 export async function PUT(
-  request: NextRequest,
-  { params }: { params: { id: string } }
+  request: NextRequest, // Use NextRequest
+  context: RouteHandlerContext
 ) {
+  const { id } = context.params; // Destructure here
+  const prisma = getPrismaClient();
   try {
-    const { id } = params;
-    
     // Validate if the ID is a valid MongoDB ObjectId
     if (!ObjectId.isValid(id)) {
       return NextResponse.json(
@@ -52,23 +58,19 @@ export async function PUT(
         { status: 400 }
       );
     }
-    
+    // ... rest of your PUT logic
     const vehicleData = await request.json();
-    
-    // Remove any attempt to update the ID
     delete vehicleData.id;
     delete vehicleData._id;
-    
     const updatedVehicle = await prisma.vehicle.update({
       where: { id },
       data: vehicleData,
     });
-    
     return NextResponse.json(updatedVehicle);
   } catch (error) {
     console.error('Error updating vehicle:', error);
     return NextResponse.json(
-      { 
+      {
         error: 'Failed to update vehicle',
         details: error instanceof Error ? error.message : 'Unknown error'
       },
@@ -78,12 +80,12 @@ export async function PUT(
 }
 
 export async function DELETE(
-  request: NextRequest,
-  { params }: { params: { id: string } }
+  _request: NextRequest, // Use NextRequest
+  context: RouteHandlerContext
 ) {
+  const { id } = context.params; // Destructure here
+  const prisma = getPrismaClient();
   try {
-    const { id } = params;
-    
     // Validate if the ID is a valid MongoDB ObjectId
     if (!ObjectId.isValid(id)) {
       return NextResponse.json(
@@ -91,25 +93,21 @@ export async function DELETE(
         { status: 400 }
       );
     }
-    
+    // ... rest of your DELETE logic
     await prisma.vehicle.delete({
       where: { id },
     });
-    
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Error deleting vehicle:', error);
-    
-    // Handle case where vehicle doesn't exist
     if (error instanceof Error && error.message.includes('Record to delete does not exist')) {
       return NextResponse.json(
         { error: 'Vehicle not found' },
         { status: 404 }
       );
     }
-    
     return NextResponse.json(
-      { 
+      {
         error: 'Failed to delete vehicle',
         details: error instanceof Error ? error.message : 'Unknown error'
       },

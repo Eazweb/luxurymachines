@@ -1,9 +1,15 @@
-import { NextRequest, NextResponse } from 'next/server';
-import prisma from '@/lib/prisma';
+import { NextResponse } from 'next/server';
+import { getPrismaClient } from '@/lib/db';
 
-export async function GET(request: NextRequest) {
+// This route is marked as dynamic to prevent static generation
+export const dynamic = 'force-dynamic';
+
+export async function GET(request: Request) {
   try {
-    const searchParams = request.nextUrl.searchParams;
+    // Initialize Prisma client inside the request handler
+    const prisma = getPrismaClient();
+    
+    const { searchParams } = new URL(request.url);
     
     // Extract filter parameters
     const company = searchParams.get('company');

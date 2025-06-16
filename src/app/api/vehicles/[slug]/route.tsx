@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
-import prisma from '@/lib/prisma';
+import { getPrismaClient } from '@/lib/db';
 
 export async function GET(
   request: NextRequest,
   context: { params: { slug: string } }
 ) {
+  // Initialize Prisma client inside the request handler
+  const prisma = getPrismaClient();
   try {
     // Get the slug from the context params
     const { slug } = await context.params;

@@ -1,4 +1,7 @@
-import prisma from '@/lib/prisma';
+import { getPrismaClient } from '@/lib/db';
+
+// Initialize Prisma client
+const prisma = getPrismaClient();
 import { formatPrice } from '@/utils/formatPrice';
 import Link from 'next/link';
 
@@ -91,7 +94,7 @@ export default async function AdminDashboard() {
         </div>
         <div className="divide-y">
           {recentVehicles.length > 0 ? (
-            recentVehicles.map((vehicle) => (
+            recentVehicles.map((vehicle: { id: string; name: string; model: string; price: number; createdAt: Date }) => (
               <div key={vehicle.id} className="p-6 flex justify-between items-center">
                 <div>
                   <p className="font-medium">{vehicle.name}</p>
@@ -100,7 +103,7 @@ export default async function AdminDashboard() {
                 <div>
                   <p className="font-medium text-[#059669]">{formatPrice(vehicle.price)}</p>
                   <p className="text-xs text-[#6b7280]">
-                    Added {new Date(vehicle.createdAt).toLocaleDateString()}
+                    Added {vehicle.createdAt instanceof Date ? vehicle.createdAt.toLocaleDateString() : new Date(vehicle.createdAt).toLocaleDateString()}
                   </p>
                 </div>
                 <div>
@@ -124,7 +127,7 @@ export default async function AdminDashboard() {
         <div className="bg-[#ffffff] rounded-lg shadow p-6">
           <h3 className="text-lg font-medium text-[#171717] mb-4">Fuel Type Distribution</h3>
           <div className="space-y-2">
-            {fuelTypes.map((type) => (
+            {fuelTypes.map((type: { fuelType: string; _count: number }) => (
               <div key={type.fuelType} className="flex items-center">
                 <span className="w-1/3 text-sm">{type.fuelType}</span>
                 <div className="w-2/3 h-4 bg-[#e5e7eb] rounded-full overflow-hidden">
@@ -141,7 +144,7 @@ export default async function AdminDashboard() {
         <div className="bg-[#ffffff] rounded-lg shadow p-6">
           <h3 className="text-lg font-medium text-[#171717] mb-4">Vehicle Type Distribution</h3>
           <div className="space-y-2">
-            {vehicleTypes.map((type) => (
+            {vehicleTypes.map((type: { vehicleType: string; _count: number }) => (
               <div key={type.vehicleType} className="flex items-center">
                 <span className="w-1/3 text-sm">{type.vehicleType}</span>
                 <div className="w-2/3 h-4 bg-[#e5e7eb] rounded-full overflow-hidden">

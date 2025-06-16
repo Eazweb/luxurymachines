@@ -1,7 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
-import prisma from '@/lib/prisma';
+import { getPrismaClient } from '@/lib/db';
+
+// This route is marked as dynamic to prevent static generation
+export const dynamic = 'force-dynamic';
 
 export async function GET(request: NextRequest) {
+  // Initialize Prisma client inside the request handler
+  const prisma = getPrismaClient();
   try {
     const searchParams = request.nextUrl.searchParams;
     

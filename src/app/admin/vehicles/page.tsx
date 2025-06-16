@@ -1,4 +1,7 @@
-import prisma from '@/lib/prisma';
+import { getPrismaClient } from '@/lib/db';
+
+// Initialize Prisma client
+const prisma = getPrismaClient();
 import Link from 'next/link';
 import { formatPrice } from '@/utils/formatPrice';
 import { Pencil, Trash2 } from 'lucide-react';
@@ -80,7 +83,7 @@ export default async function VehiclesPage(props: any) {
           <div>
             <h3 className="text-sm font-medium mb-2">Companies</h3>
             <div className="max-h-32 overflow-y-auto pr-2 space-y-1">
-              {companies.map((item) => (
+              {companies.map((item: { company: string; _count: number }) => (
                 <div key={item.company} className="flex justify-between">
                   <span className="text-sm">{item.company}</span>
                   <span className="text-xs text-[#6b7280]">{item._count}</span>
@@ -92,7 +95,7 @@ export default async function VehiclesPage(props: any) {
           <div>
             <h3 className="text-sm font-medium mb-2">Fuel Types</h3>
             <div className="max-h-32 overflow-y-auto pr-2 space-y-1">
-              {fuelTypes.map((item) => (
+              {fuelTypes.map((item: { fuelType: string; _count: number }) => (
                 <div key={item.fuelType} className="flex justify-between">
                   <span className="text-sm">{item.fuelType}</span>
                   <span className="text-xs text-[#6b7280]">{item._count}</span>
@@ -121,7 +124,7 @@ export default async function VehiclesPage(props: any) {
           
           <div className="bg-[#ffffff] divide-y divide-[#e5e7eb]">
             {vehicles.length > 0 ? (
-              vehicles.map((vehicle) => (
+              vehicles.map((vehicle: { id: string; name: string; model: string; company: string; registeredYear: number; price: number; fuelType: string; kilometers: number; featured: boolean }) => (
                 <div key={vehicle.id} className="grid grid-cols-12 px-6 py-4 text-sm">
                   <div className="col-span-3">
                     <div className="font-medium text-[#111827]">{vehicle.name}</div>

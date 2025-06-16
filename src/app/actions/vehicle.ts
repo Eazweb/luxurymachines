@@ -1,8 +1,11 @@
 'use server';
 
-import prisma from '@/lib/prisma';
+import { getPrismaClient } from '@/lib/db';
 import cloudinary from '@/lib/cloudinary';
 import { revalidatePath } from 'next/cache';
+
+// Initialize Prisma client
+const prisma = getPrismaClient();
 
 // Types
 type VehicleInput = {
@@ -149,7 +152,7 @@ export async function deleteVehicle(id: string) {
     }
     
     // Delete images from Cloudinary if they exist
-    const deletePromises = vehicle.images.map(async (imageUrl) => {
+    const deletePromises = vehicle.images.map(async (imageUrl: string) => {
       // Extract public ID from Cloudinary URL
       const publicId = imageUrl.split('/').pop()?.split('.')[0];
       if (publicId) {
