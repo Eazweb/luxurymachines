@@ -25,37 +25,37 @@ const brands: Brand[] = [
     id: '1',
     name: 'Audi',
     logo: '/images/brands/audi.png',
-    slug: 'audi'
+    slug: 'Audi'
   },
   {
     id: '2',
     name: 'BMW',
     logo: '/images/brands/bmw.png',
-    slug: 'bmw'
+    slug: 'BMW'
   },
   {
     id: '3',
     name: 'Ford',
     logo: '/images/brands/ford.png',
-    slug: 'ford'
+    slug: 'Ford'
   },
   {
     id: '4',
-    name: 'Mercedes Benz',
+    name: 'Mercedes-Benz',
     logo: '/images/brands/mercedes.png',
-    slug: 'mercedes-benz'
+    slug: 'Mercedes-Benz'
   },
   {
     id: '5',
     name: 'Toyota',
     logo: '/images/brands/toyota.png',
-    slug: 'toyota'
+    slug: 'Toyota'
   },
   {
     id: '6',
     name: 'Volkswagen',
     logo: '/images/brands/volkswagen.png',
-    slug: 'volkswagen'
+    slug: 'Volkswagen'
   }
 ];
 

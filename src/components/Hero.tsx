@@ -4,16 +4,16 @@ import Link from 'next/link';
 
 export default function Hero() {
   return (
-    <div className="relative h-[120vh] min-h-[600px] overflow-hidden">
+    <div className="relative h-screen md:h-[120vh] min-h-[600px] overflow-hidden">
       <div 
         className="absolute top-0 left-0 w-full h-full bg-cover bg-center"
         style={{ backgroundImage: 'url(/bg.avif)' }}
       />
       
       {/* Content */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center px-4 pt-24 md:pt-32 text-center bg-black/30">
+      <div className="absolute inset-0 flex flex-col items-center justify-center px-4 pt-10 md:pt-20 text-center bg-black/30">
         <div className="max-w-4xl mx-auto px-4">
-          <p className="text-white/90 text-lg md:text-xl mb-6">Experience the Pinnacle of Automotive Excellence</p>
+          <p className="text-white/90 text-sm md:text-xl mb-6">Experience the Pinnacle of Automotive Excellence</p>
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-semibold text-white mb-8 leading-tight">
             Find Your Perfect Car
           </h1>
@@ -21,13 +21,13 @@ export default function Hero() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full max-w-md mx-auto mb-8">
             <Link 
               href="/collection" 
-              className="w-full sm:w-auto text-center bg-white text-gray-900 hover:bg-gray-100 px-8 py-4 text-lg font-medium rounded-full transition-colors duration-300"
+              className="w-full sm:w-auto text-center bg-white text-gray-900 hover:bg-gray-100 px-4 py-3 text-xs md:text-base font-medium rounded-full transition-colors duration-300 min-w-[120px]"
             >
               Explore Collection
             </Link>
             <Link 
               href="/contact" 
-              className="w-full sm:w-auto text-center text-white border-2 border-white hover:bg-white/10 px-8 py-4 text-lg font-medium rounded-full transition-colors duration-300"
+              className="w-full sm:w-auto text-center text-white border-2 border-white hover:bg-white/10 px-4 py-3 text-xs md:text-base font-medium rounded-full transition-colors duration-300 min-w-[120px]"
             >
               Sell Your Car
             </Link>
@@ -59,7 +59,7 @@ export default function Hero() {
                 },
                 { 
                   name: 'Coupe', 
-                  href: '/collection?vehicleType=Coupe',
+                  href: '/collection?vehicleType=COUPE',
                   icon: (
                     <svg width="24" height="24" viewBox="0 0 35 34" fill="currentColor">
                       <path d="M31.259 15.5873L25.3898 14.6086C25.0466 14.0512 24.3644 13.0429 23.3725 12.0327C21.3927 10.0164 19.1133 8.95068 16.7806 8.95068H7.2225C5.66993 8.95068 4.23044 9.79012 3.46577 11.1414L0.831898 15.7962C0.827648 15.8037 0.824461 15.8115 0.82041 15.8191C0.616676 16.1837 0.5 16.6033 0.5 17.0499V21.9548C0.5 22.5049 0.945984 22.9508 1.49609 22.9508H4.68632C5.15455 24.176 6.348 25.0494 7.74339 25.0494C9.13879 25.0494 10.3322 24.176 10.8005 22.9508H23.172C23.6402 24.176 24.8336 25.0494 26.229 25.0494C27.6244 25.0494 28.8178 24.176 29.286 22.9508H33.5039C34.054 22.9508 34.5 22.5049 34.5 21.9548V19.3178C34.5 17.4492 33.1077 15.8482 31.259 15.5873ZM22.8976 14.5182H15.722V10.9429H16.7806C19.604 10.9429 21.7363 13.0302 22.8976 14.5182ZM9.07371 10.9429H13.7299V14.5182H9.07371V10.9429ZM5.19964 12.1225C5.58811 11.436 6.30012 10.9953 7.08152 10.9477V14.5182H3.84402L5.19964 12.1225ZM7.74339 23.0572C7.03929 23.0572 6.46647 22.494 6.46647 21.8016C6.46647 21.1093 7.03929 20.546 7.74339 20.546C8.4475 20.546 9.02032 21.1093 9.02032 21.8016C9.02032 22.494 8.4475 23.0572 7.74339 23.0572ZM26.229 23.0572C25.5248 23.0572 24.952 22.494 24.952 21.8016C24.952 21.1093 25.5249 20.546 26.229 20.546C26.9331 20.546 27.5059 21.1093 27.5059 21.8016C27.5059 22.494 26.9331 23.0572 26.229 23.0572ZM29.3857 20.9586C29.0111 19.5753 27.7381 18.5538 26.229 18.5538C24.7198 18.5538 23.4469 19.5753 23.0721 20.9586H10.9001C10.5255 19.5753 9.25254 18.5538 7.74339 18.5538C6.23425 18.5538 4.9613 19.5753 4.58657 20.9586H2.49219V17.0499C2.49219 16.7524 2.73417 16.5104 3.03167 16.5104H24.683L30.9445 17.5546C30.9541 17.5562 30.9637 17.5577 30.9734 17.559C31.1428 17.5822 31.304 17.6295 31.4541 17.6967C31.0374 17.8159 30.732 18.1988 30.732 18.6538C30.732 19.2039 31.178 19.6499 31.7281 19.6499H32.5078V20.9587H29.3857V20.9586Z"/>
@@ -69,8 +69,8 @@ export default function Hero() {
               ].map((category) => (
                 <Link
                   key={category.name}
-                  href={`/collection?vehicleType=${category.name.toLowerCase()}`}
-                  className="flex items-center justify-center w-40 h-16 p-4 m-2 space-x-3 text-white/90 transition-all duration-300 bg-white/10 backdrop-blur-sm rounded-lg border border-white/20 hover:bg-white/20 hover:scale-105"
+                  href={category.href}
+                  className="flex items-center justify-center min-w-[90px] h-12 px-2 py-1 m-1 space-x-2 text-white/90 text-sm transition-all duration-300 bg-white/10 backdrop-blur-sm rounded-lg border border-white/20 hover:bg-white/20 hover:scale-105"
                 >
                   <div className="w-6 h-6">
                     {category.icon}

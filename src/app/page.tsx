@@ -8,7 +8,7 @@ import SellYourCar from "@/components/SellYourCar";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import DualCTA from "@/components/DualCTA";
 import InstagramCarousel from "@/components/InstagramCarousel";
-
+import SellCar from "@/components/SellCar";
 export default async function Home() {
   // Get featured vehicles
   const featuredVehicles = await getFeaturedVehicles(6);
@@ -21,6 +21,8 @@ export default async function Home() {
       </div>
 
       <BrandsSection />
+
+      <SellCar />
 
       {featuredVehicles.length > 0 ? (
         <FeaturedVehiclesCarousel 

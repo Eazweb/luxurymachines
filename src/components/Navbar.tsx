@@ -33,7 +33,7 @@ export default function Navbar() {
           {/* Logo - visible on all screens */}
           <div className="flex-1">
             <Link href="/" className="flex items-center">
-              <span className="text-2xl font-bold text-white">
+              <span className="text-lg md:text-2xl font-bold text-white">
                 LUXURY MACHINES
               </span>
             </Link>
@@ -41,17 +41,13 @@ export default function Navbar() {
           
           {/* Mobile Buttons - only visible on mobile */}
           <div className="md:hidden flex items-center space-x-2">
-            <Link 
-              href="/buycar" 
+            <a 
+              href={`tel:${phoneNumber}`}
               className="p-2 text-white hover:bg-white/10 rounded-full transition-colors"
-              aria-label="Buy Car"
+              aria-label="Call"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6">
-                <circle cx="8" cy="21" r="1" />
-                <circle cx="19" cy="21" r="1" />
-                <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
-              </svg>
-            </Link>
+              <Phone className="h-6 w-6" />
+            </a>
             <button 
               onClick={() => setMobileMenuOpen(true)}
               className="p-2 text-gray-300 hover:text-white"

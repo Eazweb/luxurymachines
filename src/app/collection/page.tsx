@@ -52,6 +52,41 @@ function CollectionContent() {
   const [fuelTypes, setFuelTypes] = useState<string[]>([]);
   const [vehicleTypes, setVehicleTypes] = useState<string[]>([]);
   
+  // Accordion state for mobile filter bar
+  const [filtersOpen, setFiltersOpen] = useState(false);
+  
+  // Fetch all filter options when component mounts
+  useEffect(() => {
+    const fetchFilterOptions = async () => {
+      try {
+        // Fetch all unique companies
+        const companiesRes = await fetch('/api/vehicles/filter-options?field=company');
+        const companiesData = await companiesRes.json();
+        if (Array.isArray(companiesData)) {
+          setCompanies(companiesData);
+        }
+        
+        // Fetch all unique fuel types
+        const fuelTypesRes = await fetch('/api/vehicles/filter-options?field=fuelType');
+        const fuelTypesData = await fuelTypesRes.json();
+        if (Array.isArray(fuelTypesData)) {
+          setFuelTypes(fuelTypesData);
+        }
+        
+        // Fetch all unique vehicle types
+        const vehicleTypesRes = await fetch('/api/vehicles/filter-options?field=vehicleType');
+        const vehicleTypesData = await vehicleTypesRes.json();
+        if (Array.isArray(vehicleTypesData)) {
+          setVehicleTypes(vehicleTypesData);
+        }
+      } catch (error) {
+        console.error('Error fetching filter options:', error);
+      }
+    };
+    
+    fetchFilterOptions();
+  }, []);
+  
   // Fetch vehicles based on filters
   useEffect(() => {
     const fetchVehicles = async () => {
@@ -71,15 +106,6 @@ function CollectionContent() {
         
         if (Array.isArray(data)) {
           setVehicles(data);
-          
-          // Extract unique filter options from data
-          const uniqueCompanies = [...new Set(data.map((vehicle) => vehicle.company))];
-          const uniqueFuelTypes = [...new Set(data.map((vehicle) => vehicle.fuelType))];
-          const uniqueVehicleTypes = [...new Set(data.map((vehicle) => vehicle.vehicleType))];
-          
-          setCompanies(uniqueCompanies);
-          setFuelTypes(uniqueFuelTypes);
-          setVehicleTypes(uniqueVehicleTypes);
         }
       } catch (error) {
         console.error('Error fetching vehicles:', error);
@@ -154,152 +180,167 @@ function CollectionContent() {
   };
   
   return (
-    <div className="min-h-screen w-full">
+    <div className="min-h-screen w-full overflow-x-hidden">
       {/* White section with filters */}
       <div className="bg-[#0f172a] py-6 md:py-8">
-      <div className="container mx-auto w-[90%] px-4">
-        {/* Filter Bar */}
-        <div className="bg-white rounded-2xl md:rounded-full px-3 py-3 md:px-6 md:py-4 shadow-lg">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 md:gap-2">
-            <div className="flex-1 min-w-[180px]">
-              <select
-                name="company"
-                value={filters.company}
-                onChange={handleFilterChange}
-                className="w-full py-3 px-4 text-base bg-transparent border-none outline-none appearance-none cursor-pointer text-gray-800 font-medium hover:bg-gray-50 focus:bg-gray-50 rounded-lg transition-colors"
-                style={{
-                  backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%234b5563' strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='m6 8 4 4 4-4'/%3e%3c/svg%3e")`,
-                  backgroundPosition: "right 1rem center",
-                  backgroundRepeat: "no-repeat",
-                  backgroundSize: "1rem",
-                }}
+        <div className="container mx-auto w-full max-w-[95vw] px-2 md:w-[90%] md:px-4">
+          {/* Filter Bar */}
+          <div className="bg-white rounded-2xl md:rounded-full px-2 py-3 md:px-6 md:py-4 shadow-lg">
+            {/* Accordion toggle for mobile */}
+            <div className="flex md:hidden justify-between items-center mb-2">
+              <span className="font-semibold text-gray-800">Filters</span>
+              <button
+                onClick={() => setFiltersOpen((open) => !open)}
+                className="text-blue-600 text-sm font-medium px-3 py-1 rounded focus:outline-none focus:ring"
+                aria-expanded={filtersOpen}
+                aria-controls="mobile-filters"
               >
-                <option value="">All Brands</option>
-                {companies.map((company) => (
-                  <option key={company} value={company} className="py-2 px-4 hover:bg-blue-50">
-                    {company}
-                  </option>
-                ))}
-              </select>
+                {filtersOpen ? 'Hide' : 'Show'}
+              </button>
             </div>
-
-            {/* Vertical Separator */}
-            <div className="h-10 w-px bg-gray-200"></div>
-
-            <div className="flex-1 min-w-[180px]">
-              <select
-                name="vehicleType"
-                value={filters.vehicleType}
-                onChange={handleFilterChange}
-                className="w-full py-3 px-4 text-base bg-transparent border-none outline-none appearance-none cursor-pointer text-gray-800 font-medium hover:bg-gray-50 focus:bg-gray-50 rounded-lg transition-colors"
-                style={{
-                  backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%234b5563' strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='m6 8 4 4 4-4'/%3e%3c/svg%3e")`,
-                  backgroundPosition: "right 1rem center",
-                  backgroundRepeat: "no-repeat",
-                  backgroundSize: "1rem",
-                }}
-              >
-                <option value="">All Models</option>
-                {vehicleTypes.map((type) => (
-                  <option key={type} value={type} className="py-2 px-4 hover:bg-blue-50">
-                    {type}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* Vertical Separator */}
-            <div className="h-10 w-px bg-gray-200"></div>
-
-            <div className="w-full md:flex-1 md:min-w-[200px]">
-              <div className="flex gap-2">
+            <div
+              id="mobile-filters"
+              className={`flex flex-col md:flex-row md:flex-wrap md:items-center md:justify-between gap-2 md:gap-2 transition-all duration-300 ${filtersOpen ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0 md:max-h-none md:opacity-100'} overflow-hidden md:max-h-none md:opacity-100`}
+            >
+              <div className="flex-1 min-w-[180px]">
                 <select
-                  name="priceMin"
-                  value={filters.priceMin}
+                  name="company"
+                  value={filters.company}
                   onChange={handleFilterChange}
                   className="w-full py-3 px-4 text-base bg-transparent border-none outline-none appearance-none cursor-pointer text-gray-800 font-medium hover:bg-gray-50 focus:bg-gray-50 rounded-lg transition-colors"
                   style={{
                     backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%234b5563' strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='m6 8 4 4 4-4'/%3e%3c/svg%3e")`,
-                    backgroundPosition: "right 0.5rem center",
+                    backgroundPosition: "right 1rem center",
                     backgroundRepeat: "no-repeat",
                     backgroundSize: "1rem",
                   }}
                 >
-                  <option value="">Min Price</option>
-                  <option value="100000">₹1 Lakh</option>
-                  <option value="500000">₹5 Lakh</option>
-                  <option value="1000000">₹10 Lakh</option>
-                  <option value="2000000">₹20 Lakh</option>
-                  <option value="3000000">₹30 Lakh</option>
-                </select>
-                <select
-                  name="priceMax"
-                  value={filters.priceMax}
-                  onChange={handleFilterChange}
-                  className="w-full py-3 px-4 text-base bg-transparent border-none outline-none appearance-none cursor-pointer text-gray-800 font-medium hover:bg-gray-50 focus:bg-gray-50 rounded-lg transition-colors"
-                  style={{
-                    backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%234b5563' strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='m6 8 4 4 4-4'/%3e%3c/svg%3e")`,
-                    backgroundPosition: "right 0.5rem center",
-                    backgroundRepeat: "no-repeat",
-                    backgroundSize: "1rem",
-                  }}
-                >
-                  <option value="">Max Price</option>
-                  <option value="500000">₹5 Lakh</option>
-                  <option value="1000000">₹10 Lakh</option>
-                  <option value="2000000">₹20 Lakh</option>
-                  <option value="3000000">₹30 Lakh</option>
-                  <option value="5000000">₹50 Lakh+</option>
+                  <option value="">All Brands</option>
+                  {companies.map((company) => (
+                    <option key={company} value={company} className="py-2 px-4 hover:bg-blue-50">
+                      {company}
+                    </option>
+                  ))}
                 </select>
               </div>
-            </div>
 
-            {/* Vertical Separator */}
-            <div className="h-10 w-px bg-gray-200"></div>
+              {/* Vertical Separator - only on md+ */}
+              <div className="h-10 w-px bg-gray-200 hidden md:block"></div>
 
-            <div className="flex-1 min-w-[180px]">
-              <select
-                name="fuelType"
-                value={filters.fuelType}
-                onChange={handleFilterChange}
-                className="w-full py-3 px-4 text-base bg-transparent border-none outline-none appearance-none cursor-pointer text-gray-800 font-medium hover:bg-gray-50 focus:bg-gray-50 rounded-lg transition-colors"
-                style={{
-                  backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%234b5563' strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='m6 8 4 4 4-4'/%3e%3c/svg%3e")`,
-                  backgroundPosition: "right 1rem center",
-                  backgroundRepeat: "no-repeat",
-                  backgroundSize: "1rem",
-                }}
-              >
-                <option value="">All Fuel Types</option>
-                {fuelTypes.map((type) => (
-                  <option key={type} value={type} className="py-2 px-4 hover:bg-blue-50">
-                    {type}
-                  </option>
-                ))}
-              </select>
-            </div>
+              <div className="flex-1 min-w-[180px]">
+                <select
+                  name="vehicleType"
+                  value={filters.vehicleType}
+                  onChange={handleFilterChange}
+                  className="w-full py-3 px-4 text-base bg-transparent border-none outline-none appearance-none cursor-pointer text-gray-800 font-medium hover:bg-gray-50 focus:bg-gray-50 rounded-lg transition-colors"
+                  style={{
+                    backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%234b5563' strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='m6 8 4 4 4-4'/%3e%3c/svg%3e")`,
+                    backgroundPosition: "right 1rem center",
+                    backgroundRepeat: "no-repeat",
+                    backgroundSize: "1rem",
+                  }}
+                >
+                  <option value="">All Models</option>
+                  {vehicleTypes.map((type) => (
+                    <option key={type} value={type} className="py-2 px-4 hover:bg-blue-50">
+                      {type}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-            {/* Vertical Separator */}
-            <div className="h-10 w-px bg-gray-200"></div>
+              {/* Vertical Separator - only on md+ */}
+              <div className="h-10 w-px bg-gray-200 hidden md:block"></div>
 
-            <div className="w-full md:w-auto flex items-center justify-center md:justify-start md:px-4 pt-1.5 md:pt-0 border-t border-gray-200 md:border-t-0 mt-1.5 md:mt-0">
-              <button
-                onClick={clearFilters}
-                className="text-blue-600 hover:text-blue-800 text-sm font-medium whitespace-nowrap"
-              >
-                Clear All
-              </button>
+              <div className="w-full md:flex-1 md:min-w-[200px]">
+                <div className="flex gap-2">
+                  <select
+                    name="priceMin"
+                    value={filters.priceMin}
+                    onChange={handleFilterChange}
+                    className="w-full py-3 px-4 text-base bg-transparent border-none outline-none appearance-none cursor-pointer text-gray-800 font-medium hover:bg-gray-50 focus:bg-gray-50 rounded-lg transition-colors"
+                    style={{
+                      backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%234b5563' strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='m6 8 4 4 4-4'/%3e%3c/svg%3e")`,
+                      backgroundPosition: "right 0.5rem center",
+                      backgroundRepeat: "no-repeat",
+                      backgroundSize: "1rem",
+                    }}
+                  >
+                    <option value="">Min Price</option>
+                    <option value="100000">₹1 Lakh</option>
+                    <option value="500000">₹5 Lakh</option>
+                    <option value="1000000">₹10 Lakh</option>
+                    <option value="2000000">₹20 Lakh</option>
+                    <option value="3000000">₹30 Lakh</option>
+                  </select>
+                  <select
+                    name="priceMax"
+                    value={filters.priceMax}
+                    onChange={handleFilterChange}
+                    className="w-full py-3 px-4 text-base bg-transparent border-none outline-none appearance-none cursor-pointer text-gray-800 font-medium hover:bg-gray-50 focus:bg-gray-50 rounded-lg transition-colors"
+                    style={{
+                      backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%234b5563' strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='m6 8 4 4 4-4'/%3e%3c/svg%3e")`,
+                      backgroundPosition: "right 0.5rem center",
+                      backgroundRepeat: "no-repeat",
+                      backgroundSize: "1rem",
+                    }}
+                  >
+                    <option value="">Max Price</option>
+                    <option value="500000">₹5 Lakh</option>
+                    <option value="1000000">₹10 Lakh</option>
+                    <option value="2000000">₹20 Lakh</option>
+                    <option value="3000000">₹30 Lakh</option>
+                    <option value="5000000">₹50 Lakh+</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Vertical Separator - only on md+ */}
+              <div className="h-10 w-px bg-gray-200 hidden md:block"></div>
+
+              <div className="flex-1 min-w-[180px]">
+                <select
+                  name="fuelType"
+                  value={filters.fuelType}
+                  onChange={handleFilterChange}
+                  className="w-full py-3 px-4 text-base bg-transparent border-none outline-none appearance-none cursor-pointer text-gray-800 font-medium hover:bg-gray-50 focus:bg-gray-50 rounded-lg transition-colors"
+                  style={{
+                    backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%234b5563' strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='m6 8 4 4 4-4'/%3e%3c/svg%3e")`,
+                    backgroundPosition: "right 1rem center",
+                    backgroundRepeat: "no-repeat",
+                    backgroundSize: "1rem",
+                  }}
+                >
+                  <option value="">All Fuel Types</option>
+                  {fuelTypes.map((type) => (
+                    <option key={type} value={type} className="py-2 px-4 hover:bg-blue-50">
+                      {type}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Vertical Separator */}
+              <div className="h-10 w-px bg-gray-200 hidden md:block"></div>
+
+              <div className="w-full md:w-auto flex items-center justify-center md:justify-start md:px-4 pt-1.5 md:pt-0 border-t border-gray-200 md:border-t-0 mt-1.5 md:mt-0">
+                <button
+                  onClick={clearFilters}
+                  className="text-blue-600 hover:text-blue-800 text-sm font-medium whitespace-nowrap"
+                >
+                  Clear All
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
       {/* Blue section with curve */}
-      <div className="bg-[#0f172a] pt-12">
+      <div className="bg-[#0f172a] md:pt-12">
         <div className="h-[40px] md:h-[80px] rounded-t-full bg-white w-full"></div>
-        <div className="container bg-white mx-auto px-4 pb-8">
+        <div className="container bg-white mx-auto md:px-4 pb-8 min-h-screen rounded-b-2xl">
           {/* Breadcrumb and Header */}
-          <div className="mb-8  px-[5%]">
+          <div className="mb-8 px-2 md:px-[5%]">
             <nav className="flex mb-2" aria-label="Breadcrumb">
               <ol className="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
                 <li className="inline-flex items-center">
@@ -337,13 +378,13 @@ function CollectionContent() {
           </div>
           
           {/* Vehicle Grid */} 
-          <div className="mt-10 px-[5%]">
+          <div className="mt-10 px-2 md:px-[5%]">
             {loading ? (
                   <div className="flex justify-center items-center h-64">
                     <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
                   </div>
                 ) : vehicles.length > 0 ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {vehicles.map((vehicle) => (
                       <ProductCard
                         key={vehicle.id}
