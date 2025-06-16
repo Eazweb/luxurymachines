@@ -98,15 +98,16 @@ export default function SellCar() {
           {/* Right Content - Image */}
           <div className="hidden lg:block order-first lg:order-last">
             <div className="relative">
-              <div className="bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl p-4 lg:p-8">
-                <Image
-                  src="/car-promo.png"
-                  alt="Luxury cars with GoExotic mobile app"
-                  width={600}
-                  height={400}
-                  className="w-full h-auto object-contain"
-                  priority
-                />
+              <div className="bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl p-4 lg:p-8 flex items-center justify-center">
+                <div className="relative w-full aspect-square max-w-xs mx-auto">
+                  <Image
+                    src="https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=600&q=80"
+                    alt="Green Ford Mustang coupe in Toronto by Steven Binotto on Unsplash"
+                    fill
+                    className="object-cover rounded-2xl"
+                    priority
+                  />
+                </div>
               </div>
             </div>
           </div>
