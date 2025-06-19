@@ -1,14 +1,14 @@
 import React from 'react';
-import { 
-  Car, 
-  Gauge, 
-  Fuel, 
-  Calendar, 
-  Settings, 
-  Truck, 
-  User, 
-  Users, 
-  Palette, 
+import {
+  Car,
+  Gauge,
+  Fuel,
+  Calendar,
+  Settings,
+  Truck,
+  User,
+  Users,
+  Palette,
   Hash,
   MapPin,
   Phone,
@@ -20,7 +20,7 @@ import {
 } from 'lucide-react';
 import { phoneNumber } from '@/config';
 
-const VehicleDetails = ({ vehicle }: { vehicle: any}) => {
+const VehicleDetails = ({ vehicle }: { vehicle: any }) => {
   // Sample data for demo
   const sampleVehicle = {
     vehicleType: 'SUV',
@@ -31,7 +31,7 @@ const VehicleDetails = ({ vehicle }: { vehicle: any}) => {
     driveType: 'All-Wheel Drive (AWD/4WD)',
     condition: 'New',
     engineSize: '4.5',
-    doors: '4 Doors',  
+    doors: '4 Doors',
     cylinder: '10',
     color: 'Black, Gold, White',
     vin: 'MCB123813',
@@ -74,7 +74,7 @@ const VehicleDetails = ({ vehicle }: { vehicle: any}) => {
           {/* Car Overview Section */}
           <div className="mb-8">
             <h2 className="text-2xl font-semibold mb-8">Car Overview</h2>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
               {/* Left Column */}
               <div className="space-y-6">
@@ -95,7 +95,7 @@ const VehicleDetails = ({ vehicle }: { vehicle: any}) => {
                   );
                 })}
               </div>
-              
+
               {/* Right Column */}
               <div className="space-y-6">
                 {rightColumnSpecs.map((item, index) => {
@@ -128,6 +128,7 @@ const VehicleDetails = ({ vehicle }: { vehicle: any}) => {
               Etiam sit amet ex pharetra, venenatis ante vehicula, gravida sapien. Fusce eleifend vulputate nibh, non cursus augue placerat pellentesque. Sed venenatis risus nec felis mollis, in pharetra urna euismod. Morbi aliquam ut turpis sit amet ultrices. Vestibulum metus blandit nisl at tristique elit scelerisque nec. Fusce eleifend laoreet dui eget aliquiet. Ut rutrum risus et nunc pretium scelerisque.
             </p>
           </div> */}
+
         </div>
 
         {/* Right Side: Dealer Info */}
@@ -135,8 +136,8 @@ const VehicleDetails = ({ vehicle }: { vehicle: any}) => {
           <div className="space-y-6">
             <div className="flex items-center gap-4 mb-6">
               <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden">
-                <img 
-                  src={sampleDealer.image} 
+                <img
+                  src={sampleDealer.image}
                   alt={sampleDealer.name}
                   className="w-full h-full object-cover"
                 />
@@ -149,10 +150,10 @@ const VehicleDetails = ({ vehicle }: { vehicle: any}) => {
                 </p>
               </div>
             </div>
-            
+
             <div className="space-y-4">
               <div className="flex gap-3">
-                <a 
+                <a
                   href={`https://www.google.com/maps/search/?api=1&query=Luxury+Machines+Mumbai`}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -161,7 +162,7 @@ const VehicleDetails = ({ vehicle }: { vehicle: any}) => {
                   <MapPin className="w-4 h-4" />
                   Get Direction
                 </a>
-                <a 
+                <a
                   href={`tel:${phoneNumber.replace(/\D/g, '')}`}
                   className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors text-sm font-medium"
                 >
@@ -169,13 +170,13 @@ const VehicleDetails = ({ vehicle }: { vehicle: any}) => {
                   Call Us
                 </a>
               </div>
-              
+
               <button className="w-full bg-blue-600 text-white py-3.5 px-6 rounded-lg hover:bg-blue-700 transition-colors font-medium flex items-center justify-center gap-2">
                 <MessageCircle className="w-5 h-5" />
                 Message Dealer
               </button>
-              
-              <a 
+
+              <a
                 href={`https://wa.me/${phoneNumber.replace(/\D/g, '')}?text=Hi%20Luxury%20Machines,%20I'm%20interested%20in%20this%20vehicle`}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -184,10 +185,10 @@ const VehicleDetails = ({ vehicle }: { vehicle: any}) => {
                 <img src="/whatsapp-icon.svg" alt="WhatsApp" className="w-5 h-5" />
                 Chat on WhatsApp
               </a>
-              
-            
+
+
             </div>
-{/*             
+            {/*             
             <div className="pt-4 mt-6 border-t border-gray-100">
               <div className="flex items-center justify-center gap-3 text-sm text-gray-600">
                 <div className="flex items-center gap-1.5">
@@ -204,6 +205,22 @@ const VehicleDetails = ({ vehicle }: { vehicle: any}) => {
           </div>
         </div>
       </div>
+
+      {/* Features Section */}
+      {vehicle.features && vehicle.features.length > 0 && (
+        <div className="mt-8 pt-8 border-t border-gray-200">
+          <h3 className="text-xl font-semibold mb-6 text-gray-800 text-center">Features</h3>
+          <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-4">
+            {vehicle.features.map((feature: string, index: number) => (
+              // Inside your Features section map
+              <li key={index} className="flex items-center"> {/* Removed justify-left, as justify-start is default */}
+                <span className="h-2 w-2 bg-blue-500 rounded-full mr-3 flex-shrink-0"></span>
+                <span className="text-gray-700">{feature}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };

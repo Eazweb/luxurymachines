@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { Calendar, Gauge, Settings, Fuel, MessageCircle, Phone } from 'lucide-react';
 import Link from 'next/link';
@@ -32,14 +34,24 @@ const VehicleHeader = ({ vehicle }: { vehicle: any }) => {
         <div className="flex items-center space-x-6 ml-8 hidden md:flex">
            <button className="w-full bg-blue-600 text-white py-2 px-4 text-sm rounded-lg hover:bg-blue-700 transition-colors font-medium flex items-center justify-center">
            <Phone className="w-4 h-4 mr-1.5" />
-                        Call Us
+                 <span className="whitespace-nowrap">{phoneNumber} Call Us</span>
                       </button>
           
                       {/* Chat Via WhatsApp Button */}
-                      <button className="w-full border border-green-500 bg-white text-green-600 py-2 px-4 text-sm rounded-lg hover:bg-green-50 transition-colors font-medium flex items-center justify-center">
+                      <a 
+                        href={`https://wa.me/${phoneNumber.replace('+', '')}?text=${encodeURIComponent(`Hi, I'm interested in the ${vehicle.name}. You can see it here: ${typeof window !== 'undefined' ? window.location.href : ''}`)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full border border-green-500 bg-white text-green-600 py-2 px-4 text-sm rounded-lg hover:bg-green-50 transition-colors font-medium flex items-center justify-center"
+                        onClick={e => {
+                          if (typeof window !== 'undefined') {
+                            (e.currentTarget as HTMLAnchorElement).href = `https://wa.me/${phoneNumber.replace('+', '')}?text=${encodeURIComponent(`Hi, I'm interested in the ${vehicle.name}. You can see it here: ${window.location.href}`)}`;
+                          }
+                        }}
+                      >
                         <MessageCircle className="w-4 h-4 mr-1.5" />
                          Whatsapp
-                      </button>
+                      </a>
         </div>
       </div>
 

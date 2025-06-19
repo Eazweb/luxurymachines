@@ -44,7 +44,7 @@ export default function DualCTA() {
                 We are committed to providing our customers with<br className="hidden md:block" /> exceptional service.
               </p>
               <Link 
-                href="/sell-your-car" 
+                href="/contact-us" 
                 className="inline-flex items-center bg-slate-900 hover:bg-slate-800 text-white px-5 py-2.5 rounded-md transition-colors"
               >
                 Get Started

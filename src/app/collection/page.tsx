@@ -338,7 +338,7 @@ function CollectionContent() {
       {/* Blue section with curve */}
       <div className="bg-[#0f172a] md:pt-12">
         <div className="h-[40px] md:h-[80px] rounded-t-full bg-white w-full"></div>
-        <div className="container bg-white mx-auto md:px-4 pb-8 min-h-screen rounded-b-2xl">
+        <div className="container bg-white mx-auto px-2 md:px-4 pb-8 min-h-screen rounded-b-2xl">
           {/* Breadcrumb and Header */}
           <div className="mb-8 px-2 md:px-[5%]">
             <nav className="flex mb-2" aria-label="Breadcrumb">

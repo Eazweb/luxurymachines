@@ -4,10 +4,12 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
+import { getVehicleBySlug, getFeaturedVehicles } from '@/app/actions/vehicle';
 import VehicleHeader from './components/VehicleHeader';
 import VehicleImageGallery from './components/VehicleImageGallery';
 import VehicleDetails from './components/VehicleDetails';
 import RecommendedVehicles from './components/RecommendedVehicles';
+import EMICalculator from '@/components/EMICalculator';
 
 // Types
 type Vehicle = {
@@ -94,6 +96,7 @@ export default function VehicleDetailPage() {
         <VehicleHeader vehicle={vehicle} />
         <VehicleImageGallery images={vehicle?.images} />
         <VehicleDetails vehicle={vehicle} />
+        <EMICalculator price={vehicle.price} />
         <RecommendedVehicles currentVehicleId={vehicle.id} />
       </div>
      </div>

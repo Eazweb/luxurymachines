@@ -2,6 +2,7 @@ import Navbar from '@/components/Navbar';
 import PageWrapper from '@/components/PageWrapper';
 import { Poppins, Quicksand, Raleway } from 'next/font/google';
 import { Toaster } from 'sonner';
+import Footer from '@/components/Footer';
 import './globals.css';
 
 // Initialize the Quicksand font
@@ -40,6 +41,7 @@ export default function RootLayout({
           {children}
           <Toaster position="top-right" richColors />
         </PageWrapper>
+        <Footer />
       </body>
     </html>
   );
