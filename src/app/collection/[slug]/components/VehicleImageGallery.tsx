@@ -138,8 +138,8 @@ const VehicleImageGallery = ({ images = [] }: VehicleImageGalleryProps) => {
             ))}
           </div>
           
-          <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm rounded-full p-2 shadow-md z-10" />
-          <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm rounded-full p-2 shadow-md z-10" />
+          <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm rounded-full p-2 shadow-md z-10 hidden" />
+          <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm rounded-full p-2 shadow-md z-10 hidden" />
         </Carousel>
       </div>
       
@@ -191,82 +191,105 @@ const VehicleImageGallery = ({ images = [] }: VehicleImageGalleryProps) => {
       </div>
       {/* Full-Screen Carousel Modal */}
       {isCarouselOpen && (
-        <div className="fixed inset-0 z-50 bg-black bg-opacity-95 flex items-center justify-center">
-          {/* Close Button */}
-          <button
-            onClick={closeCarousel}
-            className="absolute top-4 right-4 z-10 p-3 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full transition-colors backdrop-blur-sm"
-          >
-            <X className="w-6 h-6 text-white" />
-          </button>
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
+          onClick={closeCarousel}
+        >
+          <div className="relative w-full h-full flex items-center justify-center" onClick={(e) => e.stopPropagation()}>
+            
+            {/* Close Button */}
+            <button
+              onClick={closeCarousel}
+              className="absolute top-4 right-4 z-20 p-2 bg-black/30 hover:bg-white/20 rounded-full transition-colors"
+              aria-label="Close carousel"
+            >
+              <X className="w-6 h-6 text-white" />
+            </button>
 
-          {/* Image Counter */}
-          <div className="absolute top-4 left-4 z-10 bg-black bg-opacity-70 text-white px-4 py-2 rounded-full text-sm font-medium backdrop-blur-sm">
-            {carouselIndex + 1} / {displayImages.length}
-          </div>
+            {/* Image Counter */}
+            <div className="absolute top-4 left-4 z-20 bg-black/50 text-white px-4 py-2 rounded-full text-sm font-medium">
+              {carouselIndex + 1} / {displayImages.length}
+            </div>
 
-          {/* Previous Button */}
-          <button
-            onClick={prevImage}
-            className="absolute left-4 z-10 p-4 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full transition-colors backdrop-blur-sm"
-            disabled={displayImages.length <= 1}
-          >
-            <ChevronLeft className="w-8 h-8 text-white" />
-          </button>
+            {/* Previous Button */}
+            <button
+              onClick={prevImage}
+              className="absolute left-4 md:left-8 z-20 p-2 md:p-4 bg-black/30 hover:bg-white/20 rounded-full transition-colors hidden md:block"
+              disabled={displayImages.length <= 1}
+            >
+              <ChevronLeft className="w-6 h-6 md:w-8 md:h-8 text-white" />
+            </button>
 
-          {/* Next Button */}
-          <button
-            onClick={nextImage}
-            className="absolute right-4 z-10 p-4 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full transition-colors backdrop-blur-sm"
-            disabled={displayImages.length <= 1}
-          >
-            <ChevronRight className="w-8 h-8 text-white" />
-          </button>
+            {/* Next Button */}
+            <button
+              onClick={nextImage}
+              className="absolute right-4 md:right-8 z-20 p-2 md:p-4 bg-black/30 hover:bg-white/20 rounded-full transition-colors hidden md:block"
+              disabled={displayImages.length <= 1}
+            >
+              <ChevronRight className="w-6 h-6 md:w-8 md:h-8 text-white" />
+            </button>
 
-          {/* Main Carousel Image Container with Fixed Aspect Ratio */}
-          <div className="relative w-full max-w-5xl mx-8">
-            <div className="aspect-[5/3] relative rounded-lg overflow-hidden shadow-2xl bg-black/50">
+            {/* Main Carousel Image Container */}
+            <div className="relative w-[90vw] md:w-full max-w-5xl h-[60vh] md:h-auto md:aspect-[5/3] mx-auto">
               <Image
                 src={displayImages[carouselIndex]}
                 alt={`Vehicle view ${carouselIndex + 1}`}
                 fill
-                sizes="(max-width: 1200px) 100vw, 1200px"
-                className="object-contain"
+                sizes="(max-width: 1200px) 90vw, 1200px"
+                className="object-contain rounded-lg"
                 onError={(e) => {
-                  (e.target as HTMLImageElement).src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDQwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0yMDAgMTUwQzIxMC40NTcgMTUwIDIxOS4xNTQgMTQxLjMwNCAyMTkuMTU0IDEzMEMyMTkuMTU0IDExOC42OTYgMjEwLjQ1NyAxMTAgMjAwIDExMEMxODkuNTQzIDExMCAxODAuODQ2IDExOC42OTYgMTgwLjg0NiAxMzBDMTgwLjg0NiAxNDEuMzA0IDE4OS41NDMgMTUwIDIwMCAxNTBaIiBmaWxsPSIjOUI5QkE0Ii8+Cjwvc3ZnPgo=';
+                  (e.target as HTMLImageElement).src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDQwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0yMDAgMTUwQzIxMC40NTcgMTUwIDIxOS4xNTQgMTQxLjMwNCAyMTkuMTU0IDEzMEMyMTkuMTU0IDExOC42OTYgMjEwLjQ1REYxMTAgMjAwIDExMEMxODkuNTQzIDExMCAxODAuODQ2IDExOC42OTYgMTgwLjg0NiAxMzBDMTgwLjg0NiAxNDEuMzA0IDE4OS41NDMgMTUwIDIwMCAxNTBaIiBmaWxsPSIjOUI5QkE0Ii8+Cjwvc3ZnPgo=';
                 }}
               />
             </div>
-          </div>
 
-          {/* Thumbnail Strip */}
-          <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2">
-            <div className="flex space-x-2 bg-black bg-opacity-60 p-3 rounded-xl backdrop-blur-sm">
-              {displayImages.map((image, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCarouselIndex(index)}
-                  className={cn(
-                    "w-20 h-12 aspect-[5/3] rounded-lg overflow-hidden transition-all duration-200",
-                    index === carouselIndex 
-                      ? 'ring-2 ring-white scale-110' 
-                      : 'opacity-70 hover:opacity-90 hover:scale-105'
-                  )}
-                >
-                  <div className="relative w-full h-full">
-                    <Image
-                      src={image}
-                      alt={`Thumbnail ${index + 1}`}
-                      fill
-                      sizes="80px"
-                      className="object-cover"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNDgiIHZpZXdCb3g9IjAgMCA2NCA0OCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjQ4IiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0zMiAyNEMzMy42NTY5IDI0IDM1IDIyLjY1NjkgMzUgMjFDMzUgMTkuMzQzMSAzMy42NTY5IDE4IDMyIDE4QzMwLjM0MzEgMTggMjkgMTkuMzQzMSAyOSAyMUMyOSAyMi42NTY5IDMwLjM0MzEgMjQgMzIgMjRaIiBmaWxsPSIjOUI5QkE0Ii8+Cjwvc3ZnPgo=';
-                      }}
-                    />
-                  </div>
-                </button>
-              ))}
+            {/* Mobile-only Navigation Arrows */}
+            <div className="absolute bottom-24 z-20 flex w-full items-center justify-center gap-4 md:hidden">
+              <button
+                onClick={prevImage}
+                className="p-2 bg-black/30 hover:bg-white/20 rounded-full transition-colors"
+                disabled={displayImages.length <= 1}
+              >
+                <ChevronLeft className="w-6 h-6 text-white" />
+              </button>
+              <button
+                onClick={nextImage}
+                className="p-2 bg-black/30 hover:bg-white/20 rounded-full transition-colors"
+                disabled={displayImages.length <= 1}
+              >
+                <ChevronRight className="w-6 h-6 text-white" />
+              </button>
+            </div>
+
+            {/* Thumbnail Strip */}
+            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-10">
+              <div className="flex space-x-2 bg-black/50 p-2 rounded-2xl">
+                {displayImages.map((image, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCarouselIndex(index)}
+                    className={cn(
+                      "w-16 h-10 md:w-20 md:h-12 aspect-[5/3] rounded-lg overflow-hidden transition-all duration-200",
+                      index === carouselIndex 
+                        ? 'ring-2 ring-white scale-110' 
+                        : 'opacity-60 hover:opacity-100 hover:scale-105'
+                    )}
+                  >
+                    <div className="relative w-full h-full">
+                      <Image
+                        src={image}
+                        alt={`Thumbnail ${index + 1}`}
+                        fill
+                        sizes="80px"
+                        className="object-cover"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNDgiIHZpZXdCb3g9IjAgMCA2NCA0OCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjQ4IiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0zMiAyNEMzMy42NTY5IDI0IDM1IDIyLjY1NjkgMzUgMjFDMzUgMTkuMzQzMSAzMy42NTY5IDE4IDMyIDE4QzMwLjM0MzEgMTggMjkgMTkuMzQzMSAyOSAyMUMyOSAyMi42NTY5IDMwLjM0MzEgMjQgMzIgMjRaIiBmaWxsPSIjOUI5QkE0Ii8+Cjwvc3ZnPgo=';
+                        }}
+                      />
+                    </div>
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         </div>

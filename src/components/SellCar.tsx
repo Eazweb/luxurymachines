@@ -5,10 +5,10 @@ import { phoneNumber } from "@/config"
 export default function SellCar() {
   return (
     <div className="bg-white text-black">
-      <div className="container mx-auto px-4 md:px-8 py-8 lg:py-16">
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+      <div className="container container w-[90%] max-w-[1500px] mx-auto  py-8 lg:py-16">
+        <div className="flex flex-col lg:flex-row justify-between items-center gap-8 lg:gap-16">
           {/* Left Content */}
-          <div className="space-y-8">
+          <div className="space-y-8 max-w-2xl">
             {/* Header */}
             <div className="space-y-4">
               <p className="text-sm font-medium tracking-wider uppercase text-gray-600">Planning to sell?</p>
@@ -61,7 +61,7 @@ export default function SellCar() {
                   <Users className="w-6 h-6 text-gray-700" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-lg">5500+</h3>
+                  <h3 className="font-bold text-lg">100+</h3>
                   <p className="text-gray-600 text-sm">Satisfied</p>
                   <p className="text-gray-600 text-sm">Customers</p>
                 </div>
@@ -94,22 +94,14 @@ export default function SellCar() {
               </button>
             </div>
           </div>
-
-          {/* Right Content - Image */}
-          <div className="hidden lg:block order-first lg:order-last">
-            <div className="relative">
-              <div className="bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl p-4 lg:p-8 flex items-center justify-center">
-                <div className="relative w-full aspect-square max-w-xs mx-auto">
-                  <Image
-                    src="https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=600&q=80"
-                    alt="Green Ford Mustang coupe in Toronto by Steven Binotto on Unsplash"
-                    fill
-                    className="object-cover rounded-2xl"
-                    priority
-                  />
-                </div>
-              </div>
-            </div>
+          <div className="relative hidden md:block w-full max-w-[500px] h-0 pb-[80%] lg:pb-0 lg:h-[500px] lg:w-[625px] flex-shrink-0">
+             <Image
+              src="https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=600&q=80"
+              alt="Green Ford Mustang coupe in Toronto by Steven Binotto on Unsplash"
+              fill
+              className="object-cover rounded-2xl"
+              priority
+            />
           </div>
         </div>
       </div>
