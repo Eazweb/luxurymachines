@@ -1,19 +1,54 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
 export default function Hero() {
+  const [currentBg, setCurrentBg] = useState(0);
+  
+  const backgroundImages = [
+    '/bgphoto1.webp',
+    '/bgphoto.webp',
+    '/bg.avif',
+    '/herobg.jpg'
+  ];
+
+  // Auto-advance background
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentBg((prev) => (prev + 1) % backgroundImages.length);
+    }, 4000);
+    
+    return () => clearInterval(interval);
+  }, [backgroundImages.length]);
+
   return (
-    <div className="relative h-screen md:h-[120vh] min-h-[600px] overflow-hidden">
-      <div 
-        className="absolute top-0 left-0 w-full h-full bg-cover bg-center"
-        style={{ backgroundImage: 'url(/bg.avif)' }}
-      />
+    <div className="relative h-[100dvh] md:h-[120vh] min-h-[600px] overflow-hidden">
+      {/* Background Images with Fade Transition */}
+      <div className="absolute inset-0">
+        {backgroundImages.map((image, index) => (
+          <div 
+            key={image}
+            className={`absolute inset-0 transition-opacity duration-1000 ${index === currentBg ? 'opacity-100' : 'opacity-0'}`}
+            style={{
+              backgroundImage: `url(${image})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat',
+              height: '100%',
+              width: '100%'
+            }}
+          />
+        ))}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-black/60" />
+      </div>
       
-      {/* Content */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center px-4 pt-10 md:pt-20 text-center bg-black/30">
+      {/* Static Content */}
+      <div className="absolute inset-0 flex flex-col items-center justify-center px-4 pt-10 md:pt-20 text-center">
         <div className="max-w-4xl mx-auto px-4">
-          <p className="text-white/90 text-sm md:text-xl mb-6">Experience the Pinnacle of Automotive Excellence</p>
+          <p className="text-white/90 text-sm md:text-xl mb-6">
+            Experience the Pinnacle of Automotive Excellence
+          </p>
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-semibold text-white mb-8 leading-tight">
             Find Your Perfect Car
           </h1>
