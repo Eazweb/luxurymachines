@@ -105,8 +105,11 @@ const VehicleImageGallery = ({ images = [] }: VehicleImageGalleryProps) => {
                 >
                   <Image
                     src={image}
-                    width={1000}
-                    height={600}
+                    width={800}
+                    height={480}
+                    quality={60}
+                    loading="lazy"
+                    sizes="(max-width: 1024px) 100vw, 800px"
                     alt={`Vehicle view ${index + 1}`}
                     className="w-full h-full object-cover"
                     onError={(e) => {
@@ -177,8 +180,11 @@ const VehicleImageGallery = ({ images = [] }: VehicleImageGalleryProps) => {
             >
               <Image
                 src={image}
-                width={500}
-                height={300}
+                width={400}
+                height={240}
+                quality={60}
+                loading="lazy"
+                sizes="400px"
                 alt={`Vehicle view ${index + 2}`}
                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
                 onError={(e) => {
@@ -235,7 +241,8 @@ const VehicleImageGallery = ({ images = [] }: VehicleImageGalleryProps) => {
                 src={displayImages[carouselIndex]}
                 alt={`Vehicle view ${carouselIndex + 1}`}
                 fill
-                sizes="(max-width: 1200px) 90vw, 1200px"
+                quality={80}
+                sizes="(max-width: 768px) 90vw, 1200px"
                 className="object-contain rounded-lg"
                 onError={(e) => {
                   (e.target as HTMLImageElement).src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDQwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0yMDAgMTUwQzIxMC40NTcgMTUwIDIxOS4xNTQgMTQxLjMwNCAyMTkuMTU0IDEzMEMyMTkuMTU0IDExOC42OTYgMjEwLjQ1REYxMTAgMjAwIDExMEMxODkuNTQzIDExMCAxODAuODQ2IDExOC42OTYgMTgwLjg0NiAxMzBDMTgwLjg0NiAxNDEuMzA0IDE4OS41NDMgMTUwIDIwMCAxNTBaIiBmaWxsPSIjOUI5QkE0Ii8+Cjwvc3ZnPgo=';

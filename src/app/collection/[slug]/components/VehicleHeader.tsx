@@ -1,8 +1,9 @@
 'use client';
 
 import React from 'react';
-import { Calendar, Gauge, Settings, Fuel, MessageCircle, Phone } from 'lucide-react';
+import { Calendar, Gauge, Settings, Fuel, MessageCircle } from 'lucide-react';
 import Link from 'next/link';
+import { Link as ScrollLink } from 'react-scroll';
 import { formatPrice } from '@/utils/formatPrice';
 import { phoneNumber } from '@/config';
 
@@ -32,10 +33,15 @@ const VehicleHeader = ({ vehicle }: { vehicle: any }) => {
         </div>
         
         <div className="flex items-center space-x-6 ml-8 hidden md:flex">
-           <button className="w-full bg-blue-600 text-white py-2 px-4 text-sm rounded-lg hover:bg-blue-700 transition-colors font-medium flex items-center justify-center">
-           <Phone className="w-4 h-4 mr-1.5" />
-                 <span className="whitespace-nowrap">{phoneNumber} Call Us</span>
-                      </button>
+           <ScrollLink
+  to="emiCalculator"
+  smooth={true}
+  duration={800}
+  offset={-80}
+  className="w-full bg-blue-600 text-white py-2 px-4 text-sm rounded-lg hover:bg-blue-700 transition-colors font-medium flex items-center justify-center cursor-pointer"
+>
+             Calculate EMI
+</ScrollLink>
           
                       {/* Chat Via WhatsApp Button */}
                       <a 
@@ -85,12 +91,12 @@ const VehicleHeader = ({ vehicle }: { vehicle: any }) => {
           </div>
         </div>
 
-        <div className="text-left md:text-right flex flex-row justify-between md:block mt-4 md:mt-0 w-full md:w-auto">
-          <div className="text-xl md:text-3xl font-semibold text-gray-900 mb-2">
+        <div className="text-left md:text-right flex flex-col items-end mt-4 md:mt-0 w-full md:w-auto">
+          <div className="text-xl md:text-3xl font-semibold text-gray-900 mb-2 whitespace-nowrap">
             {formatPrice(vehicle.price)}
           </div>
           <a
-            className="flex items-center text-blue-600 font-medium hover:text-blue-700"
+            className="flex items-center text-blue-600 font-medium hover:text-blue-700 whitespace-nowrap"
             target="_blank"
             rel="noopener noreferrer"
             href={`https://wa.me/${phoneNumber.replace('+', '')}?text=${encodeURIComponent(`Hi, I want to talk about this car: ${typeof window !== 'undefined' ? window.location.href : ''}`)}`}
@@ -99,7 +105,12 @@ const VehicleHeader = ({ vehicle }: { vehicle: any }) => {
                 (e.currentTarget as HTMLAnchorElement).href = `https://wa.me/${phoneNumber.replace('+', '')}?text=${encodeURIComponent(`Hi, I want to talk about this car: ${window.location.href}`)}`;
               }
             }}
-          ><svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>Make An Offer Price</a>
+          >
+            <svg className="w-5 h-5 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+            </svg>
+            <span>Make An Offer Price</span>
+          </a>
         </div>
       </div>
     </div>

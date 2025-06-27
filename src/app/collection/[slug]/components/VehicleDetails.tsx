@@ -21,24 +21,6 @@ import {
 import { phoneNumber } from '@/config';
 
 const VehicleDetails = ({ vehicle }: { vehicle: any }) => {
-  // Sample data for demo
-  const sampleVehicle = {
-    vehicleType: 'SUV',
-    kilometers: 50,
-    fuelType: 'Petrol',
-    registeredYear: 2023,
-    transmission: 'Automatic',
-    driveType: 'All-Wheel Drive (AWD/4WD)',
-    condition: 'New',
-    engineSize: '4.5',
-    doors: '4 Doors',
-    cylinder: '10',
-    color: 'Black, Gold, White',
-    vin: 'MCB123813',
-    description: 'Quisque imperdiet dignissim enim dictum finibus. Sed consectetur convallis enim eget laoreet. Aenean vitae nisl mollis, porta risus vel, dapibus lectus. Etiam ac suscipit arcs, eget maximus',
-    ...vehicle
-  };
-
   const sampleDealer = {
     name: 'Luxury Machines',
     address: 'Mumbai, India',
@@ -46,25 +28,23 @@ const VehicleDetails = ({ vehicle }: { vehicle: any }) => {
     image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
   };
 
-  // Left column specs
+  // Prepare specs dynamically based on available data
   const leftColumnSpecs = [
-    { icon: Car, label: 'Body', value: sampleVehicle.vehicleType },
-    { icon: Gauge, label: 'Mileage', value: sampleVehicle.kilometers.toString() },
-    { icon: Fuel, label: 'Fuel Type', value: sampleVehicle.fuelType },
-    { icon: Calendar, label: 'Year', value: sampleVehicle.registeredYear.toString() },
-    { icon: Settings, label: 'Transmission', value: sampleVehicle.transmission },
-    { icon: Truck, label: 'Drive Type', value: sampleVehicle.driveType }
-  ];
+    vehicle.vehicleType && { icon: Car, label: 'Body', value: vehicle.vehicleType },
+    typeof vehicle.kilometers === 'number' && { icon: Gauge, label: 'Kilometers', value: vehicle.kilometers.toLocaleString() },
+    vehicle.fuelType && { icon: Fuel, label: 'Fuel Type', value: vehicle.fuelType },
+    vehicle.registeredYear && { icon: Calendar, label: 'Year', value: vehicle.registeredYear.toString() },
+    vehicle.transmission && { icon: Settings, label: 'Transmission', value: vehicle.transmission },
+    vehicle.drive && { icon: Truck, label: 'Drive', value: vehicle.drive },
+  ].filter(Boolean as any);
 
-  // Right column specs
   const rightColumnSpecs = [
-    { icon: User, label: 'Condition', value: sampleVehicle.condition },
-    { icon: Settings, label: 'Engine Size', value: sampleVehicle.engineSize },
-    { icon: Users, label: 'Door', value: sampleVehicle.doors },
-    { icon: Settings, label: 'Cylinder', value: sampleVehicle.cylinder },
-    { icon: Palette, label: 'Color', value: sampleVehicle.color },
-    { icon: Hash, label: 'VIN', value: sampleVehicle.vin }
-  ];
+    vehicle.ownership && { icon: User, label: 'Ownership', value: vehicle.ownership },
+    vehicle.power && { icon: Settings, label: 'Power', value: vehicle.power },
+    typeof vehicle.door === 'number' && { icon: Users, label: 'Door', value: vehicle.door.toString() },
+    vehicle.exteriorColor && { icon: Palette, label: 'Color', value: vehicle.exteriorColor },
+    vehicle.registeredState && { icon: MapPin, label: 'Registered State', value: vehicle.registeredState },
+  ].filter(Boolean as any);
 
   return (
     <div className="bg-white">

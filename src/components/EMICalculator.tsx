@@ -9,15 +9,15 @@ interface EMICalculatorProps {
 }
 
 const EMICalculator: React.FC<EMICalculatorProps> = ({ price }) => {
-  const minDownPaymentPercentage = 20;
+  const minDownPaymentPercentage = 30;
   const minDownPayment = useMemo(() => (price * minDownPaymentPercentage) / 100, [price]);
 
   const [downPayment, setDownPayment] = useState(minDownPayment);
-  const [interestRate, setInterestRate] = useState(7);
+  const interestRate = 11;
   const [tenure, setTenure] = useState(24); // Default tenure in months
 
   const loanAmount = useMemo(() => price - downPayment, [price, downPayment]);
-  const monthlyInterestRate = useMemo(() => interestRate / 12 / 100, [interestRate]);
+  const monthlyInterestRate = useMemo(() => interestRate / 12 / 100, []);
   const numberOfMonths = useMemo(() => tenure, [tenure]);
 
   const emi = useMemo(() => {
@@ -32,14 +32,14 @@ const EMICalculator: React.FC<EMICalculatorProps> = ({ price }) => {
   const totalInterestPayment = useMemo(() => totalAmountToPay - loanAmount, [totalAmountToPay, loanAmount]);
 
   return (
-    <div className="bg-white p-6 md:p-8 my-8 border border-gray-200 rounded-lg">
+    <div id="emiCalculator" className="bg-white p-6 md:p-8 my-8 border border-gray-200 rounded-lg">
       <h2 className="text-2xl font-bold mb-6 text-gray-800">EMI Calculator</h2>
 
       <div className="space-y-8">
         {/* Down Payment Slider */}
         <div>
           <div className="flex justify-between items-center mb-2">
-            <label className="font-medium text-gray-700">Down Payment (Minimum 20%)</label>
+            <label className="font-medium text-gray-700">Down Payment (Minimum 30%)</label>
             <span className="font-semibold text-gray-900">{formatPrice(downPayment)}</span>
           </div>
           <Slider
@@ -52,20 +52,13 @@ const EMICalculator: React.FC<EMICalculatorProps> = ({ price }) => {
           />
         </div>
 
-        {/* Interest Rate Slider */}
+        {/* Interest Rate (fixed) */}
         <div>
           <div className="flex justify-between items-center mb-2">
             <label className="font-medium text-gray-700">Annual Interest Rate (%)</label>
             <span className="font-semibold text-gray-900">{interestRate.toFixed(1)}%</span>
           </div>
-          <Slider
-            value={[interestRate]}
-            onValueChange={(value) => setInterestRate(value[0])}
-            min={7}
-            max={15}
-            step={0.1}
-            className="w-full"
-          />
+          
         </div>
 
         {/* Tenure Slider */}

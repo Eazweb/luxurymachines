@@ -15,9 +15,10 @@ import {
 type MobileMenuProps = {
   isOpen: boolean;
   onClose: () => void;
+  phoneNumber: string;
 };
 
-export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
+export default function MobileMenu({ isOpen, onClose, phoneNumber }: MobileMenuProps) {
   const pathname = usePathname();
 
   return (
@@ -69,11 +70,11 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
               Rent Car
             </Link>
             <a 
-              href="tel:+919876543210" 
+              href={`tel:${phoneNumber}`} 
               className="flex items-center justify-center py-3 text-gray-700 hover:text-blue-600"
             >
               <Phone className="h-5 w-5 mr-2" />
-              <span className="font-medium">+91 9876 543 210</span>
+              <span className="font-medium">{phoneNumber}</span>
             </a>
           </div>
         </nav>

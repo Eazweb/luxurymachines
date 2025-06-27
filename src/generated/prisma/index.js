@@ -210,7 +210,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\HP\\OneDrive\\Desktop\\luxurymachines\\src\\generated\\prisma",
+      "value": "C:\\Users\\hp\\Desktop\\luxury\\src\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -224,7 +224,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\HP\\OneDrive\\Desktop\\luxurymachines\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\hp\\Desktop\\luxury\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
