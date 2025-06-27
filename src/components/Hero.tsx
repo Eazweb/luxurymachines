@@ -7,10 +7,10 @@ export default function Hero() {
   const [currentBg, setCurrentBg] = useState(0);
   
   const backgroundImages = [
-    '/bgphoto1.webp',
-    '/bgphoto.webp',
-    '/bg.avif',
-    '/herobg.jpg'
+    '/bgphotos/1.webp',
+    '/bgphotos/2.jpg',
+    '/bgphotos/1.webp',
+    '/bgphotos/2.jpg'
   ];
 
   // Auto-advance background
