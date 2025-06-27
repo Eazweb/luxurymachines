@@ -150,11 +150,16 @@ const VehicleDetails = ({ vehicle }: { vehicle: any }) => {
                   Call Us
                 </a>
               </div>
-
-              <button className="w-full bg-blue-600 text-white py-3.5 px-6 rounded-lg hover:bg-blue-700 transition-colors font-medium flex items-center justify-center gap-2">
+            
+              <a
+                href={`https://wa.me/${phoneNumber.replace(/\D/g, '')}?text=Hi%20Luxury%20Machines,%20I%20would%20like%20to%20book%20a%20test%20drive%20for%20${encodeURIComponent(vehicle.make + ' ' + vehicle.model + ' ' + (vehicle.variant || ''))}.%0A%0A${typeof window !== 'undefined' ? window.location.href : ''}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full bg-green-600 text-white py-3.5 px-6 rounded-lg hover:bg-green-700 transition-colors font-medium flex items-center justify-center gap-2"
+              >
                 <MessageCircle className="w-5 h-5" />
-                Message Dealer
-              </button>
+                Book a Test Drive
+              </a>
 
               <a
                 href={`https://wa.me/${phoneNumber.replace(/\D/g, '')}?text=Hi%20Luxury%20Machines,%20I'm%20interested%20in%20this%20vehicle`}

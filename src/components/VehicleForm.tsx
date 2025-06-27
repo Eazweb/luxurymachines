@@ -123,22 +123,23 @@ export default function VehicleForm({ initialData, isEditing = false }: VehicleF
     setPreviewUrls(newPreviewUrls);
   };
   
+  // Upload an array of images to Cloudinary in parallel and return their optimized URLs
   const uploadImages = async (files: File[]): Promise<string[]> => {
     if (!files.length) return [];
-    
-    const uploadedUrls: string[] = [];
+
     const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
     const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_PRESET || 'luxury_cars';
-    
+
     if (!cloudName) {
       throw new Error('Cloudinary cloud name is not configured');
     }
-    
-    for (const file of files) {
+
+    // Create one fetch promise per file and execute them concurrently
+    const uploadPromises = files.map(async (file) => {
       const formData = new FormData();
       formData.append('file', file);
       formData.append('upload_preset', uploadPreset);
-      
+
       const response = await fetch(
         `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
         {
@@ -146,19 +147,18 @@ export default function VehicleForm({ initialData, isEditing = false }: VehicleF
           body: formData,
         }
       );
-      
+
       if (!response.ok) {
         throw new Error('Image upload failed');
       }
-      
+
       const data = await response.json();
-      let url = data.secure_url;
-      // Add optimization parameters
-      url = url.replace('/upload/', '/upload/f_auto,q_auto/');
-      uploadedUrls.push(url);
-    }
-    
-    return uploadedUrls;
+      // Optimise delivery (auto-format & auto-quality)
+      return (data.secure_url as string).replace('/upload/', '/upload/f_auto,q_auto/');
+    });
+
+    // Wait for all uploads to finish in parallel
+    return Promise.all(uploadPromises);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -179,14 +179,17 @@ export default function VehicleForm({ initialData, isEditing = false }: VehicleF
       
       if (selectedFiles.length > 0) {
         const uploadedUrls = await uploadImages(selectedFiles);
-        // Combine existing URLs with newly uploaded ones
-        imageUrls = [...previewUrls.filter(url => !url.startsWith('blob:')), ...uploadedUrls];
+        // Combine existing URLs with newly uploaded ones (filter out local blob previews)
+        imageUrls = [
+          ...previewUrls.filter((url) => !url.startsWith('blob:')),
+          ...uploadedUrls,
+        ];
       }
       
       // Convert form data to the right types
       const vehicleData = {
         name: formData.name,
-        price: parseFloat(formData.price),
+        price: parseInt(formData.price, 10),
         model: formData.model,
         company: formData.company,
         fuelType: formData.fuelType,

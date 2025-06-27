@@ -44,34 +44,34 @@ export default function Hero() {
       </div>
       
       {/* Static Content */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center px-4 pt-10 md:pt-20 text-center">
-        <div className="max-w-4xl mx-auto px-4">
-          <p className="text-white/90 text-sm md:text-xl mb-6">
-            Experience the Pinnacle of Automotive Excellence
-          </p>
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-semibold text-white mb-8 leading-tight">
+      <div className="absolute inset-0 flex flex-col justify-start items-start px-4 md:px-12 pt-56 md:pt-64 text-left">
+        <div className="max-w-4xl px-4">
+          <span className="text-sm md:text-base font-light tracking-widest text-white/80 mb-2 block">LUXURY MACHINES</span>
+          <h1 className="text-3xl md:text-5xl lg:text-6xl font-medium text-white mb-6 leading-tight">
             Find Your Perfect Car
           </h1>
           
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full max-w-md mx-auto mb-8">
+          <div className="flex flex-col sm:flex-row items-start gap-4 w-full max-w-md mb-8">
             <Link 
               href="/collection" 
-              className="w-full sm:w-auto text-center bg-white text-gray-900 hover:bg-gray-100 px-4 py-3 text-xs md:text-base font-medium rounded-full transition-colors duration-300 min-w-[120px]"
+              className="w-full sm:w-auto text-center bg-white text-gray-900 hover:bg-gray-100 px-8 py-3 text-xs md:text-base font-medium rounded-md transition-colors duration-300 min-w-[160px]"
+              prefetch
             >
               Explore Collection
             </Link>
             <Link 
-              href="/contact" 
-              className="w-full sm:w-auto text-center text-white border-2 border-white hover:bg-white/10 px-4 py-3 text-xs md:text-base font-medium rounded-full transition-colors duration-300 min-w-[120px]"
+              href="/contact-us" 
+              prefetch
+              className="w-full sm:w-auto text-center text-white border-2 border-white hover:bg-white/10 px-8 py-3 text-xs md:text-base font-medium rounded-md transition-colors duration-300 min-w-[160px]"
             >
               Sell Your Car
             </Link>
           </div>
 
           {/* Vehicle Categories */}
-          <div className="mt-8 text-center">
+          <div className="mt-8 text-left">
             <p className="text-white/80 mb-4">Browse by Category</p>
-            <div className="flex flex-wrap justify-center gap-4 max-w-2xl mx-auto">
+            <div className="flex flex-wrap justify-start gap-4 max-w-2xl">
               {[
                 { 
                   name: 'Sedan', 
