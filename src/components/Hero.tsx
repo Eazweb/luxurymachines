@@ -8,8 +8,6 @@ export default function Hero() {
   
   const backgroundImages = [
     '/bgphotos/1.webp',
-    '/bgphotos/2.jpg',
-    '/bgphotos/1.webp',
     '/bgphotos/2.jpg'
   ];
 

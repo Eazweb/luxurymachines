@@ -114,21 +114,15 @@ const VehicleDetails = ({ vehicle }: { vehicle: any }) => {
         {/* Right Side: Dealer Info */}
         <div className="lg:w-96 xl:w-[28rem] 2xl:w-[32rem] bg-white p-8 ">
           <div className="space-y-6">
-            <div className="flex items-center gap-4 mb-6">
+            <div className="flex items-center justify-center gap-4 mb-6">
               <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden">
                 <img
-                  src={sampleDealer.image}
-                  alt={sampleDealer.name}
+                  src='/logo.png'
+                  alt='LuxuryMachines'
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div>
-                <h3 className="text-lg font-semibold text-gray-900">{sampleDealer.name}</h3>
-                <p className="text-sm text-gray-500 flex items-center">
-                  <MapPin className="w-4 h-4 mr-1.5" />
-                  {sampleDealer.address}
-                </p>
-              </div>
+            
             </div>
 
             <div className="space-y-4">

@@ -25,12 +25,10 @@ export default async function Home() {
 
       <BrandsSection />
 
+
       <SellCar />
-
-      <StickyDetails />
-
       {featuredVehicles.length > 0 ? (
-        <FeaturedVehiclesCarousel 
+        <FeaturedVehiclesCarousel
           vehicles={featuredVehicles.map((vehicle: any) => ({
             ...vehicle,
             isGreatPrice: Math.random() > 0.7 // Randomly assign 'Great Price' to some vehicles for demo
@@ -43,13 +41,16 @@ export default async function Home() {
           </div>
         </section>
       )}
+      <StickyDetails />
+
+
 
       {/* <SellYourCar /> */}
 
       {/* <WhyChooseUs /> */}
 
       <DualCTA />
-      
+
     </div>
   );
 }

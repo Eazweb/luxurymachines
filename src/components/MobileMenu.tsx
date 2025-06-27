@@ -45,7 +45,7 @@ export default function MobileMenu({ isOpen, onClose, phoneNumber }: MobileMenuP
               About
             </Link>
             <Link 
-              href="/contact" 
+              href="/contact-us" 
               className={`block text-lg ${pathname === '/contact' ? 'text-blue-600 font-medium' : 'text-gray-700'}`}
               onClick={onClose}
             >
@@ -56,14 +56,14 @@ export default function MobileMenu({ isOpen, onClose, phoneNumber }: MobileMenuP
           {/* Action Buttons */}
           <div className="space-y-3 pt-4 border-t">
             <Link 
-              href="/buycar" 
+              href="/collection" 
               className="block w-full py-3 bg-blue-600 text-white text-center rounded-md hover:bg-blue-700 transition-colors"
               onClick={onClose}
             >
               Buy Car
             </Link>
             <Link 
-              href="/rentcar" 
+              href="/contact-us" 
               className="block w-full py-3 border border-blue-600 text-blue-600 text-center rounded-md hover:bg-blue-50 transition-colors"
               onClick={onClose}
             >
