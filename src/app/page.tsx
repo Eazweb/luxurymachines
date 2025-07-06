@@ -26,9 +26,6 @@ export default async function Home() {
       <BrandsSection />
 
       <SellCar />
-
-      <StickyDetails />
-
       {featuredVehicles.length > 0 ? (
         <FeaturedVehiclesCarousel 
           vehicles={featuredVehicles.map((vehicle: any) => ({
@@ -43,6 +40,10 @@ export default async function Home() {
           </div>
         </section>
       )}
+
+      <StickyDetails />
+
+      
 
       {/* <SellYourCar /> */}
 
