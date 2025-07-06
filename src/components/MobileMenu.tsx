@@ -15,9 +15,10 @@ import {
 type MobileMenuProps = {
   isOpen: boolean;
   onClose: () => void;
+  phoneNumber: string;
 };
 
-export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
+export default function MobileMenu({ isOpen, onClose, phoneNumber }: MobileMenuProps) {
   const pathname = usePathname();
 
   return (
@@ -44,7 +45,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
               About
             </Link>
             <Link 
-              href="/contact" 
+              href="/contact-us" 
               className={`block text-lg ${pathname === '/contact' ? 'text-blue-600 font-medium' : 'text-gray-700'}`}
               onClick={onClose}
             >
@@ -55,25 +56,25 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
           {/* Action Buttons */}
           <div className="space-y-3 pt-4 border-t">
             <Link 
-              href="/buycar" 
+              href="/collection" 
               className="block w-full py-3 bg-blue-600 text-white text-center rounded-md hover:bg-blue-700 transition-colors"
               onClick={onClose}
             >
               Buy Car
             </Link>
             <Link 
-              href="/rentcar" 
+              href="/contact-us" 
               className="block w-full py-3 border border-blue-600 text-blue-600 text-center rounded-md hover:bg-blue-50 transition-colors"
               onClick={onClose}
             >
               Rent Car
             </Link>
             <a 
-              href="tel:+919876543210" 
+              href={`tel:${phoneNumber}`} 
               className="flex items-center justify-center py-3 text-gray-700 hover:text-blue-600"
             >
               <Phone className="h-5 w-5 mr-2" />
-              <span className="font-medium">+91 9876 543 210</span>
+              <span className="font-medium">{phoneNumber}</span>
             </a>
           </div>
         </nav>

@@ -21,24 +21,6 @@ import {
 import { phoneNumber } from '@/config';
 
 const VehicleDetails = ({ vehicle }: { vehicle: any }) => {
-  // Sample data for demo
-  const sampleVehicle = {
-    vehicleType: 'SUV',
-    kilometers: 50,
-    fuelType: 'Petrol',
-    registeredYear: 2023,
-    transmission: 'Automatic',
-    driveType: 'All-Wheel Drive (AWD/4WD)',
-    condition: 'New',
-    engineSize: '4.5',
-    doors: '4 Doors',
-    cylinder: '10',
-    color: 'Black, Gold, White',
-    vin: 'MCB123813',
-    description: 'Quisque imperdiet dignissim enim dictum finibus. Sed consectetur convallis enim eget laoreet. Aenean vitae nisl mollis, porta risus vel, dapibus lectus. Etiam ac suscipit arcs, eget maximus',
-    ...vehicle
-  };
-
   const sampleDealer = {
     name: 'Luxury Machines',
     address: 'Mumbai, India',
@@ -46,25 +28,23 @@ const VehicleDetails = ({ vehicle }: { vehicle: any }) => {
     image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
   };
 
-  // Left column specs
+  // Prepare specs dynamically based on available data
   const leftColumnSpecs = [
-    { icon: Car, label: 'Body', value: sampleVehicle.vehicleType },
-    { icon: Gauge, label: 'Mileage', value: sampleVehicle.kilometers.toString() },
-    { icon: Fuel, label: 'Fuel Type', value: sampleVehicle.fuelType },
-    { icon: Calendar, label: 'Year', value: sampleVehicle.registeredYear.toString() },
-    { icon: Settings, label: 'Transmission', value: sampleVehicle.transmission },
-    { icon: Truck, label: 'Drive Type', value: sampleVehicle.driveType }
-  ];
+    vehicle.vehicleType && { icon: Car, label: 'Body', value: vehicle.vehicleType },
+    typeof vehicle.kilometers === 'number' && { icon: Gauge, label: 'Kilometers', value: vehicle.kilometers.toLocaleString() },
+    vehicle.fuelType && { icon: Fuel, label: 'Fuel Type', value: vehicle.fuelType },
+    vehicle.registeredYear && { icon: Calendar, label: 'Year', value: vehicle.registeredYear.toString() },
+    vehicle.transmission && { icon: Settings, label: 'Transmission', value: vehicle.transmission },
+    vehicle.drive && { icon: Truck, label: 'Drive', value: vehicle.drive },
+  ].filter(Boolean as any);
 
-  // Right column specs
   const rightColumnSpecs = [
-    { icon: User, label: 'Condition', value: sampleVehicle.condition },
-    { icon: Settings, label: 'Engine Size', value: sampleVehicle.engineSize },
-    { icon: Users, label: 'Door', value: sampleVehicle.doors },
-    { icon: Settings, label: 'Cylinder', value: sampleVehicle.cylinder },
-    { icon: Palette, label: 'Color', value: sampleVehicle.color },
-    { icon: Hash, label: 'VIN', value: sampleVehicle.vin }
-  ];
+    vehicle.ownership && { icon: User, label: 'Ownership', value: vehicle.ownership },
+    vehicle.power && { icon: Settings, label: 'Power', value: vehicle.power },
+    typeof vehicle.door === 'number' && { icon: Users, label: 'Door', value: vehicle.door.toString() },
+    vehicle.exteriorColor && { icon: Palette, label: 'Color', value: vehicle.exteriorColor },
+    vehicle.registeredState && { icon: MapPin, label: 'Registered State', value: vehicle.registeredState },
+  ].filter(Boolean as any);
 
   return (
     <div className="bg-white">
@@ -134,21 +114,15 @@ const VehicleDetails = ({ vehicle }: { vehicle: any }) => {
         {/* Right Side: Dealer Info */}
         <div className="lg:w-96 xl:w-[28rem] 2xl:w-[32rem] bg-white p-8 ">
           <div className="space-y-6">
-            <div className="flex items-center gap-4 mb-6">
+            <div className="flex items-center justify-center gap-4 mb-6">
               <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden">
                 <img
-                  src={sampleDealer.image}
-                  alt={sampleDealer.name}
+                  src='/logo.png'
+                  alt='LuxuryMachines'
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div>
-                <h3 className="text-lg font-semibold text-gray-900">{sampleDealer.name}</h3>
-                <p className="text-sm text-gray-500 flex items-center">
-                  <MapPin className="w-4 h-4 mr-1.5" />
-                  {sampleDealer.address}
-                </p>
-              </div>
+            
             </div>
 
             <div className="space-y-4">
@@ -170,11 +144,16 @@ const VehicleDetails = ({ vehicle }: { vehicle: any }) => {
                   Call Us
                 </a>
               </div>
-
-              <button className="w-full bg-blue-600 text-white py-3.5 px-6 rounded-lg hover:bg-blue-700 transition-colors font-medium flex items-center justify-center gap-2">
+            
+              <a
+                href={`https://wa.me/${phoneNumber.replace(/\D/g, '')}?text=Hi%20Luxury%20Machines,%20I%20would%20like%20to%20book%20a%20test%20drive%20for%20${encodeURIComponent(vehicle.make + ' ' + vehicle.model + ' ' + (vehicle.variant || ''))}.%0A%0A${typeof window !== 'undefined' ? window.location.href : ''}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full bg-green-600 text-white py-3.5 px-6 rounded-lg hover:bg-green-700 transition-colors font-medium flex items-center justify-center gap-2"
+              >
                 <MessageCircle className="w-5 h-5" />
-                Message Dealer
-              </button>
+                Book a Test Drive
+              </a>
 
               <a
                 href={`https://wa.me/${phoneNumber.replace(/\D/g, '')}?text=Hi%20Luxury%20Machines,%20I'm%20interested%20in%20this%20vehicle`}

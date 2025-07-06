@@ -80,48 +80,78 @@ export default function Navbar() {
     };
   }, [lastScrollY, scrollingDown, showNavbar, isHomePage]);
 
-  // For non-home pages, use a simple static header with transparent background
+  // For non-home pages, use a static header with blueish background
   if (!isHomePage) {
     return (
-      <header className="py-3">
-        <div className="container w-[90%] mx-auto flex items-center justify-between">
-          <Link href="/" className="flex items-center space-x-2 group">
-            <div className="relative w-10 h-10">
-              <Image 
-                src="/logo.png" 
-                alt="Luxury Machines Logo"
-                fill
-                className="object-contain"
-                priority
-              />
+      <>
+        <header className="bg-[#0f172a] shadow-md">
+          <div className="container w-[90%] mx-auto py-3 flex items-center justify-between">
+            <Link href="/" className="flex items-center space-x-2 group">
+              <div className="relative w-10 h-10">
+                <Image 
+                  src="/logo.png" 
+                  alt="Luxury Machines Logo"
+                  fill
+                  className="object-contain"
+                  priority
+                />
+              </div>
+              <span className="hidden md:block text-xl font-semibold text-white whitespace-nowrap">
+                LUXURY MACHINES
+              </span>
+            </Link>
+            <div className="flex items-center space-x-2 md:space-x-6">
+              {/* Mobile menu button - hidden on md and up */}
+              <div className="md:hidden flex items-center space-x-2">
+                <a 
+                  href={`tel:${phoneNumber}`}
+                  className="p-2 text-white hover:bg-white/10 rounded-full transition-colors"
+                  aria-label="Call"
+                >
+                  <Phone className="h-6 w-6" />
+                </a>
+                <button 
+                  onClick={() => setMobileMenuOpen(true)}
+                  className="p-2 text-white hover:bg-white/10 rounded-full transition-colors"
+                  aria-label="Toggle mobile menu"
+                >
+                  <Menu className="h-6 w-6" />
+                </button>
+              </div>
+              
+              {/* Desktop navigation - hidden on mobile */}
+              <div className="hidden md:flex items-center space-x-6">
+                <a 
+                  href={`tel:${phoneNumber}`}
+                  className="px-6 py-2.5 text-white hover:bg-white/10 rounded-md transition-colors flex items-center"
+                >
+                  <span className="font-medium">{phoneNumber}</span>
+                  <span className="ml-2">Buy Car</span>
+                </a>
+                <Link 
+                  href="/collection" 
+                  className="px-4 py-2 text-white hover:bg-white/10 rounded-md transition-colors"
+                >
+                  Collection
+                </Link>
+                <Link 
+                  href="/contact" 
+                  className="px-4 py-2 text-white hover:bg-white/10 rounded-md transition-colors"
+                >
+                  Contact
+                </Link>
+              </div>
             </div>
-            <span className="hidden md:block text-xl lg:text-2xl font-bold text-white whitespace-nowrap">
-              LUXURY MACHINES
-            </span>
-          </Link>
-          <div className="hidden md:flex items-center space-x-6">
-            <a 
-              href={`tel:${phoneNumber}`}
-              className="px-6 py-2.5 text-gray-900 hover:bg-black/5 rounded-md transition-colors flex items-center"
-            >
-              <span className="font-medium">{phoneNumber}</span>
-              <span className="ml-2">Buy Car</span>
-            </a>
-            <Link 
-              href="/collection" 
-              className="px-4 py-2 text-gray-900 hover:bg-black/5 rounded-md transition-colors"
-            >
-              Collection
-            </Link>
-            <Link 
-              href="/contact" 
-              className="px-4 py-2 text-gray-900 hover:bg-black/5 rounded-md transition-colors"
-            >
-              Contact
-            </Link>
           </div>
-        </div>
-      </header>
+        </header>
+        
+        {/* Mobile Menu - for non-home pages */}
+        <MobileMenu 
+          isOpen={mobileMenuOpen} 
+          onClose={() => setMobileMenuOpen(false)}
+          phoneNumber={phoneNumber}
+        />
+      </>
     );
   }
 
@@ -187,17 +217,14 @@ export default function Navbar() {
               <span className="ml-2">Buy Car</span>
             </a>
 
-            <ScrollLink
-              to="testimonials"
-              smooth={true}
-              duration={800}
-              offset={-80}
-              className="px-4 py-2 text-white hover:bg-white/10 rounded-md transition-colors cursor-pointer"
-            >
-              Clients
-            </ScrollLink>
             <Link 
-              href="/contact" 
+              href="/collection" 
+              className="px-4 py-2 text-white hover:bg-white/10 rounded-md transition-colors"
+            >
+              Collection
+            </Link>
+            <Link 
+              href="/contact-us" 
               className="px-4 py-2 text-white hover:bg-white/10 rounded-md transition-colors"
             >
               Contact
@@ -209,7 +236,8 @@ export default function Navbar() {
       {/* Mobile Menu */}
       <MobileMenu 
         isOpen={mobileMenuOpen} 
-        onClose={() => setMobileMenuOpen(false)} 
+        onClose={() => setMobileMenuOpen(false)}
+        phoneNumber={phoneNumber}
       />
     </>
   );
