@@ -11,12 +11,12 @@ const VehicleHeader = ({ vehicle }: { vehicle: any }) => {
   return (
     <div className="bg-white ">
       {/* Breadcrumb */}
-      <div className="flex items-center space-x-2 mb-6 text-sm md:text-md">
+      <div className="flex items-center space-x-2 mb-6 text-sm md:text-md flex-nowrap overflow-x-auto pb-2">
         <span className="text-blue-600">Home</span>
         <span className="text-gray-400">/</span>
         <Link href="/collection" className="text-blue-600">Collection</Link>
         <span className="text-gray-400">/</span>
-        <span className="text-gray-600"> {vehicle.name} – {vehicle.registeredYear}</span>
+        <span className="text-gray-600 truncate"> {vehicle.name} – {vehicle.registeredYear}</span>
       </div>
 
       {/* Header with Share/Save/Compare */}
@@ -95,22 +95,33 @@ const VehicleHeader = ({ vehicle }: { vehicle: any }) => {
           <div className="text-xl md:text-3xl font-semibold text-gray-900 mb-2 whitespace-nowrap">
             {formatPrice(vehicle.price)}
           </div>
-          <a
-            className="flex items-center text-blue-600 font-medium hover:text-blue-700 whitespace-nowrap"
-            target="_blank"
-            rel="noopener noreferrer"
-            href={`https://wa.me/${phoneNumber.replace('+', '')}?text=${encodeURIComponent(`Hi, I want to talk about this car: ${typeof window !== 'undefined' ? window.location.href : ''}`)}`}
-            onClick={e => {
-              if (typeof window !== 'undefined') {
-                (e.currentTarget as HTMLAnchorElement).href = `https://wa.me/${phoneNumber.replace('+', '')}?text=${encodeURIComponent(`Hi, I want to talk about this car: ${window.location.href}`)}`;
-              }
-            }}
-          >
-            <svg className="w-5 h-5 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-            </svg>
-            <span>Make An Offer Price</span>
-          </a>
+          <div className="flex items-center space-x-4">
+            <a
+              className="flex items-center text-blue-600 font-medium hover:text-blue-700 whitespace-nowrap"
+              target="_blank"
+              rel="noopener noreferrer"
+              href={`https://wa.me/${phoneNumber.replace('+', '')}?text=${encodeURIComponent(`Hi, I want to talk about this car: ${typeof window !== 'undefined' ? window.location.href : ''}`)}`}
+              onClick={e => {
+                if (typeof window !== 'undefined') {
+                  (e.currentTarget as HTMLAnchorElement).href = `https://wa.me/${phoneNumber.replace('+', '')}?text=${encodeURIComponent(`Hi, I want to talk about this car: ${window.location.href}`)}`;
+                }
+              }}
+            >
+              <svg className="w-5 h-5 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+              </svg>
+              <span>Make An Offer Price</span>
+            </a>
+            <ScrollLink
+              to="emiCalculator"
+              smooth={true}
+              duration={800}
+              offset={-80}
+              className="md:hidden bg-blue-600 text-white py-2 px-4 text-sm rounded-lg hover:bg-blue-700 transition-colors font-medium flex items-center justify-center cursor-pointer"
+            >
+              Calculate EMI
+            </ScrollLink>
+          </div>
         </div>
       </div>
     </div>

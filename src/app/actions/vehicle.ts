@@ -4,8 +4,7 @@ import { getPrismaClient } from '@/lib/db';
 import cloudinary from '@/lib/cloudinary';
 import { revalidatePath } from 'next/cache';
 
-// Initialize Prisma client
-const prisma = getPrismaClient();
+
 
 // Types
 type VehicleInput = {
@@ -46,6 +45,7 @@ function generateSlug(name: string, model: string, year: number): string {
 
 // Helper function to ensure slug uniqueness
 async function ensureUniqueSlug(baseSlug: string): Promise<string> {
+  const prisma = getPrismaClient();
   let slug = baseSlug;
   let counter = 1;
   
@@ -72,6 +72,7 @@ export async function createVehicle(
   data: VehicleInput,
   imageUrls: string[]
 ) {
+  const prisma = getPrismaClient();
   try {
     // Generate a slug for the vehicle
     const baseSlug = generateSlug(data.name, data.model, data.registeredYear);
@@ -100,6 +101,7 @@ export async function updateVehicle(
   data: VehicleInput,
   imageUrls: string[]
 ) {
+  const prisma = getPrismaClient();
   try {
     // Get current vehicle data to check if name or model has changed
     const currentVehicle = await prisma.vehicle.findUnique({
@@ -140,6 +142,7 @@ export async function updateVehicle(
 
 // Delete a vehicle
 export async function deleteVehicle(id: string) {
+  const prisma = getPrismaClient();
   try {
     // Get vehicle to access image URLs and slug
     const vehicle = await prisma.vehicle.findUnique({
@@ -183,6 +186,7 @@ export async function deleteVehicle(id: string) {
 
 // Get featured vehicles
 export async function getFeaturedVehicles(limit = 6) {
+  const prisma = getPrismaClient();
   try {
     const vehicles = await prisma.vehicle.findMany({
       where: { featured: true },
@@ -199,6 +203,7 @@ export async function getFeaturedVehicles(limit = 6) {
 
 // Get vehicle by slug
 export async function getVehicleBySlug(slug: string) {
+  const prisma = getPrismaClient();
   try {
     const vehicle = await prisma.vehicle.findUnique({
       where: { slug },
@@ -217,6 +222,7 @@ export async function getVehicleBySlug(slug: string) {
 
 // Get vehicle by ID
 export async function getVehicleById(id: string) {
+  const prisma = getPrismaClient();
   try {
     const vehicle = await prisma.vehicle.findUnique({
       where: { id },
@@ -234,6 +240,7 @@ export async function getVehicleById(id: string) {
 }
 
 export async function getRecommendedVehicles(currentVehicleId: string, limit = 6) {
+  const prisma = getPrismaClient();
   try {
     const vehicles = await prisma.vehicle.findMany({
       where: {

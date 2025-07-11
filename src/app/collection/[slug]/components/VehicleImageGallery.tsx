@@ -263,11 +263,11 @@ const VehicleImageGallery = ({ images = [] }: VehicleImageGalleryProps) => {
             {/* Main Carousel Image Container */}
             <div className="relative w-[90vw] md:w-full max-w-5xl h-[60vh] md:h-auto md:aspect-[5/3] mx-auto">
               <Image
-                src={getOptimizedImage(displayImages[carouselIndex], 1600)}
+                src={displayImages[carouselIndex]}
                 alt={`Vehicle view ${carouselIndex + 1}`}
                 fill
                 priority={carouselIndex < 2} // Only preload first 2 images
-                quality={70}
+                quality={75} // Use a slightly higher quality for the main view
                 sizes="(max-width: 768px) 90vw, 80vw"
                 className="object-contain rounded-lg"
                 loading="eager"
