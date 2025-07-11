@@ -9,14 +9,9 @@ import {
   User,
   Users,
   Palette,
-  Hash,
   MapPin,
   Phone,
   MessageCircle,
-  ExternalLink,
-  ArrowRight,
-  ShieldCheck,
-  Star
 } from 'lucide-react';
 import { phoneNumber } from '@/config';
 
