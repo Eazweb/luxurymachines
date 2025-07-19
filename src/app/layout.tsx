@@ -23,6 +23,14 @@ const ralewayFont = Poppins({
 export const metadata = {
   title: 'Luxury Car Dealership',
   description: 'Find your dream luxury car',
+  icons: {
+    icon: '/logo.png',
+    shortcut: '/logo.png',
+    apple: '/logo.png',
+  },
+  openGraph: {
+    images: '/logo.png',
+  },
 };
 
 export default function RootLayout({

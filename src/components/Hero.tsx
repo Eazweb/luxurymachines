@@ -10,7 +10,7 @@ export default function Hero() {
         <div
           className="absolute inset-0"
           style={{
-            backgroundImage: `url('/bgphoto1.webp')`,
+            backgroundImage: `url('/hero.jpg')`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
@@ -39,7 +39,7 @@ export default function Hero() {
               Explore Collection
             </Link>
             <Link
-              href="/contact"
+              href="/contact-us"
               className="w-full sm:w-auto text-center text-white border-2 border-white hover:bg-white/10 px-4 py-3 text-xs md:text-base font-medium rounded-full transition-colors duration-300 min-w-[120px]"
             >
               Sell Your Car

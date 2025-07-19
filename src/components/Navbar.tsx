@@ -12,8 +12,6 @@ import { phoneNumber } from '@/config';
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
-  
-
 
   // Don't show navbar on admin routes
   if (pathname.startsWith('/admin')) {
@@ -22,69 +20,12 @@ export default function Navbar() {
 
   // Determine if we're on the home page
   const isHomePage = pathname === '/';
-  
-  // State for sticky navbar (only used on home page)
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [lastScrollY, setLastScrollY] = useState(0);
-  const [showNavbar, setShowNavbar] = useState(true);
-  const [scrollingDown, setScrollingDown] = useState(false);
-
-  // Handle scroll behavior only on home page
-  useEffect(() => {
-    if (!isHomePage) return;
-    
-    let timeoutId: NodeJS.Timeout;
-    
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      
-      // Always show navbar at the top of the page
-      if (currentScrollY <= 100) {
-        setShowNavbar(true);
-        setIsScrolled(false);
-        setLastScrollY(currentScrollY);
-        return;
-      }
-
-      // Check scroll direction
-      const isScrollingDown = currentScrollY > lastScrollY;
-      
-      // Update scroll direction state
-      if (isScrollingDown !== scrollingDown) {
-        setScrollingDown(isScrollingDown);
-      }
-      
-      // Show/hide navbar based on scroll direction
-      if (isScrollingDown && showNavbar) {
-        // Hide navbar when scrolling down
-        setShowNavbar(false);
-      } else if (!isScrollingDown && !showNavbar) {
-        // Show navbar when scrolling up
-        setShowNavbar(true);
-      }
-      
-      setLastScrollY(currentScrollY);
-      setIsScrolled(currentScrollY > 100);
-    };
-
-    // Throttle scroll events for better performance
-    const throttledScroll = () => {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(handleScroll, 50);
-    };
-
-    window.addEventListener('scroll', throttledScroll, { passive: true });
-    return () => {
-      window.removeEventListener('scroll', throttledScroll);
-      clearTimeout(timeoutId);
-    };
-  }, [lastScrollY, scrollingDown, showNavbar, isHomePage]);
 
   // For non-home pages, use a static header with blueish background
   if (!isHomePage) {
     return (
       <>
-        <header className="bg-[#0f172a] shadow-md">
+        <header className="bg-[#0f172a] shadow-md sticky top-0 z-50">
           <div className="container w-[90%] mx-auto py-3 flex items-center justify-between">
             <Link href="/" className="flex items-center space-x-2 group">
               <div className="relative w-10 h-10">
@@ -121,13 +62,6 @@ export default function Navbar() {
               
               {/* Desktop navigation - hidden on mobile */}
               <div className="hidden md:flex items-center space-x-6">
-                <a 
-                  href={`tel:${phoneNumber}`}
-                  className="px-6 py-2.5 text-white hover:bg-white/10 rounded-md transition-colors flex items-center"
-                >
-                  <span className="font-medium">{phoneNumber}</span>
-                  <span className="ml-2">Buy Car</span>
-                </a>
                 <Link 
                   href="/collection" 
                   className="px-4 py-2 text-white hover:bg-white/10 rounded-md transition-colors"
@@ -135,11 +69,17 @@ export default function Navbar() {
                   Collection
                 </Link>
                 <Link 
-                  href="/contact" 
+                  href="/contact-us" 
                   className="px-4 py-2 text-white hover:bg-white/10 rounded-md transition-colors"
                 >
                   Contact
                 </Link>
+                <a 
+                  href={`tel:${phoneNumber}`}
+                  className="px-6 py-2.5 bg-white text-black font-semibold rounded-lg shadow-md hover:bg-gray-200 transition-colors duration-300"
+                >
+                  Buy a Car
+                </a>
               </div>
             </div>
           </div>
@@ -160,15 +100,7 @@ export default function Navbar() {
     <>
       {/* The navbar itself */}
       <header 
-        className={`fixed w-full z-50 transition-all duration-500 ease-[cubic-bezier(0.4, 0, 0.2, 1)] ${
-          showNavbar ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0 pointer-events-none'
-        } ${
-          isScrolled ? 'bg-black/95 py-3 shadow-lg backdrop-blur-sm' : 'py-4 bg-transparent'
-        }`}
-        style={{
-          transitionProperty: 'transform, opacity, background-color, padding',
-          willChange: 'transform, opacity, background-color, padding'
-        }}
+        className={`fixed w-full z-50 bg-black shadow-lg py-3`}
       >
         <div className="container w-[90%] mx-auto flex items-center justify-between">
           {/* Logo - visible on all screens */}
@@ -200,23 +132,35 @@ export default function Navbar() {
             </a>
             <button 
               onClick={() => setMobileMenuOpen(true)}
-              className="p-2 text-gray-300 hover:text-white"
+              className="p-2 text-white hover:bg-white/10 rounded-full transition-colors"
               aria-label="Toggle mobile menu"
             >
               <Menu className="h-6 w-6" />
             </button>
           </div>
 
-          {/* Action Buttons - only visible on desktop */}
-          <div className="hidden md:flex items-center space-x-6">
-            <a 
-              href={`tel:${phoneNumber}`}
-              className="px-6 py-2.5 text-white hover:bg-white/10 rounded-md transition-colors flex items-center"
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center space-x-1 lg:space-x-2">
+            <ScrollLink 
+              to="services" 
+              spy={true} 
+              smooth={true} 
+              offset={-100} 
+              duration={500} 
+              className="px-4 py-2 text-white hover:bg-white/10 rounded-md transition-colors cursor-pointer"
             >
-              <span className="font-medium">{phoneNumber}</span>
-              <span className="ml-2">Buy Car</span>
-            </a>
-
+              Services
+            </ScrollLink>
+            <ScrollLink 
+              to="testimonials" 
+              spy={true} 
+              smooth={true} 
+              offset={-100} 
+              duration={500} 
+              className="px-4 py-2 text-white hover:bg-white/10 rounded-md transition-colors cursor-pointer"
+            >
+              Testimonials
+            </ScrollLink>
             <Link 
               href="/collection" 
               className="px-4 py-2 text-white hover:bg-white/10 rounded-md transition-colors"
@@ -229,6 +173,16 @@ export default function Navbar() {
             >
               Contact
             </Link>
+          </nav>
+
+          {/* Call to Action Button */}
+          <div className="hidden lg:flex flex-1 justify-end">
+            <a 
+              href={`tel:${phoneNumber}`}
+              className="px-6 py-3 bg-white text-black font-semibold rounded-lg shadow-md hover:bg-gray-200 transition-colors duration-300"
+            >
+              Buy a Car
+            </a>
           </div>
         </div>
       </header>
@@ -236,7 +190,7 @@ export default function Navbar() {
       {/* Mobile Menu */}
       <MobileMenu 
         isOpen={mobileMenuOpen} 
-        onClose={() => setMobileMenuOpen(false)}
+        onClose={() => setMobileMenuOpen(false)} 
         phoneNumber={phoneNumber}
       />
     </>
