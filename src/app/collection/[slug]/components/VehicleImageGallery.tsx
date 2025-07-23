@@ -101,6 +101,21 @@ const VehicleImageGallery = ({ images = [] }: VehicleImageGalleryProps) => {
     if (isCarouselOpen) {
       document.addEventListener('keydown', handleKeyDown);
       document.body.style.overflow = 'hidden';
+
+      // Preload next and previous images for a smoother experience
+      const nextImageIndex = (carouselIndex + 1) % displayImages.length;
+      const prevImageIndex = (carouselIndex - 1 + displayImages.length) % displayImages.length;
+
+      if (nextImageIndex !== carouselIndex) {
+        const nextImage = new window.Image();
+        nextImage.src = getOptimizedImage(displayImages[nextImageIndex]);
+      }
+
+      if (prevImageIndex !== carouselIndex) {
+        const prevImage = new window.Image();
+        prevImage.src = getOptimizedImage(displayImages[prevImageIndex]);
+      }
+
     } else {
       document.body.style.overflow = 'unset';
     }
@@ -109,7 +124,7 @@ const VehicleImageGallery = ({ images = [] }: VehicleImageGalleryProps) => {
       document.removeEventListener('keydown', handleKeyDown);
       document.body.style.overflow = 'unset';
     };
-  }, [isCarouselOpen]);
+  }, [isCarouselOpen, carouselIndex, displayImages]);
 
   return (
     <div className="w-full mx-auto">
