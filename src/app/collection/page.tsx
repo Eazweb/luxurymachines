@@ -18,6 +18,7 @@ type Vehicle = {
   kilometers: number;
   registeredState: string;
   vehicleType: string;
+  transmission: string;
   ownership: string;
   images: string[];
 };
@@ -264,7 +265,7 @@ function CollectionContent() {
             ) : vehicles.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {vehicles.map((vehicle) => (
-                  <ProductCard key={vehicle.id} {...vehicle} transmission={vehicle.vehicleType} isGreatPrice={true} />
+                  <ProductCard key={vehicle.id} {...vehicle} transmission={vehicle.transmission} isGreatPrice={true} />
                 ))}
               </div>
             ) : (
@@ -296,4 +297,4 @@ function CollectionContent() {
       </div>
     </div>
   );
-} 
+}
