@@ -1,16 +1,10 @@
-'use client';
-
-import { useState, useEffect } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
-import { getVehicleBySlug, getFeaturedVehicles } from '@/app/actions/vehicle';
+import { getPrismaClient } from '@/lib/db';
 import VehicleHeader from './components/VehicleHeader';
 import VehicleImageGallery from './components/VehicleImageGallery';
 import VehicleDetails from './components/VehicleDetails';
 import RecommendedVehicles from './components/RecommendedVehicles';
 import EMICalculator from '@/components/EMICalculator';
-import VehiclePageSkeleton from './components/VehiclePageSkeleton';
 
 // Types
 type Vehicle = {
@@ -31,50 +25,23 @@ type Vehicle = {
   features?: string[];
 };
 
-export default function VehicleDetailPage() {
-  const { slug } = useParams();
-  const [vehicle, setVehicle] = useState<Vehicle | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [activeImage, setActiveImage] = useState(0);
-  const [error, setError] = useState('');
+export const revalidate = 60; // cache detail pages for 60s
 
-  useEffect(() => {
-    const fetchVehicle = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch(`/api/vehicles/${slug}`);
-        
-        if (!response.ok) {
-          throw new Error('Failed to fetch vehicle');
-        }
-        
-        const data = await response.json();
-        setVehicle(data);
-        console.log(vehicle)
-      } catch (err) {
-        console.error('Error fetching vehicle:', err);
-        setError('Failed to load vehicle details. Please try again.');
-      } finally {
-        setLoading(false);
-      }
-    };
-    
-    if (slug) {
-      fetchVehicle();
-    }
-  }, [slug]);
+export default async function VehicleDetailPage({ params }: { params: { slug: string } }) {
+  const prisma = getPrismaClient();
+  const slug = params.slug;
 
-  if (loading) {
-    return <VehiclePageSkeleton />;
+  // Try slug first, fall back to ID-like pattern (keep parity with API route)
+  let vehicle = await prisma.vehicle.findUnique({ where: { slug } });
+  if (!vehicle && /^[0-9a-fA-F]{24}$/.test(slug)) {
+    vehicle = await prisma.vehicle.findUnique({ where: { id: slug } });
   }
 
-  if (error || !vehicle) {
+  if (!vehicle) {
     return (
       <div className="container mx-auto py-16 flex flex-col items-center min-h-[60vh]">
-        <h2 className="text-2xl font-bold text-red-600 mb-4">
-          {error || 'Vehicle not found'}
-        </h2>
-        <Link 
+        <h2 className="text-2xl font-bold text-red-600 mb-4">Vehicle not found</h2>
+        <Link
           href="/collection"
           className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
         >
@@ -86,17 +53,17 @@ export default function VehicleDetailPage() {
 
   return (
     <div className="bg-[#0f172a]">
-     <div className='container mx-auto max-w-full md:pb-8'>
+      <div className='container mx-auto max-w-full md:pb-8'>
         <div className='h-[40px] md:h-[80px] rounded-t-full bg-white w-full'></div>
 
-      <div className='bg-white px-[4%] mx-auto'>
-        <VehicleHeader vehicle={vehicle} />
-        <VehicleImageGallery images={vehicle?.images} />
-        <VehicleDetails vehicle={vehicle} />
-        <EMICalculator price={vehicle.price} />
-        <RecommendedVehicles currentVehicleId={vehicle.id} />
+        <div className='bg-white px-[4%] mx-auto'>
+          <VehicleHeader vehicle={vehicle} />
+          <VehicleImageGallery images={vehicle?.images} />
+          <VehicleDetails vehicle={vehicle} />
+          <EMICalculator price={vehicle.price} />
+          <RecommendedVehicles currentVehicleId={vehicle.id} />
+        </div>
       </div>
-     </div>
     </div>
   );
 }
