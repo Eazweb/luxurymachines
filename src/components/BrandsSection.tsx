@@ -19,47 +19,12 @@ interface Brand {
   slug: string;
 }
 
-// Sample brands data
-const brands: Brand[] = [
-  {
-    id: '1',
-    name: 'Audi',
-    logo: '/images/brands/audi.png',
-    slug: 'Audi'
-  },
-  {
-    id: '2',
-    name: 'BMW',
-    logo: '/images/brands/bmw.png',
-    slug: 'BMW'
-  },
-  {
-    id: '3',
-    name: 'Ford',
-    logo: '/images/brands/ford.png',
-    slug: 'Ford'
-  },
-  {
-    id: '4',
-    name: 'Mercedes-Benz',
-    logo: '/images/brands/mercedes.png',
-    slug: 'Mercedes-Benz'
-  },
-  {
-    id: '5',
-    name: 'Toyota',
-    logo: '/images/brands/toyota.png',
-    slug: 'Toyota'
-  },
-  {
-    id: '6',
-    name: 'Volkswagen',
-    logo: '/images/brands/volkswagen.png',
-    slug: 'Volkswagen'
-  }
-];
+// Define props for BrandsSection
+interface BrandsSectionProps {
+  brands: Brand[];
+}
 
-export default function BrandsSection() {
+export default function BrandsSection({ brands }: BrandsSectionProps) {
   return (
     <section className="relative pt-8 md:pt-0 ">
       <div className="bg-[#fafbfd] pb-8 md:pb-12 lg:pb-16">

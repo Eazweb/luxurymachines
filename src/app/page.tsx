@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getFeaturedVehicles } from "./actions/vehicle";
+import { getDynamicBrands } from "./actions/brand"; // Import the new action
 import Hero from "@/components/Hero";
 import BrandsSection from "@/components/BrandsSection";
 import FeaturedVehiclesCarousel from "@/components/FeaturedVehiclesCarousel";
@@ -16,6 +17,9 @@ export default async function Home() {
   // Get featured vehicles
   const featuredVehicles = await getFeaturedVehicles(6);
 
+  // Get dynamic brands
+  const { data: dynamicBrands } = await getDynamicBrands();
+
   return (
     <div className="min-h-screen">
       <div className="relative">
@@ -23,7 +27,9 @@ export default async function Home() {
         <div className="w-full hidden md:block bg-[#fafbfd] mt-[-5rem] pt-8 h-24 relative z-10 md:rounded-t-[5rem] "></div>
       </div>
 
-      <BrandsSection />
+      {dynamicBrands && dynamicBrands.length > 0 && (
+        <BrandsSection brands={dynamicBrands} />
+      )}
 
 
       <SellCar />

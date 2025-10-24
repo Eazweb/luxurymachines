@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useInView } from "react-intersection-observer";
@@ -60,18 +60,46 @@ export default function CollectionClient({
   const [filters, setFilters] = useState(initialFilters);
   const [filtersOpen, setFiltersOpen] = useState(false);
 
-  // If search params change due to navigation, sync client state
+  const isInitialRender = useRef(true);
+
+  // If search params change, fetch new vehicle list
   useEffect(() => {
-    const sp = new URLSearchParams(searchParams.toString());
-    const nextFilters = {
-      company: sp.get("company") || "",
-      fuelType: sp.get("fuelType") || "",
-      vehicleType: sp.get("vehicleType") || "",
-      priceMin: sp.get("priceMin") || "",
-      priceMax: sp.get("priceMax") || "",
+    const newFilters = {
+      company: searchParams.get("company") || "",
+      fuelType: searchParams.get("fuelType") || "",
+      vehicleType: searchParams.get("vehicleType") || "",
+      priceMin: searchParams.get("priceMin") || "",
+      priceMax: searchParams.get("priceMax") || "",
     };
-    setFilters(nextFilters);
-    // Note: vehicles will be replaced by server-rendered list on navigation, so no need to set here
+    setFilters(newFilters);
+
+    // On initial render, we already have vehicles. On subsequent changes, fetch new data.
+    if (isInitialRender.current) {
+      isInitialRender.current = false;
+      return;
+    }
+
+    const fetchFilteredVehicles = async () => {
+      setLoading(true);
+      setPage(1);
+      const params = new URLSearchParams(searchParams.toString());
+      params.set("page", "1");
+      params.set("limit", "6");
+
+      try {
+        const response = await fetch(`/api/vehicles?${params.toString()}`);
+        const data = await response.json();
+        const newVehicles: Vehicle[] = data.vehicles || [];
+        setVehicles(newVehicles);
+        setHasMore(newVehicles.length > 0 && newVehicles.length < data.total);
+      } catch (error) {
+        console.error("Error fetching vehicles:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFilteredVehicles();
   }, [searchParams]);
 
   // Load more for infinite scroll
@@ -358,7 +386,13 @@ export default function CollectionClient({
           </div>
 
           <div className="mt-10 px-2 md:px-[5%]">
-            {vehicles.length > 0 ? (
+            {loading ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {Array.from({ length: 6 }).map((_, index) => (
+                  <ProductCardSkeleton key={`skel-${index}`} />
+                ))}
+              </div>
+            ) : vehicles.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {vehicles.map((vehicle) => (
                   <div key={vehicle.id} className="relative">
